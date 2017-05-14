@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Use ruby 2.3.1
+ruby '2.3.1'
+
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
@@ -38,6 +41,15 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+
+  # Use pry for multiple functionality inside rails console
+  gem 'pry-rails'
+
+  # Use rspec as testing framework
+  gem 'rspec-rails', '~> 3.5'
+
+  # Use FactoryGirl to use factories
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 group :development do
