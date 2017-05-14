@@ -15,3 +15,15 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Folder view configuration files
+DS_Store
+DS_Store?
+.DS_Store
+Desktop.ini
+
+# Node Modules
+node_modules
+.sass-cache
+build
+_site
