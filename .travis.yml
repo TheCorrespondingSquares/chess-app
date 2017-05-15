@@ -7,7 +7,7 @@ rvm:
 cache: bundler
 
 # Adjust bundler arguments to explicitly exclude this group
-bunder_args: --without production
+bundler_args: --without production
 
 # Travis CI will execute the script
 script: 'bundle exec rspec spec'
