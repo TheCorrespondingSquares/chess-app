@@ -7,7 +7,7 @@
 [![Build Status](https://travis-ci.org/TheCorrespondingSquares/chess-app.svg?branch=master)](https://travis-ci.org/TheCorrespondingSquares/chess-app)
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-![banner](&#39;./public/home.png&#39;)
+![banner](./public/home.png)
 
 
 
