@@ -3,7 +3,6 @@ language: ruby
 rvm:
   2.3.1
 
-
 cache: bundler
 
 # Adjust bundler arguments to explicitly exclude this group
@@ -11,3 +10,11 @@ bundler_args: --without production
 
 # Travis CI will execute the script
 script: 'bundle exec rspec spec'
+
+# Configure to use Code Climate
+addons:
+  code_climate:
+    repo_token: ENV["code_climate_token"]
+# regular test configuration
+after_success:
+  - bundle exec codeclimate-test-reporter

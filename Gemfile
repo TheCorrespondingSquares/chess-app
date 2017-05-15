@@ -8,6 +8,16 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+########################
+# Auth and Permissions #
+########################
+
+########
+# Misc #
+########
+
+# app configuration using ENV variables and a single YAML file
+gem 'figaro'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
@@ -50,6 +60,15 @@ group :development, :test do
 
   # Use FactoryGirl to use factories
   gem "factory_girl_rails", "~> 4.0"
+
+  # codeclimate-test-reporter
+  gem "simplecov"
+
+  # codeclimate-test-reporter
+  gem "codeclimate-test-reporter", "~> 1.0.0"
+
+  # Use rubocop for static code analyzer that will enforce many of the guidelines outlined in the community
+  # gem 'rubocop', '~> 0.48.1', require: false
 end
 
 group :development do
