@@ -4,8 +4,8 @@ engines:
     #checks:
     #	Rubocop/Metrics/ClassLength:
     #  	enabled: false
-  golint:
-   	enabled: true
+  brakeman:
+    enabled: true
   eslint:
     enabled: true
   csslint:
