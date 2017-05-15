@@ -1,34 +1,45 @@
+---
 engines:
-  rubocop:
-    enabled: true
-    #checks:
-    #	Rubocop/Metrics/ClassLength:
-    #  	enabled: false
   brakeman:
     enabled: true
-  eslint:
+  bundler-audit:
     enabled: true
   csslint:
     enabled: true
+  coffeelint:
+    enabled: true
   duplication:
-  	enabled: true
+    enabled: true
     config:
-    	languages:
+      languages:
       - ruby
-      	#mass_threshold: 30
       - javascript
-
+      - python
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
 ratings:
   paths:
-  - app/**
-  - lib/**
+  - Gemfile.lock
+  - "**.erb"
+  - "**.haml"
   - "**.rb"
-  - "**.go"
-  - "**.coffee"
+  - "**.rhtml"
+  - "**.slim"
   - "**.css"
-
+  - "**.coffee"
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
 exclude_paths:
-- spec/**/*
-- "**/vendor/**/*"
-- "config/initializers"
-- "bin/"
+- config/
+- db/
+- test/
+- vendor/
