@@ -2,7 +2,7 @@
 
 
 [![Code Climate](https://codeclimate.com/github/TheCorrespondingSquares/chess-app/badges/gpa.svg)](https://codeclimate.com/github/TheCorrespondingSquares/chess-app)
-[![Issue Count](https://codeclimate.com/github/TheCorrespondingSquares/chess-app/badges/issue_count.svg)](https://codeclimate.com/github/kboygit/kirbyjames)
+[![Issue Count](https://codeclimate.com/github/TheCorrespondingSquares/chess-app/badges/issue_count.svg)](https://codeclimate.com/github/TheCorrespondingSquares/chess-app)
 [![Test Coverage](https://codeclimate.com/github/TheCorrespondingSquares/chess-app/badges/coverage.svg)](https://codeclimate.com/github/TheCorrespondingSquares/chess-app/coverage)
 [![Build Status](https://travis-ci.org/TheCorrespondingSquares/chess-app.svg?branch=master)](https://travis-ci.org/TheCorrespondingSquares/chess-app)
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
@@ -36,7 +36,7 @@
 
 Kirby James _(Engineer/Developer)_ - [https://github.com/kboygit](https://github.com/kboygit)
 
-Justin Munn _(Engineer/Developer/Designer)_ - [https://github.com/jwmunn](https://github.com/jwmunn) 
+Justin Munn _(Engineer/Developer/Designer)_ - [https://github.com/jwmunn](https://github.com/jwmunn)
 
 Nikhil Nadkarny _(Engineer/Developer)_ - [https://github.com/nnadkarny](https://github.com/nnadkarny)
 
