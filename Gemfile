@@ -69,7 +69,6 @@ group :development, :test do
 
   # Use rubocop for static code analyzer that will enforce many of the guidelines outlined in the community
   # gem 'rubocop', '~> 0.48.1', require: false
-
 end
 
 group :development do
