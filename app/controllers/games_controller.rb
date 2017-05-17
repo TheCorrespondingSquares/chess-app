@@ -1,5 +1,4 @@
 class GamesController < ApplicationController
-
   def index
     @games = Game.all
   end
@@ -16,7 +15,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-  private 
+  private
 
   def game_params
     params.require(:game).permit(:name)
