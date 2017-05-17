@@ -10,6 +10,5 @@ class CreatePieces < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     add_index :pieces, :game_id
-    add_index :pieces, :user_id
   end
 end
