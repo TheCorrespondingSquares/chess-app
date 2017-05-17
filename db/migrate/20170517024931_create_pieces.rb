@@ -3,8 +3,9 @@ class CreatePieces < ActiveRecord::Migration[5.0]
     create_table :pieces do |t|
       t.string :name
       t.string :color
+      t.integer :xcord
+      t.integer :ycord
       t.integer :game_id
-      t.integer :user_id
       t.boolean :captured, default: false
       t.timestamps
     end
