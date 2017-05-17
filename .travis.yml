@@ -6,11 +6,6 @@ rvm:
 before script:
   - psql -c 'create database chess-app_test;' -U postgres
 
-cache: bundler
-
-# Adjust bundler arguments to explicitly exclude this group
-bundler_args: --without production
-
 # Configure to use Code Climate
 addons:
   postgresql: "9.4"
