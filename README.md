@@ -36,7 +36,7 @@
 
 Kirby James _(Engineer/Developer)_ - [https://github.com/kboygit](https://github.com/kboygit)
 
-Justin Munn _(Engineer/Developer/Designer)_ - [https://github.com/jwmunn](https://github.com/jwmunn)
+Justin Munn _(Engineer/Developer)_ - [https://github.com/jwmunn](https://github.com/jwmunn)
 
 Nikhil Nadkarny _(Engineer/Developer)_ - [https://github.com/nnadkarny](https://github.com/nnadkarny)
 
