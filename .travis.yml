@@ -3,10 +3,7 @@ language: ruby
 rvm:
   2.3.1
 
-services:
-  - postgresql
-
-before script:
+before_script:
   - cp config/database.yml.travis config/database.yml
   - psql -c 'create database chess-app_test;' -U postgres
 
