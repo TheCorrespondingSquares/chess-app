@@ -7,6 +7,7 @@ services:
   - postgresql
 
 before script:
+  - cp config/database.yml.travis config/database.yml
   - psql -c 'create database chess-app_test;' -U postgres
 
 # Configure to use Code Climate
