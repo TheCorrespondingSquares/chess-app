@@ -1,45 +1,28 @@
 ---
 engines:
-  brakeman:
+  duplication:
     enabled: true
-  bundler-audit:
+    config:
+      languages:
+        ruby:
+           mass_threshold: 25
+  eslint:
+    enabled: true
+  rubocop:
+    enabled: true
+  brakeman:
     enabled: true
   csslint:
     enabled: true
   coffeelint:
     enabled: true
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - ruby
-      - javascript
-      - python
-      - php
-  eslint:
-    enabled: true
-  fixme:
-    enabled: true
-  rubocop:
-    enabled: true
+
 ratings:
   paths:
-  - Gemfile.lock
-  - "**.erb"
-  - "**.haml"
   - "**.rb"
-  - "**.rhtml"
-  - "**.slim"
   - "**.css"
   - "**.coffee"
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
+
 exclude_paths:
 - config/
-- db/
-- test/
-- vendor/
+- bin/
