@@ -6,7 +6,6 @@ rvm:
 before_script:
   - cp config/database.yml.travis config/database.yml
   - psql -c 'create database chess_app_test;' -U postgres
-
 # Configure to use Code Climate
 addons:
   postgresql: "9.4"
