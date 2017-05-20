@@ -3,8 +3,9 @@ language: ruby
 rvm:
   2.3.1
 
-before script:
-  - psql -c 'create database chess-app_test;' -U postgres
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database chess_app_test;' -U postgres
 
 # Configure to use Code Climate
 addons:
