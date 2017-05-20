@@ -215,7 +215,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap (~> 4.0.0.alpha6)!
+  bootstrap (~> 4.0.0.alpha6)
   byebug
   codeclimate-test-reporter (~> 1.0.0)
   coffee-rails (~> 4.2)
@@ -244,4 +244,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.14.3
+   1.15.0
