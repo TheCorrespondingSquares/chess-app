@@ -1,1 +1,23 @@
 @import "bootstrap";
+
+.black_tile {
+    background-color: black;
+}
+
+.white_tile {
+    background-color: white;
+}
+
+table, td, tr{
+    border: 1px solid black;
+}
+
+table.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 500px;
+    height: 500px;
+}
