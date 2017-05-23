@@ -1,16 +1,20 @@
-<h1> Let's Play Chess!</h1>
-    
-  <table class="center">
-    <% 8.times do |row| %>
-      <tr>
-      <% 8.times do |col| %>
-        <% if (row + col) % 2 == 0 %>
-          <td class="black_tile"><% row %> <% col %></td>
-        <% else %>
-          <td class="white_tile"><% row %><% col %></td>
+<div class="row text-center">
+  <div class="columns container">
+    <h1> Let's Play Chess!</h1>
+    <br />
+    <table class="center">
+      <% 8.times do |row| %>
+        <tr>
+        <% 8.times do |col| %>
+          <% if (row + col) % 2 == 0 %>
+            <td class="black_tile"><% row %> <% col %></td>
+          <% else %>
+            <td class="white_tile"><% row %><% col %></td>
+          <% end %>
         <% end %>
+        </tr>
       <% end %>
-      </tr>
-    <% end %>
-  </table>
+    </table>
+  </div>
+</div>
     

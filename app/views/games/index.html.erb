@@ -1,7 +1,14 @@
-<h1> The Corresponding Squares' Chess App</h1>
+<div class="row text-center">
+    <div class="columns container">
+        <h1> The Corresponding Squares' Chess App</h1>
 
-    <% @games.each do |game| %>
-        <%= game.inspect %>
-    <br />
-    <br />
-    <% end %>
+        <% @games.each do |game| %>
+            <%= game.inspect %>
+            <%= link_to 'Show Game', game_path(game), class: 'btn btn-primary' %>
+        <br />
+        <br />
+        <% end %>
+    </div>
+</div>
+
+
