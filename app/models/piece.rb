@@ -4,7 +4,7 @@ class Piece < ApplicationRecord
 
 	self.inheritance_column = :name
 
-	scope :kings,		-> { where(name: 'King') }
+	scope :kings,	-> { where(name: 'King') }
 	scope :queens, 	-> { where(name: 'Queen') }
 	scope :bishops, -> { where(name: 'Bishop') }
 	scope :knights, -> { where(name: 'Knight') }
