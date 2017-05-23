@@ -8,7 +8,7 @@ class Piece < ApplicationRecord
 	scope :queens, 	-> { where(name: 'Queen') }
 	scope :bishops, -> { where(name: 'Bishop') }
 	scope :knights, -> { where(name: 'Knight') }
-	scope :rooks,		-> { where(name: 'Rook') }
+	scope :rooks,	-> { where(name: 'Rook') }
 	scope :pawns, 	-> { where(name: 'Pawn') }
 
 	def self.names
