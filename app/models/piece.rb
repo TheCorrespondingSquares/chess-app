@@ -1,9 +1,10 @@
 class Piece < ApplicationRecord
 
   # Check if a piece exists at the given coordinates in the current game
-  def is_occupied?(x, y)
-    return game.pieces.exists?(x_pos: x, y_pos: y)
-  end    
+  def is_on_square?(x, y) ### needs game/piece association to really work
+    pieces = Piece.all
+    return pieces.exists?(x_pos: x, y_pos: y)
+  end
 
   # Check for obstructions between a piece's start and destination positions
   def is_obstructed?(x_dest, y_dest)
