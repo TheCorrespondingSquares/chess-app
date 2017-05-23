@@ -1,5 +1,7 @@
 class Piece < ApplicationRecord
+	belongs_to :user
 	belongs_to :game
+	
 	self.inheritance_column = :name
 
 	scope :kings, -> { where(name: 'King') }
