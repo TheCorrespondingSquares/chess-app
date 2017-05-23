@@ -30,7 +30,7 @@ class Piece < ApplicationRecord
       y_check = y_start + y_move
 
       while y_check != y_dest
-        return true if is_occupied?(x_dest, y_check)
+        return true if is_on_square?(x_dest, y_check)
         y_check += y_move
       end
 
@@ -40,7 +40,7 @@ class Piece < ApplicationRecord
       x_check = x_start + x_move
 
       while x_check != x_dest
-        return true if is_occupied?(x_check, y_dest)
+        return true if is_on_square?(x_check, y_dest)
         x_check += x_move
       end
 
@@ -51,7 +51,7 @@ class Piece < ApplicationRecord
       y_check = y_start + y_move
 
       while x_check != x_dest && y_check != y_dest
-        return true if is_occupied?(x_check, y_check)
+        return true if is_on_square?(x_check, y_check)
         x_check += x_move
         y_check += y_move
       end
