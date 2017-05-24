@@ -17,36 +17,36 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe "is_obstructed? method" do
+  # describe "is_obstructed? method" do
 
-    it "should return error message if piece is a knight"
+  #   it "should return error message if piece is a knight" do
 
-    end
+  #   end
 
-    it "should return true for vertical obstruction" do
+  #   it "should return true for vertical obstruction" do
 
-    end
+  #   end
 
-    it "should return false for no veritcal obstruction" do
+  #   it "should return false for no veritcal obstruction" do
 
-    end
+  #   end
 
-    it "should return true for horizontal obstruction" do
+  #   it "should return true for horizontal obstruction" do
 
-    end
+  #   end
 
-    it "should return false for no horizontal obstruction" do
+  #   it "should return false for no horizontal obstruction" do
 
-    end        
+  #   end        
 
-    it "should return true for diagonal obstruction" do
+  #   it "should return true for diagonal obstruction" do
 
-    end
+  #   end
 
-    it "should return false for no diagonal obstruction" do
+  #   it "should return false for no diagonal obstruction" do
 
-    end    
+  #   end    
 
-  end
+  # end
 
 end

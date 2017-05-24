@@ -2,8 +2,11 @@ class Piece < ApplicationRecord
 
   # Check if a piece exists at the given coordinates in the current game
   def is_on_square?(x, y) ### needs game/piece association to really work
-    pieces = Piece.all
-    return pieces.exists?(x_pos: x, y_pos: y)
+    occupied_points.include?([x, y])
+  end
+
+  def occupied_points
+    @occupied_points ||= Piece.all.pluck(:x_pos, :y_pos)
   end
 
   # Check for obstructions between a piece's start and destination positions
