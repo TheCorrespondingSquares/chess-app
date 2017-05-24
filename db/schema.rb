@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20170521054028) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "name"
-    t.boolean  "public_game"
+    t.boolean  "private",    default: true
   end
 
   create_table "pieces", force: :cascade do |t|
