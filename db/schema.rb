@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20170521054028) do
     t.datetime "updated_at",  null: false
     t.string   "name"
     t.boolean  "private",    default: true
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_games_on_user_id", using: :btree
   end
 
   create_table "pieces", force: :cascade do |t|
