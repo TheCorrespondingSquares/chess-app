@@ -1,5 +1,9 @@
 <div class="row text-center">
   <div class="columns container">
     <h1>New Game Form</h1>
+    <%= simple_form_for @game do |f| %>
+      <%= f.input :name %>
+      <%= f.submit 'Create Game', class: 'btn btn-primary' %>
+    <% end %>
   </div>
 </div>
