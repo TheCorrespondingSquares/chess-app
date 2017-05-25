@@ -1,66 +1,85 @@
 class Piece < ApplicationRecord
 
-  # Check if a piece exists at the given coordinates in the current game
-  def is_on_square?(x, y) ### needs game/piece association to really work
-    occupied_points.include?([x, y])
+  # Define movement
+  def x_start
+    @x_start = self.x_pos
   end
 
-  def occupied_points
-    @occupied_points ||= Piece.all.pluck(:x_pos, :y_pos)
+  def y_start
+    @y_start = self.y_pos
   end
 
-  # Check for obstructions between a piece's start and destination positions
-  def is_obstructed?(x_dest, y_dest)
-    # Return an error message if the piece is a knight (knights can't be obstructed)
+  def right_left(x_dest)
+    return 1 if x_start < x_dest
+    return -1 if x_start > x_dest
+  end
+  
+  def up_down(y_dest)
+    return 1 if y_start < y_dest
+    return -1 if y_start > y_dest
+  end
+
+  # Check for occupied square
+  def occupied_squares  # ****needs game association***
+    @occupied_squares ||= Piece.all.pluck(:x_pos, :y_pos)
+  end
+  
+  def is_on_square?(x, y)
+    occupied_squares.include?([x, y])
+  end
+
+  # Check for obstructions
+  def knight_cant_be_obstructed
     return "error - invalid input" if self.name == "knight"
+  end
 
-    x_start = self.x_pos
-    y_start = self.y_pos
+  def horizontal_obstruction?(x_dest, y)
+    knight_cant_be_obstructed
+    move_x = x_start + right_left(x_dest)
 
-    # Create variable for horizontal movement (positive for right, negative for left)
-    x_move = 1 if x_start < x_dest
-    x_move = -1 if x_start > x_dest
-    # Create variable for vertical movement (positive for up, negative for down)
-    y_move = 1 if y_start < y_dest
-    y_move = -1 if y_start > y_dest
-
-    # Initialize variables to record movements, which can be checked against existing pieces
-    x_check = x_start + x_move
-    y_check = y_start + y_move
-
-    # Check for vertical obstructions
-    if x_start == x_dest
-      y_check = y_start + y_move
-
-      while y_check != y_dest
-        return true if is_on_square?(x_dest, y_check)
-        y_check += y_move
-      end
-
-      return false
-    # Check for horizontal obstructions
-    elsif y_start == y_dest
-      x_check = x_start + x_move
-
-      while x_check != x_dest
-        return true if is_on_square?(x_check, y_dest)
-        x_check += x_move
-      end
-
-      return false
-    # Check for diagonal obstructions
-    else
-      x_check = x_start + x_move
-      y_check = y_start + y_move
-
-      while x_check != x_dest && y_check != y_dest
-        return true if is_on_square?(x_check, y_check)
-        x_check += x_move
-        y_check += y_move
-      end
-
-      return false
+    while move_x != x_dest
+      return true if is_on_square?(move_x, y)
+      move_x += right_left(x_dest)
     end
-  end # end of is_obstructed? method
+
+    return false
+  end    
+
+  def vertical_obstruction?(x, y_dest)
+    knight_cant_be_obstructed
+    move_y = y_start + up_down(y_dest)
+
+    while move_y != y_dest
+      return true if is_on_square?(x, move_y)
+      move_y += up_down(y_dest)
+    end
+
+    return false
+  end
+
+  def diagonal_obstruction?(x_dest, y_dest)
+    knight_cant_be_obstructed
+    move_x = x_start + right_left(x_dest)
+    move_y = y_start + up_down(y_dest)
+
+    while move_x != x_dest && move_y != y_dest
+      return true if is_on_square?(move_x, move_y)
+      move_x += right_left(x_dest)
+      move_y += up_down(y_dest)
+    end
+
+    return false
+  end
+
+  def is_obstructed?(x_dest, y_dest)
+    knight_cant_be_obstructed
+    if y_start == y_dest # If y doesn't change, movement is horizontal
+      horizontal_obstruction?(x_dest, y_dest)
+    elsif x_start == x_dest # If x doesn't change, movement is vertical
+      vertical_obstruction?(x_dest, y_dest)
+    else # If x and y change, movement is diagonal
+      diagonal_obstruction?(x_dest, y_dest)
+    end
+  end
 
 end
