@@ -1,7 +1,9 @@
 class Game < ApplicationRecord
 	has_many :pieces
 	
-	scope :available, ->{ where(available: true)}
+	def self.available
+	  where(available: true) if user.count < 2 && :private != true 
+	end
 
 	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
 end
