@@ -26,14 +26,14 @@ RSpec.describe Piece, type: :model do
       user = FactoryGirl.create(:user)
       game = FactoryGirl.create(:game, user_id: user.id)      
       piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.right_left(7)).to eq(1)
+      expect(piece.up_down(7)).to eq(1)
     end
 
     it "should return -1 if piece is moving down" do
       user = FactoryGirl.create(:user)
       game = FactoryGirl.create(:game, user_id: user.id)         
       piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.right_left(0)).to eq(-1)
+      expect(piece.up_down(0)).to eq(-1)
     end
 
   end
