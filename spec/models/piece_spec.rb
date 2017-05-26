@@ -2,126 +2,172 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
 
-  describe "right_left method" do
+  describe "#right_or_left" do
+    subject(:right_or_left) { piece.right_or_left(destination_x) }
 
-    it "should return 1 if piece is moving to the right" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.right_left(5)).to eq(1)
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
+    let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
+
+    context 'moving right' do
+      let(:destination_x) { 5 }
+
+      it { is_expected.to eq(1) }
     end
 
-    it "should return -1 if piece is moving to the left" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)      
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.right_left(2)).to eq(-1)
-    end
+    context 'moving left' do
+      let(:destination_x) { 2 }
 
+      it { is_expected.to eq(-1) }
+    end
   end
 
-  describe "up_down method" do
+  describe "#up_or_down" do
+    subject(:up_or_down) { piece.up_or_down(destination_y) }
 
-    it "should return 1 if piece is moving up" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)      
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.up_down(7)).to eq(1)
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
+    let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
+
+    context 'moving up' do
+      let(:destination_y) { 7 }
+
+      it { is_expected.to eq(1) }
     end
 
-    it "should return -1 if piece is moving down" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)         
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.up_down(0)).to eq(-1)
+    context 'moving down' do
+      let(:destination_y) { 0 }
+
+      it { is_expected.to eq(-1) }
     end
-
-  end
-  
-  describe "is_on_square? method" do
-
-    it "should return true if piece exists at coordinates" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)        
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      expect(piece.is_on_square?(piece.x_pos, piece.y_pos)).to eq(true)
-    end
-
-    it "should return false if no piece exists at coordinates" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)        
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 4, y_pos: 5)
-      expect(piece.is_on_square?(piece.x_pos - 1, piece.y_pos)).to eq(false)
-    end
-
   end
 
-  describe "knight_cant_be_obstructed method" do
+  describe "#is_on_square?" do
+    subject(:is_on_square?) { piece.is_on_square?(x, y) }
 
-    it "should return error message if piece is a knight" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)         
-      piece = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Knight", x_pos: 1, y_pos: 3)
-      expect(piece.knight_cant_be_obstructed).to eq("error - invalid input")
-    end    
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}    
+    let!(:piece) { FactoryGirl.create(:piece, x_pos: 1, y_pos: 1, user_id: user.id, game_id: game.id) }
 
+    context 'when piece exist at coordinates' do
+      let(:x) { 1 }
+      let(:y) { 1 }
+
+      it { is_expected.to eq(true) }
+    end
+
+    context 'when no piece exist at coordinates' do
+      let(:x) { 0 }
+      let(:y) { 0 }
+
+      it { is_expected.to eq(false) }
+    end
   end
 
-  describe "is_obstructed? method" do
+  describe "#is_obstructed?" do
+    subject(:is_obstructed?) { piece_move.is_obstructed?(destination_x, destination_y) }
 
-    it "should return TRUE for horizontal obstruction" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)        
-      piece_move = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 3, y_pos: 3)
-      piece_obstruct = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Bishop", x_pos: 1, y_pos: 3)
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}  
+    let!(:piece_move) { FactoryGirl.create(:piece, name: name, x_pos: x_start, y_pos: y_start, user_id: user.id, game_id: game.id) }
+    
+    describe "for Knight (can't be obstructed)" do
+      let!(:name) { "Knight" }
+      let(:x_start) { 3 }
+      let(:y_start) { 2 }
+      let(:destination_x) { 5 }
+      let(:destination_y) { 3 }
 
-      expect(piece_move.is_obstructed?(0, 3)).to eq(true)
+      it { is_expected.to eq("invalid") }
     end
 
-    it "should return FALSE for no horizontal obstruction" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)        
-      piece_move = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 2, y_pos: 5)
-      piece_no_obstruct = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Rook", x_pos: 3, y_pos: 2)
+    describe "for obstruction" do
+      let!(:name) { "Queen" }
+      let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, user_id: user.id, game_id: game.id) }      
 
-      expect(piece_move.is_obstructed?(6, 5)).to eq(false)
+      context 'horizontal' do
+        let(:x_start) { 3 }
+        let(:y_start) { 3 }
+        let(:destination_x) { 0 }
+        let(:destination_y) { 3 }
+
+        let(:name_obstruct) { "Bishop" }
+        let(:x_obstruct) { 1 }
+        let(:y_obstruct) { 3 }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'vertical' do
+        let(:x_start) { 5 }
+        let(:y_start) { 5 }    
+        let(:destination_x) { 5 }
+        let(:destination_y) { 1 }
+
+        let(:name_obstruct) { "Pawn" }
+        let(:x_obstruct) { 5 }
+        let(:y_obstruct) { 2 }        
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'diagonal' do
+        let(:x_start) { 4 }
+        let(:y_start) { 4 }        
+        let(:destination_x) { 0 }
+        let(:destination_y) { 0 }
+
+        let(:name_obstruct) { "Knight" }
+        let(:x_obstruct) { 2 }
+        let(:y_obstruct) { 2 }          
+
+        it { is_expected.to eq(true) }
+      end      
     end
 
-    it "should return TRUE for vertical obstruction" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)        
-      piece_move = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 5, y_pos: 5)
-      piece_obstruct = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Pawn", x_pos: 5, y_pos: 2)
+    describe "for no obstruction" do
+      let!(:name) { "Queen" }
+      let!(:piece_no_obstruct) { FactoryGirl.create(:piece, name: name_no_obstruct, x_pos: x_no_obstruct, y_pos: y_no_obstruct, user_id: user.id, game_id: game.id) }
 
-      expect(piece_move.is_obstructed?(5, 1)).to eq(true)
+      context 'horizontal' do
+        let(:x_start) { 2 }
+        let(:y_start) { 5 }            
+        let(:destination_x) { 6 }
+        let(:destination_y) { 5 }
+
+        let(:name_no_obstruct) { "Rook" }
+        let(:x_no_obstruct) { 6 }
+        let(:y_no_obstruct) { 5 }
+
+        it { is_expected.to eq(false) }
+      end
+
+      context 'vertical' do
+        let(:x_start) { 7 }
+        let(:y_start) { 1 }
+        let(:destination_x) { 7 }
+        let(:destination_y) { 6 }
+
+        let(:name_no_obstruct) { "Pawn" }
+        let(:x_no_obstruct) { 7 }
+        let(:y_no_obstruct) { 6 }       
+
+        it { is_expected.to eq(false) }
+      end
+
+      context 'for no diagonal obstruction' do
+        let(:x_start) { 2 }
+        let(:y_start) { 5 }        
+        let(:destination_x) { 6 }
+        let(:destination_y) { 1 }
+
+        let(:name_no_obstruct) { "Bishop" }
+        let(:x_no_obstruct) { 6 }
+        let(:y_no_obstruct) { 1 }          
+
+        it { is_expected.to eq(false) }
+      end
     end
-
-    it "should return FALSE for no veritcal obstruction" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)        
-      piece_move = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 7, y_pos: 1)
-      piece_no_obstruct = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Knight", x_pos: 2, y_pos: 4)
-
-      expect(piece_move.is_obstructed?(7, 6)).to eq(false)
-    end
-
-    it "should return TRUE for diagonal obstruction" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)          
-      piece_move = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 4, y_pos: 4)
-      piece_obstruct = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Bishop", color: "white", x_pos: 2, y_pos: 2)
-
-      expect(piece_move.is_obstructed?(0, 0)).to eq(true)
-    end
-
-    it "should return FALSE for no diagonal obstruction" do
-      user = FactoryGirl.create(:user)
-      game = FactoryGirl.create(:game, user_id: user.id)          
-      piece_move = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, x_pos: 2, y_pos: 5)
-      piece_no_obstruct = FactoryGirl.create(:piece, game_id: game.id, user_id: user.id, name: "Rook", x_pos: 5, y_pos: 1)
-
-      expect(piece_move.is_obstructed?(6, 1)).to eq(false)      
-    end    
 
   end
 
