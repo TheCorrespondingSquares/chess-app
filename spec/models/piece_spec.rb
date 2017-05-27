@@ -67,7 +67,9 @@ RSpec.describe Piece, type: :model do
   describe "#is_obstructed?" do
     subject(:is_obstructed?) { piece_move.is_obstructed?(destination_x, destination_y) }
 
-    let!(:piece_move) { FactoryGirl.create(:piece, name: name, x_pos: x_start, y_pos: y_start, user_id: user.id, game_id: game.id) }
+    let!(:piece_move) { FactoryGirl.create(:piece, name: "Queen", user_id: user.id, game_id: game.id) }
+    let(:destination_x) { 1 }
+    let(:destination_y) { 5 }
 
     describe "For Knight can't be obstructed" do
       let!(:name) { "Knight" }
@@ -76,20 +78,14 @@ RSpec.describe Piece, type: :model do
       let(:destination_x) { 5 }
       let(:destination_y) { 3 }
 
-      it { is_expected.to eq("invalid") }
+      it { is_expected.to be false }
     end
 
     describe 'Any obstructions' do
-      let!(:name) { "Queen" }
       let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, user_id: user.id, game_id: game.id) }
-      let(:destination_x) { 0 }
 
       context 'for the horizontal direction' do
         context 'when there is an obstruction' do
-          let(:x_start) { 3 }
-          let(:y_start) { 3 }
-          let(:destination_y) { 3 }
-
           let(:name_obstruct) { "Bishop" }
           let(:x_obstruct) { 1 }
           let(:y_obstruct) { 3 }
@@ -98,11 +94,6 @@ RSpec.describe Piece, type: :model do
         end
 
         context 'when there is no obstruction' do
-          let(:x_start) { 2 }
-          let(:y_start) { 5 }
-          let(:destination_x) { 6 }
-          let(:destination_y) { 5 }
-
           let(:name_obstruct) { "Rook" }
           let(:x_obstruct) { 6 }
           let(:y_obstruct) { 5 }
@@ -113,23 +104,14 @@ RSpec.describe Piece, type: :model do
 
       context 'for the vertical direction' do
         context 'when there is an obstruction' do
-          let(:x_start) { 5 }
-          let(:y_start) { 5 }
-          let(:destination_y) { 1 }
-
           let(:name_obstruct) { "Pawn" }
-          let(:x_obstruct) { 5 }
-          let(:y_obstruct) { 2 }
+          let(:x_obstruct) { 1 }
+          let(:y_obstruct) { 4 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:x_start) { 7 }
-          let(:y_start) { 1 }
-          let(:destination_x) { 7 }
-          let(:destination_y) { 6 }
-
           let(:name_obstruct) { "Pawn" }
           let(:x_obstruct) { 7 }
           let(:y_obstruct) { 6 }
@@ -140,10 +122,8 @@ RSpec.describe Piece, type: :model do
 
       context 'for the diagonal direction' do
         context 'when there is an obstruction' do
-          let(:x_start) { 4 }
-          let(:y_start) { 4 }
-          let(:destination_x) { 0 }
-          let(:destination_y) { 0 }
+          let(:destination_x) { 4 }
+          let(:destination_y) { 4 }
 
           let(:name_obstruct) { "Knight" }
           let(:x_obstruct) { 2 }

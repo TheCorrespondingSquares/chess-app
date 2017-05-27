@@ -3,8 +3,8 @@ FactoryGirl.define do
   factory :piece do
     name "Queen"
     color "black"
-    x_pos 0
-    y_pos 0
+    x_pos 1
+    y_pos 1
     game_id 1
     user_id 1
     captured false
