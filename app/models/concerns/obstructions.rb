@@ -4,13 +4,14 @@ module Obstructions
 
   # Check for obstructions
   def is_obstructed?(destination_x, destination_y)
-    return "invalid" if self.name == "Knight" # Knights can't be obstructed
+    # Knights can't be obstructed
+    return "invalid" if self.name == "Knight"
 
-    if starting_point_y == destination_y # If y doesn't change, movement is horizontal
+    if starting_point_y == destination_y                    # If y doesn't change, movement is horizontal
       horizontal_obstruction?(destination_x, destination_y)
-    elsif starting_point_x == destination_x # If x doesn't change, movement is vertical
+    elsif starting_point_x == destination_x                 # If x doesn't change, movement is vertical
       vertical_obstruction?(destination_x, destination_y)
-    else # If x and y change, movement is diagonal
+    else                                                    # If x and y change, movement is diagonal
       diagonal_obstruction?(destination_x, destination_y)
     end
   end
@@ -27,7 +28,7 @@ module Obstructions
     end
 
     return false
-  end    
+  end
 
   # Check for vertical obstruction
   def vertical_obstruction?(x, destination_y)
@@ -53,6 +54,6 @@ module Obstructions
     end
 
     return false
-  end  
+  end
 
 end
