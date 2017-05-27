@@ -115,7 +115,6 @@ RSpec.describe Piece, type: :model do
         context 'when there is an obstruction' do
           let(:x_start) { 5 }
           let(:y_start) { 5 }
-          let(:destination_x) { 5 }
           let(:destination_y) { 1 }
 
           let(:name_obstruct) { "Pawn" }
