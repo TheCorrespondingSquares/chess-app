@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
+
   describe "#right_or_left" do
     subject(:right_or_left) { piece.right_or_left(destination_x) }
 
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
     let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
 
     context 'for horizontal path' do
@@ -26,8 +27,6 @@ RSpec.describe Piece, type: :model do
   describe "#up_or_down" do
     subject(:up_or_down) { piece.up_or_down(destination_y) }
 
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
     let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
 
     context 'for vertical path' do
@@ -48,8 +47,6 @@ RSpec.describe Piece, type: :model do
   describe "#is_on_square?" do
     subject(:is_on_square?) { piece.is_on_square?(x, y) }
 
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
     let!(:piece) { FactoryGirl.create(:piece, x_pos: 1, y_pos: 1, user_id: user.id, game_id: game.id) }
 
     context 'for the coordinates' do
@@ -73,8 +70,6 @@ RSpec.describe Piece, type: :model do
   describe "#is_obstructed?" do
     subject(:is_obstructed?) { piece_move.is_obstructed?(destination_x, destination_y) }
 
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
     let!(:piece_move) { FactoryGirl.create(:piece, name: name, x_pos: x_start, y_pos: y_start, user_id: user.id, game_id: game.id) }
 
     describe "For Knight can't be obstructed" do
