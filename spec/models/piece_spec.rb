@@ -3,11 +3,10 @@ require 'rails_helper'
 RSpec.describe Piece, type: :model do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
+  let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
 
   describe "#right_or_left" do
     subject(:right_or_left) { piece.right_or_left(destination_x) }
-
-    let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
 
     context 'for horizontal path' do
       context 'when moving right' do
@@ -26,8 +25,6 @@ RSpec.describe Piece, type: :model do
 
   describe "#up_or_down" do
     subject(:up_or_down) { piece.up_or_down(destination_y) }
-
-    let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
 
     context 'for vertical path' do
       context 'when moving up' do
@@ -85,12 +82,12 @@ RSpec.describe Piece, type: :model do
     describe 'Any obstructions' do
       let!(:name) { "Queen" }
       let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, user_id: user.id, game_id: game.id) }
+      let(:destination_x) { 0 }
 
       context 'for the horizontal direction' do
         context 'when there is an obstruction' do
           let(:x_start) { 3 }
           let(:y_start) { 3 }
-          let(:destination_x) { 0 }
           let(:destination_y) { 3 }
 
           let(:name_obstruct) { "Bishop" }
