@@ -19,6 +19,9 @@ gem 'devise'
 # Misc #
 ########
 
+# Use Simple Form for forms
+gem 'simple_form'
+
 # Use Bootstrap 4 for front-end framework
 gem 'bootstrap', '~> 4.0.0.alpha6'
 
