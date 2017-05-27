@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  # before_action :authenticate_user!, only: [:new, :create]
+  
   def index
     @games = Game.all
   end
@@ -9,6 +11,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
+    redirect_to game_path(@game)
   end
 
   def show
