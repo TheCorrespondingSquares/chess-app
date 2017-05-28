@@ -1,1 +1,39 @@
 @import "bootstrap";
+
+/* ------------------
+  Chess Board Styles
+--------------------- */
+
+.black_tile {
+    background-color: black;
+}
+
+.white_tile {
+    background-color: white;
+}
+
+table, td, tr{
+    border: 1px solid black;
+}
+
+table.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 500px;
+    height: 500px;
+}
+
+// Bootstrap Modal Vertical Centering
+.modal-dialog {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
+  @media(max-width: 768px) {
+    min-height: calc(100vh - 20px);
+  }
+}
