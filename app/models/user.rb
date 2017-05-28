@@ -5,6 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :games
-  has_many :pieces
 
 end
