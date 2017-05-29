@@ -1,8 +1,9 @@
 class GamesController < ApplicationController
   # before_action :authenticate_user!, only: [:new, :create]
-  
+
   def index
     @games = Game.all
+    @games = Game.available
   end
 
   def new
@@ -16,11 +17,12 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @user = @game.user_id
   end
 
   private
 
   def game_params
-    params.require(:game).permit(:name)
+    params.require(:game).permit(:name, :user_id)
   end
 end

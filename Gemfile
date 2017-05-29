@@ -1,6 +1,4 @@
 source 'https://rubygems.org'
-
-# Use ruby 2.3.1
 ruby '2.3.1'
 
 git_source(:github) do |repo_name|
@@ -12,26 +10,21 @@ end
 # Auth and Permissions #
 ########################
 
-# Use Devise for user authentication
-gem 'devise'
+gem 'devise' # Use Devise for user authentication
 
 ########
 # Misc #
 ########
 
-# Use Simple Form for forms
-gem 'simple_form'
-
-# Use Bootstrap 4 for front-end framework
-gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'simple_form' # Use Simple Form for forms
+gem "rails_best_practices" # code metric tool to check the quality of Rails code.
+gem 'reek', '~> 4.6', '>= 4.6.2' # modules and methods and reports any code smells it finds.
+gem 'figaro' # app configuration using ENV variables and a single YAML file
+gem 'bootstrap', '~> 4.0.0.alpha6' # Use Bootstrap 4 for front-end framework
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
 end
-
-
-# app configuration using ENV variables and a single YAML file
-gem 'figaro'
 
 gem 'rails', '~> 5.0.2'
 gem 'pg', '~> 0.18'
@@ -39,29 +32,17 @@ gem 'puma', '~> 3.6.2'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails' # Use jquery as the JavaScript library
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-
-  # Use pry for multiple functionality inside rails console
-  gem 'pry-rails'
-
-  # Use rspec as testing framework
-  gem 'rspec-rails', '~> 3.5'
-
-  # Use FactoryGirl to use factories
-  gem "factory_girl_rails", "~> 4.0"
-
-  # codeclimate-test-reporter
-  gem "simplecov"
-
-  # codeclimate-test-reporter
-  gem "codeclimate-test-reporter", "~> 1.0.0"
+  gem 'pry-rails' # Use pry for multiple functionality inside rails console
+  gem 'rspec-rails', '~> 3.5' # Use rspec as testing framework
+  gem "factory_girl_rails", "~> 4.0" # Use FactoryGirl to use factories
+  gem "simplecov" # codeclimate-test-reporter
+  gem "codeclimate-test-reporter", "~> 1.0.0" # codeclimate-test-reporter
 end
 
 group :development do

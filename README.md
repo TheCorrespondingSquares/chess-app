@@ -24,17 +24,44 @@
 
 ## Install
 
-```
+### System Requirements
+- Ruby `2.3.1` recommended
+- Postgres 9.2+
+
+### Fork and bundle
+- Fork the project
+- Run bundle to install gems
+```bash
+bundle install
 ```
 
-## Usage
+### Database setup
 
+[Download and Install Postgres](https://www.postgresql.org/download/)
+
+- Create the databases:
+```bash
+rails db:create
 ```
+
+- Run migrations to create tables:
+```bash
+rails db:migrate
+```
+
+### Running Tests
+
+To run the tests, use:
+
+```bash
+bundle exec rspec
 ```
 
 ## Maintainers
 
-Kirby James _(Engineer/Developer)_ - [https://github.com/kboygit](https://github.com/kboygit)
+Ilya Krasnov _(Lead Engineer/Developer)_ - [https://github.com/ilyakrasnov](https://github.com/ilyakrasnov)
+
+Kirby James _(Engineer/Developer)_ - [https://github.com/kirbygit](https://github.com/kirbygit)
 
 Justin Munn _(Engineer/Developer)_ - [https://github.com/jwmunn](https://github.com/jwmunn)
 

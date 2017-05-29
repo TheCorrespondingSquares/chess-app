@@ -14,4 +14,9 @@ class Piece < ApplicationRecord
 	def self.names
 		%w(King Queen Bishop Knight Rook Pawn)
 	end
+
+  include Movements
+  include Squares
+  include Obstructions
+
 end

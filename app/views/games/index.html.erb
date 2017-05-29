@@ -11,7 +11,7 @@
             </button>
         </div>
 
-        
+
 
         <!-- Modal -->
         <div class="modal fade" id="newGameModal" tabindex="-1" role="dialog" aria-labelledby="newGameModalLabel" aria-hidden="true">
@@ -25,10 +25,10 @@
                 </div>
                 <%= simple_form_for Game.new do |f| %>
                 <div class="modal-body">
-                    
+
                         <%= f.input :name, label: 'Name Your Game' %>
-                        
-                
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -42,7 +42,7 @@
 </div>
 <div class="row">
     <div class="columns container col-sm-12 col-lg-6 col-lg-offset-3">
-        <h1>All Games</h1>
+        <h1 class="text-center">All Games</h1>
         <% @games.each do |game| %>
             <div class="card">
                 <div class="card-block row align-items-center">
@@ -58,10 +58,21 @@
         <% end %>
     </div>
 </div>
-
-
-<% @games.available.each do |game| %>
-  <%= game.inspect %>
-  <br />
-  <br />
-<% end %>
+<div class="row">
+    <div class="columns container col-sm-12 col-lg-6 col-lg-offset-3">
+        <h1 class="text-center">Available Games</h1>
+        <% @games.available.each do |game| %>
+            <div class="card">
+                <div class="card-block row align-items-center">
+                    <div class="columns mr-auto">
+                        <strong><%= game.name %></strong> Created at: <%= game.created_at.strftime("%m-%d-%Y") %>
+                    </div>
+                    <div class="columns">
+                        <%= link_to 'Show Game', game_path(game), class: 'btn btn-primary' %>
+                    </div>
+                </div>
+            </div>
+            <br />
+        <% end %>
+    </div>
+</div>

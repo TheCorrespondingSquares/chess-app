@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20170526051032) do
     t.boolean  "captured",   default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "user_id"
     t.index ["game_id"], name: "index_pieces_on_game_id", using: :btree
   end
 
