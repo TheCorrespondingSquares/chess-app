@@ -11,7 +11,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.create(game_params)
+    @game = Game.populate_board(game_params)
     redirect_to game_path(@game)
   end
 
@@ -22,6 +22,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:name, :user_id)
+    params.require(:game).permit(:name, :white_player_id, :black_player_id)
   end
 end
