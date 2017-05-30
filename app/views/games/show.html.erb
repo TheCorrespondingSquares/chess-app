@@ -9,16 +9,16 @@
           <% if (row + col) % 2 == 0 %>
             <td class="black_tile"><% row %>  
               <% @pieces.each do |piece| %>
-                <% if piece.x_pos == row && piece.y_pos == col %>
-                  <%= piece.name %>
+                <% if piece.x_pos == col && piece.y_pos == row %>
+                  <%= link_to piece.name, game_piece_path(piece) %>
                 <% end %>
               <% end %>
             <% col %></td>
           <% else %>
             <td class="white_tile"><% row %> 
               <% @pieces.each do |piece| %>
-                <% if piece.x_pos == row && piece.y_pos == col %>
-                  <%= piece.name %>
+                <% if piece.x_pos == col && piece.y_pos == row %>
+                  <%= link_to piece.name, game_piece_path(piece) %>
                 <% end %>
               <% end %>
             <% col %></td>

@@ -6,10 +6,12 @@
 
 .black_tile {
     background-color: black;
+    color: white;
 }
 
 .white_tile {
     background-color: white;
+    color: black;
 }
 
 table, td, tr{
@@ -38,4 +40,18 @@ td { width:42px; height:42px; }
   @media(max-width: 768px) {
     min-height: calc(100vh - 20px);
   }
+}
+
+.flash {
+   animation-name: flash;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-play-state: running;
+}
+
+@keyframes flash {
+    from {color: white;}
+    to {color: black;}
 }
