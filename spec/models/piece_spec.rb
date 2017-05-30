@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:game) { FactoryGirl.create(:game, user_id: user.id)}
-  let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, user_id: user.id, game_id: game.id) }
+  let!(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+  let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, game_id: game.id) }
 
   describe "#right_or_left" do
     subject(:right_or_left) { piece.right_or_left(destination_x) }
@@ -44,7 +44,7 @@ RSpec.describe Piece, type: :model do
   describe "#is_on_square?" do
     subject(:is_on_square?) { piece.is_on_square?(x, y) }
 
-    let!(:piece) { FactoryGirl.create(:piece, x_pos: 1, y_pos: 1, user_id: user.id, game_id: game.id) }
+    let!(:piece) { FactoryGirl.create(:piece, x_pos: 1, y_pos: 1, game_id: game.id) }
 
     context 'for the coordinates' do
       context 'when there is an existing piece' do
@@ -67,7 +67,7 @@ RSpec.describe Piece, type: :model do
   describe "#is_obstructed?" do
     subject(:is_obstructed?) { piece_move.is_obstructed?(destination_x, destination_y) }
 
-    let!(:piece_move) { FactoryGirl.create(:piece, name: "Queen", user_id: user.id, game_id: game.id) }
+    let!(:piece_move) { FactoryGirl.create(:piece, name: "Queen", game_id: game.id) }
     let(:destination_x) { 1 }
     let(:destination_y) { 5 }
 
@@ -82,7 +82,7 @@ RSpec.describe Piece, type: :model do
     end
 
     describe 'Any obstructions' do
-      let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, user_id: user.id, game_id: game.id) }
+      let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, game_id: game.id) }
 
       context 'for the horizontal direction' do
         context 'when there is an obstruction' do
