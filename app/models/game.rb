@@ -13,9 +13,9 @@ class Game < ApplicationRecord
 				Piece.create(name: piece, game_id: game.id, x_pos: row, y_pos: col)
 			end
 		end
-		black_pieces.each_with_index do |pieces, row+6|
+		black_pieces.each_with_index do |pieces, row|
 			pieces.each_with_index do |piece, col|
-				Piece.create(name: piece, game_id: game.id, x_pos: row, y_pos: col)
+				Piece.create(name: piece, game_id: game.id, x_pos: row + 6, y_pos: col)
 			end
 		end
 		game
