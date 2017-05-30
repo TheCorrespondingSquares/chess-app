@@ -7,7 +7,7 @@ RSpec.describe Game, type: :model do
   describe '.available' do
   	let!(:user2) { FactoryGirl.create(:user) }
 
-  	context 'only showing one available game' do
+    context 'only showing one available game' do
   		let!(:game1) { FactoryGirl.create(:game, white_player_id: user.id) }
   		let!(:game2) { FactoryGirl.create(:game, black_player_id: user2.id, white_player_id: user.id)}
 
@@ -17,7 +17,7 @@ RSpec.describe Game, type: :model do
   		end
     end
 
-  	context 'all available games' do
+    context 'all available games' do
   		let!(:game1) { FactoryGirl.create(:game, white_player_id: user.id)}
   		let!(:game2) { FactoryGirl.create(:game, black_player_id: user2.id)}
 
@@ -27,7 +27,7 @@ RSpec.describe Game, type: :model do
   		end
     end
 
-  	context 'no available games' do
+    context 'no available games' do
   		let!(:game1) { FactoryGirl.create(:game, white_player_id: user.id, black_player_id: user2.id)}
   		let!(:game2) { FactoryGirl.create(:game, black_player_id: user2.id, white_player_id: user.id)}
 
