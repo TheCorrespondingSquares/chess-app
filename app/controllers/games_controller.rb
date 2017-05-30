@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   def index
     @available_games = Game.available
-    @games = @available_games.where.not(black_player: current_user).or(@available_games.where.not(white_player: current_user))
+    @games = @available_games.where.not(black_player_id: current_user.id).or(@available_games.where.not(white_player_id: current_user.id))
   end
 
   def new
