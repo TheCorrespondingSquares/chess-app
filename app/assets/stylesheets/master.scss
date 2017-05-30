@@ -26,6 +26,8 @@ table {
     height: 500px;
 }
 
+td { width:42px; height:42px; }
+
 // Bootstrap Modal Vertical Centering
 .modal-dialog {
   min-height: calc(100vh - 60px);

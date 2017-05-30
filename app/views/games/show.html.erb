@@ -7,9 +7,21 @@
         <tr>
         <% 8.times do |col| %>
           <% if (row + col) % 2 == 0 %>
-            <td class="black_tile"><% row %> <% col %></td>
+            <td class="black_tile"><% row %>  
+              <% @pieces.each do |piece| %>
+                <% if piece.x_pos == row && piece.y_pos == col %>
+                  <%= piece.name %>
+                <% end %>
+              <% end %>
+            <% col %></td>
           <% else %>
-            <td class="white_tile"><% row %><% col %></td>
+            <td class="white_tile"><% row %> 
+              <% @pieces.each do |piece| %>
+                <% if piece.x_pos == row && piece.y_pos == col %>
+                  <%= piece.name %>
+                <% end %>
+              <% end %>
+            <% col %></td>
           <% end %>
         <% end %>
         </tr>
