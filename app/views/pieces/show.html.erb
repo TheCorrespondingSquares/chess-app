@@ -1,1 +1,32 @@
-<h1><%= @piece.name %></h1>
+<div class="row text-center">
+  <div class="columns container">
+    <h1><%= @game.name %></h1>
+    <br />
+    <table class="center">
+      <% 8.times do |row| %>
+        <tr>
+        <% 8.times do |col| %>
+          <% if (row + col) % 2 == 0 %>
+            <td class="black_tile flash">
+              <% row %>
+              	<% if @piece.x_pos == col && @piece.y_pos == row %>  
+	                <%= @piece.name %>
+	              <% end %>
+              <% col %>
+            </td>
+          <% else %>
+            <td class="white_tile flash">
+              <% row %>
+              	<% if @piece.x_pos == col && @piece.y_pos == row %>  
+	                <%= @piece.name %>
+	              <% end %>
+              <% col %>
+              <% col %>
+            </td>
+          <% end %>
+        <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
