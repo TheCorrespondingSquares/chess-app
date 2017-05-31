@@ -18,4 +18,16 @@ class Piece < ApplicationRecord
   include Squares
   include Obstructions
 
+  def move_to!(destination_x, destination_y)
+    if !self.is_obstructed?(destination_x, destination_y)
+
+      if is_on_square?(destination_x, destination_y)
+
+      end
+
+      self.update_attributes!(x_pos: destination_x, y_pos: destination_y)
+      # self.reload
+    end
+  end  
+
 end
