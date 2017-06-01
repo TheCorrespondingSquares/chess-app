@@ -25,7 +25,8 @@ class Piece < ApplicationRecord
 
       end
 
-      self.update_attributes(x_pos: destination_x, y_pos: destination_y)
+      self.x_pos = destination_x
+      self.y_pos = destination_y
     end
   end  
 
