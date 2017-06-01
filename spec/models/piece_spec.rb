@@ -160,7 +160,6 @@ RSpec.describe Piece, type: :model do
       let(:y_opponent) { 6 }
 
       it 'should update piece position' do
-        # piece_moving.reload
         expect(piece_moving.x_pos).to eq(destination_x)
         expect(piece_moving.y_pos).to eq(destination_y)
       end
