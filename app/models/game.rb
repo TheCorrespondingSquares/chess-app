@@ -6,23 +6,54 @@ class Game < ApplicationRecord
 	
 	scope :available,	-> { where('white_player_id is NULL OR black_player_id is NULL') }
 
-	def populate_board(game_params)
-		game = Game.create(game_params)
-		white_pieces.each_with_index do |pieces, row|
-			pieces.each_with_index do |piece, col|
-				Piece.create(name: piece, game_id: game.id, x_pos: row, y_pos: col)
-			end
-		end
-		black_pieces.each_with_index do |pieces, row|
-			pieces.each_with_index do |piece, col|
-				Piece.create(name: piece, game_id: game.id, x_pos: row + 6, y_pos: col)
-			end
-		end
-		game
-	end
+  def self.populate_board(game_params)
+	#white_pieces = [['Rook', 'Knight', 'Bishop', 'King', 'Queen', 'Bishop', 'Knight', 'Rook'], ['Pawn', 'Pawn','Pawn','Pawn','Pawn','Pawn','Pawn','Pawn']]
+	#black_pieces = [['Pawn', 'Pawn','Pawn','Pawn','Pawn','Pawn','Pawn','Pawn'], ['Rook', 'Knight', 'Bishop', 'King', 'Queen', 'Bishop', 'Knight', 'Rook']]
+	game = Game.create(game_params)
+		(0..7).each do |w|
+			Pawn.create(
+			game_id: game.id,
+        	x_pos: w,
+        	y_pos: 1,
+        	color: true
+        	)
+        end
+		        
+			Rook.create(game_id: game.id, x_pos: 0, y_pos: 0, color: true)
+		    Rook.create(game_id: game.id, x_pos: 7, y_pos: 0, color: true)
+		
+		    Knight.create(game_id: game.id, x_pos: 1, y_pos: 0, color: true)
+		    Knight.create(game_id: game.id, x_pos: 6, y_pos: 0, color: true)
+		
+		    Bishop.create(game_id: game.id, x_pos: 2, y_pos: 0, color: true)
+		    Bishop.create(game_id: game.id, x_pos: 5, y_pos: 0, color: true)
+		
+		    Queen.create(game_id: game.id, x_pos: 3, y_pos: 0, color: true)
+		    King.create(game_id: game.id, x_pos: 4, y_pos: 0, color: true)
 
-	white_pieces = [['Rook', 'Knight', 'Bishop', 'King', 'Queen', 'Bishop', 'Knight', 'Rook'], ['Pawn', 'Pawn','Pawn','Pawn','Pawn','Pawn','Pawn','Pawn']]
-	black_pieces = [['Pawn', 'Pawn','Pawn','Pawn','Pawn','Pawn','Pawn','Pawn'], ['Rook', 'Knight', 'Bishop', 'King', 'Queen', 'Bishop', 'Knight', 'Rook']]
-
+	    # Black Pieces
+	    (0..7).each do |b|
+	      Pawn.create(
+	        game_id: game.id,
+	        x_pos: b,
+	        y_pos: 6,
+	        color: false
+	        )
+	      end
+	
+	    Rook.create(game_id: game.id, x_pos: 0, y_pos: 7, color: false)
+	    Rook.create(game_id: game.id, x_pos: 7, y_pos: 7, color: false)
+	
+	    Knight.create(game_id: game.id, x_pos: 1, y_pos: 7, color: false)
+	    Knight.create(game_id: game.id, x_pos: 6, y_pos: 7, color: false)
+	
+	    Bishop.create(game_id: game.id, x_pos: 2, y_pos: 7, color: false)
+	    Bishop.create(game_id: game.id, x_pos: 5, y_pos: 7, color: false)
+	
+	    Queen.create(game_id: game.id, x_pos: 3, y_pos: 7, color: false)
+	    King.create(game_id: game.id, x_pos: 4, y_pos: 7, color: false)
+	  game
+  end
+  
 	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
 end
