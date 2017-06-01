@@ -2,12 +2,12 @@
   <div class="columns container">
     <h1><%= @game.name %></h1>
     <br />
-    <table class="center">
+    <table id="board" class="center">
       <% 8.times do |row| %>
         <tr>
         <% 8.times do |col| %>
           <% if (row + col) % 2 == 0 %>
-            <td class="black_tile flash">
+            <td class="black_tile flash" data-piece-id="<%= @piece.id %>" data-x-pos="<%= row %>" data-y-pos="<%= col %>">
               <% row %>
               	<% if @piece.x_pos == col && @piece.y_pos == row %>  
 	                <%= @piece.name %>
@@ -15,7 +15,7 @@
               <% col %>
             </td>
           <% else %>
-            <td class="white_tile flash">
+            <td class="white_tile flash" data-piece-id="<%= @piece.id %>" data-x-pos="<%= row %>" data-y-pos="<%= col %>">
               <% row %>
               	<% if @piece.x_pos == col && @piece.y_pos == row %>  
 	                <%= @piece.name %>
@@ -28,5 +28,6 @@
         </tr>
       <% end %>
     </table>
+   
   </div>
 </div>

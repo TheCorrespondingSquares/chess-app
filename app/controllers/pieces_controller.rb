@@ -5,6 +5,10 @@ class PiecesController < ApplicationController
 		@game = @piece.game
 	end
 
+	def edit
+		render json: {foo: 'bar'}
+	end
+
 	def update
 		@piece = Piece.find(params[:id])
 		@game = @piece.game
