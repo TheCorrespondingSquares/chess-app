@@ -1,8 +1,7 @@
 class PiecesController < ApplicationController
 
 	def show
-		@piece = Piece.find(params[:id])
-		@game = @piece.game
+		render json: Piece.find(params[:id])
 	end
 
 	def edit
@@ -10,18 +9,20 @@ class PiecesController < ApplicationController
 	end
 
 	def update
-		@piece = Piece.find(params[:id])
-		@game = @piece.game
+		piece = Piece.find(params[:id])
+		@game = piece.game
 		
-		return render_not_found if @piece.blank?
+		return render_not_found if piece.blank?
 
-		@piece.update_attributes(piece_params)
+		piece.update_attributes(piece_params)
+		render json: piece
 
-		if @piece.valid?
+		if piece.valid?
 			redirect_to game_path(@game)
 		else
 			return render :edit, status: :unprocessable_entity
 		end
+		redirect_to game_path(@game)
 	end
 
   private

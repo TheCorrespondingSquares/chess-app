@@ -61,6 +61,10 @@ td { width:42px; height:42px; }
     animation-play-state: running;
 }
 
+.active {
+    outline: 3px solid yellow;
+}
+
 @keyframes flash {
     from {color: white;}
     to {color: black;}

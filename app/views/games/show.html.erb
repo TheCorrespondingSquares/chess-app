@@ -2,16 +2,16 @@
   <div class="columns container">
     <h1><%= @game.name %></h1>
     <br />
-    <table class="center">
+    <table id="board" class="center">
       <% 8.times do |row| %>
         <tr>
         <% 8.times do |col| %>
           <% if (row + col) % 2 == 0 %>
+          <% piece = @pieces.where(x_pos: col, y_pos: row).first %>
             <td class="black_tile">
               <% row %>  
-                <% piece = @pieces.where(x_pos: col, y_pos: row).first %>
                 <% if piece.blank? == false %>
-                  <%= link_to piece.name, game_piece_path(@game, piece) %>
+                  <div class="piece" data-piece-id="<%= piece.id %>" data-x-pos="<%= row %>" data-y-pos="<%= col %>"><%= piece.name %></div>
                 <% end %>
               <% col %>
             </td>
@@ -20,7 +20,7 @@
               <% row %>
                 <% piece = @pieces.where(x_pos: col, y_pos: row).first %>
                 <% if piece.blank? == false %>
-                  <%= link_to piece.name, game_piece_path(@game, piece) %>
+                  <div class="piece" data-piece-id="<%= piece.id %>" data-x-pos="<%= row %>" data-y-pos="<%= col %>"><%= piece.name %></div>
                 <% end %>
               <% col %>
             </td>
