@@ -11,13 +11,13 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.populate_board(game_params)
+    @game = Game.create(game_params)
     redirect_to game_path(@game)
   end
 
   def show
     @game = Game.find(params[:id])
-    #@pieces = @game.pieces
+    @pieces = @game.pieces
   end
 
   private

@@ -6,11 +6,9 @@
       <% 8.times do |row| %>
         <tr>
         <% 8.times do |col| %>
-          <% if (row + col) % 2 == 0 %>
-            <% piece = @game.pieces.where(x_pos: col, y_pos: row).first %>
-              <%= piece.blank? ? nil : ('&#9812;').html_safe %>
-            <td class="black_tile">
-              </td>
+            <% if (row + col) % 2 == 0 %>
+            <% piece = @game.pieces.where(x_pos: col, y_pos: row) %>
+              <td class="black_tile"><%= piece.blank? ? nil : ("test").html_safe %></td>
           <% else %>
             <td class="white_tile"><% row %><% col %></td>
           <% end %>
