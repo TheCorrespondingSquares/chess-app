@@ -155,18 +155,28 @@ RSpec.describe Piece, type: :model do
       it { is_expected.to eq(nil) }
     end
 
-    context 'to empty square' do
+    context 'can move unobstructed' do      
       let(:start_x) { 7 }
       let(:start_y) { 7 }
 
-      it 'should update piece position' do
-        expect(piece_moving.x_pos).to eq(destination_x)
-        expect(piece_moving.y_pos).to eq(destination_y)
+      context 'to an empty square' do
+        it 'should update piece position' do
+          expect(piece_moving.x_pos).to eq(destination_x)
+          expect(piece_moving.y_pos).to eq(destination_y)
+        end
       end
-    end
 
-    context 'capture a piece' do
+      context 'to capture a piece' do
+        let(:destination_x) { 5 }
+        let(:destination_y) { 5 }
 
+        it "remove captured piece from board and update piece position and " do
+          expect(piece_opponent.x_pos).to eq(nil)
+          expect(piece_opponent.y_pos).to eq(nil)
+          expect(piece_moving.x_pos).to eq(destination_x)
+          expect(piece_moving.y_pos).to eq(destination_y)
+        end
+      end      
     end
   end  
 end
