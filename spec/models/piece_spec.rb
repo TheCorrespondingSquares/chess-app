@@ -160,7 +160,7 @@ RSpec.describe Piece, type: :model do
       let(:start_y) { 7 }
 
       context 'to an empty square' do
-        it 'should update piece position' do
+        it 'and update piece position' do
           expect(piece_moving.x_pos).to eq(destination_x)
           expect(piece_moving.y_pos).to eq(destination_y)
         end
@@ -170,7 +170,7 @@ RSpec.describe Piece, type: :model do
         let(:destination_x) { 5 }
         let(:destination_y) { 5 }
 
-        it "remove captured piece from board and update piece position and " do
+        it "and remove captured piece from board / update piece position" do
           expect(piece_opponent.x_pos).to eq(nil)
           expect(piece_opponent.y_pos).to eq(nil)
           expect(piece_moving.x_pos).to eq(destination_x)
