@@ -13,7 +13,6 @@ class GamesController < ApplicationController
   def create
     @game = Game.create(game_params)
     @game.populate_board!
-    binding.pry
     redirect_to game_path(@game)
   end
 
