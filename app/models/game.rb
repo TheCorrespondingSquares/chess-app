@@ -3,6 +3,7 @@ class Game < ApplicationRecord
 	belongs_to :white_player, class_name: "User", optional: true
 	belongs_to :black_player, class_name: "User", optional: true
 	validates :name, presence: true
+	after_create :populate_board
 	
 	scope :available,	-> { where('white_player_id is NULL OR black_player_id is NULL') }
 
