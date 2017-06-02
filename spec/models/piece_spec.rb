@@ -143,21 +143,21 @@ RSpec.describe Piece, type: :model do
   describe "#move_to!" do
     subject(:move_to!) { piece_moving.move_to!(destination_x, destination_y) }
 
-    let(:piece_moving) { FactoryGirl.create(:piece, name: "Queen", x_pos: 3, y_pos: 3, game_id: game.id) }
-    let!(:piece_opponent) { FactoryGirl.create(:piece, name: "Rook", x_pos: x_opponent, y_pos: y_opponent, game_id: game.id) }
-    let!(:destination_x) { 6 }
-    let!(:destination_y) { 6 }
+    let!(:piece_moving) { FactoryGirl.create(:piece, name: "Queen", x_pos: start_x, y_pos: start_y, game_id: game.id) }
+    let!(:piece_opponent) { FactoryGirl.create(:piece, name: "Rook", x_pos: 5, y_pos: 5, game_id: game.id) }
+    let(:destination_x) { 6 }
+    let(:destination_y) { 6 }
 
     context "can't move if obstructed" do
-      let(:x_opponent) { 5 }
-      let(:y_opponent) { 5 }
+      let(:start_x) { 3 }
+      let(:start_y) { 3 }
 
       it { is_expected.to eq(nil) }
     end
 
-    context 'to available square' do
-      let(:x_opponent) { 2 }
-      let(:y_opponent) { 6 }
+    context 'to empty square' do
+      let(:start_x) { 7 }
+      let(:start_y) { 7 }
 
       it 'should update piece position' do
         expect(piece_moving.x_pos).to eq(destination_x)
