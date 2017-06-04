@@ -55,8 +55,8 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'when there is no existing piece' do
-        let(:x) { 0 }
-        let(:y) { 0 }
+        let(:x) { 5 }
+        let(:y) { 5 }
 
         it { is_expected.to eq(false) }
       end
@@ -135,8 +135,8 @@ RSpec.describe Piece, type: :model do
         context 'when there is no obstruction' do
           let(:x_start) { 2 }
           let(:y_start) { 5 }
-          let(:destination_x) { 6 }
-          let(:destination_y) { 1 }
+          let(:destination_x) { 3 }
+          let(:destination_y) { 4 }
 
           let(:name_obstruct) { "Bishop" }
           let(:x_obstruct) { 6 }

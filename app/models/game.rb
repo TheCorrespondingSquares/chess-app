@@ -8,50 +8,24 @@ class Game < ApplicationRecord
 	scope :available,	-> { where('white_player_id is NULL OR black_player_id is NULL') }
 	
 	def populate_board!
-	  # White pieces
-		(0..1).each do |row|
-		  (0..7).each do |col|
-				white_pieces(row, col)
-		  end
-		end
-	  # Black pieces
-	  (6..7).each do |row|
-			(0..7).each do |col|
-		  	black_pieces(row, col)
-	    end
+	  # ------ Black pieces -----------
+	  8.times do |i|
+	  	Pawn.create(color: 'Black', game_id: self.id, x_pos: i, y_pos: 1)
 	  end
-	end
-
-	def white_pieces(row, col)
-		if row.eql?(1)
-	  	Pawn.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
-		elsif (row.eql?(0) && col.eql?(0)) || (row.eql?(0) && col.eql?(7))
-		  Rook.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
-    elsif (row.eql?(0) && col.eql?(1)) || (row.eql?(0) && col.eql?(6))
-		  Bishop.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
-    elsif (row.eql?(0) && col.eql?(2)) || (row.eql?(0) && col.eql?(5))
-		  Knight.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
-    elsif row.eql?(0) && col.eql?(3)
-		  Queen.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
-    elsif row.eql?(0) && col.eql?(4)
-      King.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)    	
+		big_pieces.each_with_index do |piece, i|
+			Piece.create(name: piece, color: 'Black', game_id: self.id, x_pos: i, y_pos: 0)
+		end
+	  # ------ White pieces ----------
+		8.times do |i|
+	  	Pawn.create(color: 'White', game_id: self.id, x_pos: i, y_pos: 6)
+	  end
+		big_pieces.each_with_index do |piece, i|
+			Piece.create(name: piece, color: 'White', game_id: self.id, x_pos: i, y_pos: 7)
 		end
 	end
 
-	def black_pieces(row, col)
-		if row.eql?(6)
-	  	Pawn.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-	  elsif (row.eql?(7) && col.eql?(0)) || (row.eql?(7) && col.eql?(7))
-		  Rook.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-	  elsif (row.eql?(7) && col.eql?(1)) || (row.eql?(7) && col.eql?(6))
-		  Bishop.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-	  elsif (row.eql?(7) && col.eql?(2)) || (row.eql?(7) && col.eql?(5))
-		  Knight.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-	  elsif row.eql?(7) && col.eql?(3)
-		  Queen.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-	  elsif row.eql?(7) && col.eql?(4)
-	    King.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)    	
-	  end
+	def big_pieces
+		%w(Rook Bishop Knight Queen King Knight Bishop Rook)
 	end
   
 	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
