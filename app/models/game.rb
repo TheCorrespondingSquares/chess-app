@@ -11,9 +11,9 @@ class Game < ApplicationRecord
 	  #white_piece
 		(0..1).each do |row|
 		  (0..7).each do |col|
-				if row.eql?(1)
-				  Pawn.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
-				elsif (row.eql?(0) && col.eql?(0)) || (row.eql?(0) && col.eql?(7))
+			if row.eql?(1)
+			  Pawn.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
+			elsif (row.eql?(0) && col.eql?(0)) || (row.eql?(0) && col.eql?(7))
 				  Rook.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
 		    elsif (row.eql?(0) && col.eql?(1)) || (row.eql?(0) && col.eql?(6))
 				  Bishop.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
@@ -23,25 +23,25 @@ class Game < ApplicationRecord
 				  Queen.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)
 		    elsif row.eql?(0) && col.eql?(4)
 		      King.create(color: 'White', game_id: self.id, x_pos: col, y_pos: row)    	
-		    end
+			end
 		  end
-	  end
+		end
 	  #black_pieces
 	  (6..7).each do |row|
-			(0..7).each do |col|
-				if row.eql?(6)
-				  Pawn.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-				elsif (row.eql?(7) && col.eql?(0)) || (row.eql?(7) && col.eql?(7))
-				  Rook.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		    elsif (row.eql?(7) && col.eql?(1)) || (row.eql?(7) && col.eql?(6))
-				  Bishop.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		    elsif (row.eql?(7) && col.eql?(2)) || (row.eql?(7) && col.eql?(5))
-				  Knight.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		    elsif row.eql?(7) && col.eql?(3)
-				  Queen.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		    elsif row.eql?(7) && col.eql?(4)
+		(0..7).each do |col|
+		  if row.eql?(6)
+			  Pawn.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
+		  elsif (row.eql?(7) && col.eql?(0)) || (row.eql?(7) && col.eql?(7))
+			  Rook.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
+		  elsif (row.eql?(7) && col.eql?(1)) || (row.eql?(7) && col.eql?(6))
+			  Bishop.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
+		  elsif (row.eql?(7) && col.eql?(2)) || (row.eql?(7) && col.eql?(5))
+			  Knight.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
+		  elsif row.eql?(7) && col.eql?(3)
+			  Queen.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
+		  elsif row.eql?(7) && col.eql?(4)
 		      King.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)    	
-		    end
+		  end
 	    end
 	  end
 	end
