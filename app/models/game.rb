@@ -16,30 +16,11 @@ class Game < ApplicationRecord
 		big_pieces.each_with_index do |piece, i|
 			Piece.create(name: piece, color: 'Black', game_id: self.id, x_pos: i, y_pos: 0)
 		end
-<<<<<<< HEAD
-	  #black_pieces
-	  (6..7).each do |row|
-		(0..7).each do |col|
-		  if row.eql?(6)
-			  Pawn.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row, icon: '&#9817;')
-		  elsif (row.eql?(7) && col.eql?(0)) || (row.eql?(7) && col.eql?(7))
-			  Rook.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		  elsif (row.eql?(7) && col.eql?(1)) || (row.eql?(7) && col.eql?(6))
-			  Bishop.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		  elsif (row.eql?(7) && col.eql?(2)) || (row.eql?(7) && col.eql?(5))
-			  Knight.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		  elsif row.eql?(7) && col.eql?(3)
-			  Queen.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
-		  elsif row.eql?(7) && col.eql?(4)
-		      King.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)    	
-		  end
-		end
-=======
+
 	  # ------ White pieces ----------
 		
-		8.times do |i|
+	  8.times do |i|
 	  	Pawn.create(color: 'White', game_id: self.id, x_pos: i, y_pos: 6)
->>>>>>> ce084b32cd34a359dfc9e9cf411d1cf3895d3fbe
 	  end
 
 		big_pieces.each_with_index do |piece, i|
