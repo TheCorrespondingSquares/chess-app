@@ -145,38 +145,28 @@ RSpec.describe Piece, type: :model do
 
     let!(:piece_moving) { FactoryGirl.create(:piece, name: "Queen", x_pos: start_x, y_pos: start_y, game_id: game.id) }
     let!(:piece_opponent) { FactoryGirl.create(:piece, name: "Rook", x_pos: 5, y_pos: 5, game_id: game.id) }
+    let(:start_x) { 7 }
+    let(:start_y) { 7 }
     let(:destination_x) { 6 }
     let(:destination_y) { 6 }
 
-    context "can't move if obstructed" do
-      let(:start_x) { 3 }
-      let(:start_y) { 3 }
-
-      it { is_expected.to eq(nil) }
-    end
-
-    context 'can move unobstructed' do      
-      let(:start_x) { 7 }
-      let(:start_y) { 7 }
-
-      context 'to an empty square' do
-        it 'and update piece position' do
-          expect(piece_moving.x_pos).to eq(destination_x)
-          expect(piece_moving.y_pos).to eq(destination_y)
-        end
+    context 'empty square' do
+      it 'and update piece position' do
+        expect(piece_moving.x_pos).to eq(destination_x)
+        expect(piece_moving.y_pos).to eq(destination_y)
       end
-
-      context 'to capture a piece' do
-        let(:destination_x) { 5 }
-        let(:destination_y) { 5 }
-
-        it "and remove captured piece from board / update piece position" do
-          expect(piece_opponent.x_pos).to eq(nil)
-          expect(piece_opponent.y_pos).to eq(nil)
-          expect(piece_moving.x_pos).to eq(destination_x)
-          expect(piece_moving.y_pos).to eq(destination_y)
-        end
-      end      
     end
+
+    context 'capture opposing piece' do
+      let(:destination_x) { 5 }
+      let(:destination_y) { 5 }
+
+      it ", remove opposing piece from board, and update piece position" do
+        expect(piece_opponent.x_pos).to eq(nil)
+        expect(piece_opponent.y_pos).to eq(nil)
+        expect(piece_moving.x_pos).to eq(destination_x)
+        expect(piece_moving.y_pos).to eq(destination_y)
+      end
+    end      
   end  
 end
