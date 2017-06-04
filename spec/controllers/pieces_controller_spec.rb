@@ -13,7 +13,7 @@ RSpec.describe PiecesController, type: :controller do
   		expect(piece.color).to eq('black')
   	end
   	
-  end
+	end
 
   describe 'pieces#update action' do
 

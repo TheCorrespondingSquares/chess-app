@@ -8,7 +8,7 @@ $(function() {
     var yPos = $(this).data('yPos');
     var gameId = $('#gameId').data('gameId');
 
-    if (isPieceSelected == true && selectedPieceId != null && selectedPieceId != pieceId ) {
+    if (isPieceSelected === true && selectedPieceId !== null && selectedPieceId !== pieceId ) {
       $.ajax({
           url: '/games/' + gameId +'/pieces/' + selectedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
           type: 'PUT',
@@ -17,7 +17,7 @@ $(function() {
           }
         });
     } else {
-      if (pieceId != undefined && pieceId != null) {
+      if (pieceId !== undefined && pieceId !== null) {
         if ($(this).hasClass('active')) {
           $(this).removeClass('active');
           selectedPieceId = null;
