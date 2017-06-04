@@ -12,11 +12,13 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
+    @game.populate_board!
     redirect_to game_path(@game)
   end
 
   def show
     @game = Game.find(params[:id])
+    @pieces = @game.pieces
   end
 
   def edit
@@ -36,6 +38,6 @@ class GamesController < ApplicationController
   end
 
   def join_params
-    params.permit(:black_player_id)
+    params.require(:game).permit(:name, :white_player_id, :black_player_id)
   end
 end
