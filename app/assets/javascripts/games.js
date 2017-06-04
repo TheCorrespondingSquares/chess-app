@@ -1,28 +1,33 @@
 $(function() {
-  $( "#board td" ).has( '.piece' ).click( function pieceSelect() {
-    const pieceId = $( this ).children('.piece').data('pieceId');
-    const xPos = $( this ).children('.piece').data('xPos');
-    const yPos = $( this ).children('.piece').data('yPos');
-    
-    $( this ).toggleClass( 'active' );
-    console.log( 'Piece Id: ' + pieceId + ' x_pos: ' +  xPos + ' y_pos: ' + yPos );
+  var selectedPieceId = null;
+  var isPieceSelected = false;
 
-    $.get("/games/" + '2'  + "/pieces/" + pieceId + "/").success( function( data ) {
-        console.log(data);
-    });
+  $('#board td').click(function() {
+    var pieceId = $(this).children('.piece').data('pieceId');
+    var xPos = $(this).data('xPos');
+    var yPos = $(this).data('yPos');
+    var gameId = $('#gameId').data('gameId');
 
-    $.post("/games/" + '2'  + "/pieces/" + pieceId + "/", {
-      _method: "PUT",
-      // Throwing 500 error on POST
-      piece: {
-        // hardcoded values to test
-        // should move to second click
-        // Update values to xPos and yPos when working
-        x_pos: 4,
-        y_pos: 6
+    if (isPieceSelected == true && selectedPieceId != null && selectedPieceId != pieceId ) {
+      $.ajax({
+          url: '/games/' + gameId +'/pieces/' + selectedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
+          type: 'PUT',
+          success: function(data) {
+            location.reload();
+          }
+        });
+    } else {
+      if (pieceId != undefined && pieceId != null) {
+        if ($(this).hasClass('active')) {
+          $(this).removeClass('active');
+          selectedPieceId = null;
+          isPieceSelected = false;
+        } else {
+          $(this).addClass('active');
+          selectedPieceId = pieceId;
+          isPieceSelected = true;
+        }
       }
-    });
-    
+    }
   });
-  console.log("Click a Piece");
 });
