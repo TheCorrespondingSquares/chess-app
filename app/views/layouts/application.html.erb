@@ -5,6 +5,7 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   </head>
 
   <body>
@@ -29,7 +30,7 @@
               </li>
             <% else %>
               <li class="nav-item">
-                <%= link_to "Sign In", new_user_session_path, class: 'nav-link' %>
+                <%= link_to "Log In", new_user_session_path, class: 'nav-link' %>
               </li>
               <li class="nav-item">
                 <%= link_to "Sign Up", new_user_registration_path, class: 'nav-link' %>
