@@ -38,6 +38,6 @@ class GamesController < ApplicationController
   end
 
   def join_params
-    params.require(:game).permit(:name, :white_player_id, :black_player_id)
+    params.permit(:black_player_id)
   end
 end
