@@ -21,9 +21,23 @@ class GamesController < ApplicationController
     @pieces = @game.pieces
   end
 
+  def edit
+    @game = Game.find(params[:id])
+  end
+
+  def update
+    @game = Game.find(params[:id])
+    @game.update_attributes(join_params)
+    redirect_to game_path(@game)
+  end
+
   private
 
   def game_params
+    params.require(:game).permit(:name, :user_id, :white_player_id, :black_player_id)
+  end
+
+  def join_params
     params.require(:game).permit(:name, :white_player_id, :black_player_id)
   end
 end
