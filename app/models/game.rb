@@ -30,7 +30,7 @@ class Game < ApplicationRecord
 	  (6..7).each do |row|
 		(0..7).each do |col|
 		  if row.eql?(6)
-			  Pawn.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
+			  Pawn.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row, icon: '&#9817;')
 		  elsif (row.eql?(7) && col.eql?(0)) || (row.eql?(7) && col.eql?(7))
 			  Rook.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)
 		  elsif (row.eql?(7) && col.eql?(1)) || (row.eql?(7) && col.eql?(6))
@@ -42,7 +42,7 @@ class Game < ApplicationRecord
 		  elsif row.eql?(7) && col.eql?(4)
 		      King.create(color: 'Black', game_id: self.id, x_pos: col, y_pos: row)    	
 		  end
-	    end
+		end
 	  end
 	end
   
