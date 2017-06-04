@@ -11,7 +11,7 @@ RSpec.describe GamesController, type: :controller do
   describe 'games#show action' do
   	let!(:user) { FactoryGirl.create(:user) }
   	let!(:game) { FactoryGirl.create(:game, white_player_id: user.id) }
-  	let!(:piece) { FactoryGirl.create(:piece, game_id: game.id, color: 'black') }
+  	let!(:piece) { FactoryGirl.create(:piece, game_id: game.id, color: 'Black') }
   	let!(:piece2) { FactoryGirl.create(:piece, game_id: game.id, color: 'white') }
   	
   	it 'should successfully show the page of the game' do
@@ -22,8 +22,8 @@ RSpec.describe GamesController, type: :controller do
   	it 'should return the number and the correct piece' do
   		get :show, params: { id: game.id }
   		@pieces = game.pieces
-  		expect(@pieces.count).to eq 2
-  		expect(@pieces.first.color).to eq('black')
+  		expect(@pieces.count).to eq 34
+  		expect(@pieces.first.color).to eq('White')
   	end
   end	
 end
