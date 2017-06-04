@@ -23,7 +23,7 @@ RSpec.describe GamesController, type: :controller do
   		get :show, params: { id: game.id }
   		@pieces = game.pieces
   		expect(@pieces.count).to eq 34
-  		expect(@pieces.first.color).to eq('White')
+  		expect(@pieces.first.color).to eq('Black')
   	end
   end	
 end
