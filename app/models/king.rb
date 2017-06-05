@@ -7,11 +7,11 @@ class King < Piece
   private
 
   def king_move_horizontal?(to_x)
-    to_x == starting_point_x + right_or_left(to_x) && right_or_left(to_x) != 0
+    right_or_left(to_x) != 0 && to_x == starting_point_x + right_or_left(to_x)
   end
 
   def king_move_vertical?(to_y)
-    to_y == starting_point_y + up_or_down(to_y) && up_or_down(to_y) != 0
+    up_or_down(to_y) != 0 && to_y == starting_point_y + up_or_down(to_y)
   end
 
   def king_move_diagonal?(to_x, to_y)
