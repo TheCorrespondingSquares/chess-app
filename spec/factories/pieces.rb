@@ -8,4 +8,11 @@ FactoryGirl.define do
     # game_id 1
     captured false
   end
+
+  factory :king, class: King do
+    name "King"
+    # x_pos 4
+    # x_pos 0
+    captured false
+  end
 end
