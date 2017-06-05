@@ -55,8 +55,8 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'when there is no existing piece' do
-        let(:x) { 0 }
-        let(:y) { 0 }
+        let(:x) { 5 }
+        let(:y) { 5 }
 
         it { is_expected.to eq(false) }
       end
