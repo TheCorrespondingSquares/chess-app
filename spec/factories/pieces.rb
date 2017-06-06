@@ -15,4 +15,9 @@ FactoryGirl.define do
     # x_pos 0
     captured false
   end
+
+  factory :queen, class: Queen do
+    name "Queen"
+    captured false
+  end
 end

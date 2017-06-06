@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+  let!(:game) { FactoryGirl.create(:game, black_player_id: user.id)}
   let(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, game_id: game.id) }
 
   describe "#right_or_left" do
@@ -192,6 +192,5 @@ RSpec.describe Piece, type: :model do
         it { is_expected.to eq(false) }
       end
     end
-
   end
 end
