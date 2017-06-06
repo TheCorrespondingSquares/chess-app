@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Piece, type: :model do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
-  let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, game_id: game.id) }
+  let(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, game_id: game.id) }
 
   describe "#right_or_left" do
     subject(:right_or_left) { piece.right_or_left(destination_x) }
@@ -65,82 +65,74 @@ RSpec.describe Piece, type: :model do
 
   # This can be sub-divided to de clutter this test-suite.
   describe "#is_obstructed?" do
-    subject(:is_obstructed?) { piece_move.is_obstructed?(destination_x, destination_y) }
+    subject(:is_obstructed?) { piece_to_move.is_obstructed?(destination_x, destination_y) }
 
-    let!(:piece_move) { FactoryGirl.create(:piece, name: "Queen", game_id: game.id) }
-    let(:destination_x) { 1 }
-    let(:destination_y) { 5 }
+    let!(:piece_to_move) { FactoryGirl.create(:piece, name: name_to_move, x_pos: 3, y_pos: 2, game_id: game.id) }
 
     describe "For Knight can't be obstructed" do
-      let!(:name) { "Knight" }
-      let(:x_start) { 3 }
-      let(:y_start) { 2 }
+      let(:name_to_move) { "Knight" }
       let(:destination_x) { 5 }
       let(:destination_y) { 3 }
 
-      it { is_expected.to be false }
+      it { is_expected.to eq("invalid") }
     end
 
-    describe 'Any obstructions' do
-      let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, game_id: game.id) }
+    describe 'Any obstructions' do      
+      let!(:piece_obstructs) { FactoryGirl.create(:piece, name: "Rook", x_pos: x_obstructs, y_pos: y_obstructs, game_id: game.id) }
+      let!(:name_to_move) { "Queen" }
 
       context 'for the horizontal direction' do
+        let!(:destination_x) { 6 }
+        let!(:destination_y) { 2 }
+
         context 'when there is an obstruction' do
-          let(:name_obstruct) { "Bishop" }
-          let(:x_obstruct) { 1 }
-          let(:y_obstruct) { 3 }
+          let(:x_obstructs) { 5 }
+          let(:y_obstructs) { 2 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:name_obstruct) { "Rook" }
-          let(:x_obstruct) { 6 }
-          let(:y_obstruct) { 5 }
+          let(:x_obstructs) { 6 }
+          let(:y_obstructs) { 2 }
 
           it { is_expected.to eq(false) }
         end
       end
 
       context 'for the vertical direction' do
+        let!(:destination_x) { 3 }
+        let!(:destination_y) { 6 }
+
         context 'when there is an obstruction' do
-          let(:name_obstruct) { "Pawn" }
-          let(:x_obstruct) { 1 }
-          let(:y_obstruct) { 4 }
+          let(:x_obstructs) { 3 }
+          let(:y_obstructs) { 3 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:name_obstruct) { "Pawn" }
-          let(:x_obstruct) { 7 }
-          let(:y_obstruct) { 6 }
+          let(:x_obstructs) { 0 }
+          let(:y_obstructs) { 0 }
 
           it { is_expected.to eq(false) }
         end
       end
 
       context 'for the diagonal direction' do
-        context 'when there is an obstruction' do
-          let(:destination_x) { 4 }
-          let(:destination_y) { 4 }
+          let!(:destination_x) { 7 }
+          let!(:destination_y) { 6 }        
 
-          let(:name_obstruct) { "Knight" }
-          let(:x_obstruct) { 2 }
-          let(:y_obstruct) { 2 }
+        context 'when there is an obstruction' do
+          let(:x_obstructs) { 5 }
+          let(:y_obstructs) { 4 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:x_start) { 2 }
-          let(:y_start) { 5 }
-          let(:destination_x) { 3 }
-          let(:destination_y) { 4 }
-
-          let(:name_obstruct) { "Bishop" }
-          let(:x_obstruct) { 6 }
-          let(:y_obstruct) { 1 }
+          let(:x_obstructs) { 7 }
+          let(:y_obstructs) { 6 }
 
           it { is_expected.to eq(false) }
         end
