@@ -146,7 +146,7 @@ RSpec.describe Piece, type: :model do
   describe "#king_valid_move?" do
     subject(:king_valid_move?) { king.king_valid_move?(destination_x, destination_y) }
 
-    let!(:king) { FactoryGirl.create(:king, x_pos: 4, y_pos: 0, game_id: game.id) }
+    let!(:king) { FactoryGirl.create(:king, color: "black", x_pos: 4, y_pos: 0, game_id: game.id) }
 
     context 'for horizontal move' do
       let!(:destination_y) { king.y_pos }
@@ -180,7 +180,7 @@ RSpec.describe Piece, type: :model do
       end
     end
 
-    context 'for diagonal movement' do
+    context 'for diagonal move' do
       context 'when valid' do
         let(:destination_x) { 3 }
         let(:destination_y) { 1 }
@@ -200,54 +200,36 @@ RSpec.describe Piece, type: :model do
   describe "#queen_valid_move?" do
     subject(:queen_valid_move?) { queen.queen_valid_move?(destination_x, destination_y) }
 
-    let!(:queen) { FactoryGirl.create(:queen, x_pos: 4, y_pos: 0, game_id: game.id) }
+    let!(:queen) { FactoryGirl.create(:queen, color: "black", x_pos: 3, y_pos: 0, game_id: game.id) }
 
-    context 'for horizontal move' do
-      let!(:destination_y) { queen.y_pos }
-
-      context 'when valid' do
-        let(:destination_x) { 3 }
-        
-        it { is_expected.to eq(true) }
-      end
-
-      context 'when not valid' do
+    context 'for valid move' do
+      context 'horizontal' do
         let(:destination_x) { 6 }
+        let(:destination_y) { queen.y_pos }
 
-        it { is_expected.to eq(false) }
-      end
-    end
-
-    context 'for vertical move' do
-      let!(:destination_x) { queen.x_pos }
-
-      context 'when valid' do
-        let(:destination_y) { 1 }
-
-        it { is_expected.to eq(true) }
+        it { is_expected.to eq(true) }      
       end
 
-      context 'when not valid' do
+      context 'vertical' do
+        let(:destination_x) { queen.x_pos }
         let(:destination_y) { 5 }
 
-        it { is_expected.to eq(false) }
-      end
-    end
-
-    context 'for diagonal movement' do
-      context 'when valid' do
-        let(:destination_x) { 3 }
-        let(:destination_y) { 1 }
-
         it { is_expected.to eq(true) }
       end
 
-      context 'when not valid' do
+      context 'diagonal' do
         let(:destination_x) { 1 }
-        let(:destination_y) { 3 }
+        let(:destination_y) { 2 }
 
-        it { is_expected.to eq(false) }
+        it { is_expected.to eq(true) }   
       end
+    end
+
+    context 'for invalid move' do
+      let(:destination_x) { 4 }
+      let(:destination_y) { 5 }
+
+      it { is_expected.to eq(false) }
     end
   end
 end
