@@ -12,7 +12,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
-    @game.populate_board!
+    # @game.populate_board!
     redirect_to game_path(@game)
   end
 
