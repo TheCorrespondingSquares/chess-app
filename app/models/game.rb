@@ -10,7 +10,7 @@ class Game < ApplicationRecord
 	def populate_board!
 	  # ------ Black pieces -----------
 	  8.times do |i|
-	  	Pawn.create(color: 'Black', game_id: self.id, x_pos: i, y_pos: 1)
+	  	Pawn.create(color: 'Black', game_id: self.id, x_pos: i, y_pos: 1, icon: "&#9823;")
 	  end
 	  
 		big_pieces.each_with_index do |piece, i|
@@ -20,7 +20,7 @@ class Game < ApplicationRecord
 	  # ------ White pieces ----------
 		
 	  8.times do |i|
-	  	Pawn.create(color: 'White', game_id: self.id, x_pos: i, y_pos: 6)
+	  	Pawn.create(color: 'White', game_id: self.id, x_pos: i, y_pos: 6, icon:"&#9817;")
 	  end
 
 		big_pieces.each_with_index do |piece, i|
