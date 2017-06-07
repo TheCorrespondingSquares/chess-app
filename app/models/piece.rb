@@ -18,21 +18,22 @@ class Piece < ApplicationRecord
   include Squares
   include Obstructions
 
+  def find_piece(x, y, game_id)
+    Piece.find_by(x_pos: x, y_pos: y, game_id: game_id)
+  end  
+
   def move_to!(destination_x, destination_y)
-
     capture_piece!(destination_x, destination_y)
-
 
     self.update_attributes(x_pos: destination_x, y_pos: destination_y)
   end
 
-  def find_piece(x, y, game_id)
-    Piece.find_by(x_pos: x, y_pos: y, game_id: game_id)
-  end
-
   def capture_piece!(x, y)
     piece_to_capture = find_piece(x, y, self.game_id)
-    piece_to_capture.update_attributes(x_pos: nil, y_pos: nil) if piece_to_capture
+
+    if piece_to_capture && piece_to_capture.color != self.color
+      piece_to_capture.update_attributes(x_pos: nil, y_pos: nil, captured: true)
+    end
   end
 
 end

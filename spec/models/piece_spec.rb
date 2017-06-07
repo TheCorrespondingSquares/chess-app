@@ -6,7 +6,7 @@ RSpec.describe Piece, type: :model do
   before(:each) { game.pieces.destroy_all }
 
   describe "direction" do
-    let(:rook) { FactoryGirl.create(:rook, color: "black", x_pos: 3, y_pos: 3, game_id: game.id) }
+    let(:rook) { FactoryGirl.create(:rook, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id) }
     
     describe "#right_or_left" do
       subject(:right_or_left) { rook.right_or_left(destination_x) }
@@ -48,7 +48,7 @@ RSpec.describe Piece, type: :model do
   describe "#is_on_square?" do
     subject(:is_on_square?) { pawn.is_on_square?(x, y) }
 
-    let(:pawn) { FactoryGirl.create(:pawn, color: "black", x_pos: 1, y_pos: 1, game_id: game.id) }
+    let(:pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 1, y_pos: 1, game_id: game.id) }
 
     context 'for the coordinates' do
       context 'when there is an existing piece' do
@@ -67,11 +67,10 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  # This can be sub-divided to de clutter this test-suite.
   describe "#is_obstructed?" do
     subject(:is_obstructed?) { piece_to_move.is_obstructed?(destination_x, destination_y) }
 
-    let(:piece_to_move) { FactoryGirl.create(:piece, color: "black", name: name_to_move, x_pos: 3, y_pos: 2, game_id: game.id) }
+    let(:piece_to_move) { FactoryGirl.create(:piece, color: "Black", name: name_to_move, x_pos: 3, y_pos: 2, game_id: game.id) }
 
     describe "For Knight can't be obstructed" do
       let(:name_to_move) { "Knight" }
@@ -82,7 +81,7 @@ RSpec.describe Piece, type: :model do
     end
 
     describe 'Any obstructions' do      
-      before(:each) { FactoryGirl.create(:rook, color: "white", x_pos: x_obstructs, y_pos: y_obstructs, game_id: game.id) }
+      before(:each) { FactoryGirl.create(:rook, color: "White", x_pos: x_obstructs, y_pos: y_obstructs, game_id: game.id) }
       let(:name_to_move) { "Queen" }
 
       context 'for the horizontal direction' do
@@ -90,7 +89,6 @@ RSpec.describe Piece, type: :model do
         let(:destination_y) { 2 }
 
         context 'when there is an obstruction' do
-          # p Piece.where(game_id: game.id).pluck(:x_pos, :y_pos)
           let(:x_obstructs) { 5 }
           let(:y_obstructs) { 2 }
 
@@ -146,12 +144,7 @@ RSpec.describe Piece, type: :model do
   end
 
   describe "#move_to!" do
-    # subject(:move_to!) { piece_moving.move_to!(destination_x, destination_y) }
-
-    let(:piece_moving) { FactoryGirl.create(:piece, name: "Queen", color: "black", x_pos: start_x, y_pos: start_y, game_id: game.id) }
-    
-    let(:start_x) { 7 }
-    let(:start_y) { 7 }
+    let(:piece_moving) { FactoryGirl.create(:queen, color: "Black", x_pos: 7, y_pos: 7, game_id: game.id) }
     let(:destination_x) { 6 }
     let(:destination_y) { 6 }
 
@@ -162,28 +155,45 @@ RSpec.describe Piece, type: :model do
         expect(piece_moving.y_pos).to eq(destination_y)
       end
     end
+  end
 
+  describe "#capture_piece!" do
+    let(:piece_capturer) { FactoryGirl.create(:bishop, color: "Black", x_pos: 7, y_pos: 3, game_id: game.id) }
+    let(:piece_target) { FactoryGirl.create(:pawn, color: captured_color, x_pos: target_x, y_pos: target_y, game_id: game.id) }
+    let(:target_x) { 5 }
+    let(:target_y) { 5 }
+    
     context 'capture opposing piece' do
-      let(:piece_opponent) { FactoryGirl.create(:piece, name: "Rook", color: "white", x_pos: 5, y_pos: 5, game_id: game.id) }
-      let(:destination_x) { 5 }
-      let(:destination_y) { 5 }
+      let(:captured_color) { "White" }
 
-      it ", remove opposing piece from board, and update piece position" do
-        expect(piece_opponent.x_pos).to eq(5)
-        expect(piece_opponent.y_pos).to eq(5)
-        # p game.id
-        # pawn = Pawn.create!(color: 'White', game_id: game.id, x_pos: 5, y_pos: 5)
-        # p pawn
-        # p Piece.where(game_id: game.id).pluck(:x_pos, :y_pos)
-        # puts piece_opponent.is_on_square?(destination_x, destination_y)
-        piece_moving.move_to!(destination_x, destination_y)
-        piece_opponent.reload
-        expect(piece_opponent.x_pos).to eq(nil)
-        expect(piece_opponent.y_pos).to eq(nil)
-        expect(piece_moving.x_pos).to eq(destination_x)
-        expect(piece_moving.y_pos).to eq(destination_y)
+      it ', remove opposing piece from board, and update piece position' do
+        expect(piece_target.x_pos).to eq(target_x)
+        expect(piece_target.y_pos).to eq(target_y)
+
+        piece_capturer.capture_piece!(target_x, target_y)
+        piece_target.reload
+
+        expect(piece_target.x_pos).to eq(nil)
+        expect(piece_target.y_pos).to eq(nil)
+        expect(piece_target.captured).to eq(true)
       end
-    end      
+    end
+
+    context 'cannot capture your own piece' do
+      let(:captured_color) { "Black" }
+
+      it ', target piece doesn\'t change' do
+        expect(piece_target.x_pos).to eq(target_x)
+        expect(piece_target.y_pos).to eq(target_y)
+
+        piece_capturer.capture_piece!(target_x, target_y)
+        piece_target.reload
+
+        expect(piece_target.x_pos).to eq(target_x)
+        expect(piece_target.y_pos).to eq(target_y)
+        expect(piece_target.captured).to eq(false)
+      end
+    end     
   end  
 
   describe "#king_valid_move?" do
@@ -223,7 +233,7 @@ RSpec.describe Piece, type: :model do
       end
     end
 
-    context 'for diagonal movement' do
+    context 'for diagonal move' do
       context 'when valid' do
         let(:destination_x) { 3 }
         let(:destination_y) { 1 }
