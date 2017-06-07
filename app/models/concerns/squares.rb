@@ -3,7 +3,7 @@ module Squares
   
   def occupied_squares
     pieces = Piece.where(game_id: self.game_id)
-    @occupied_squares ||= pieces.all.pluck(:x_pos, :y_pos)
+    @occupied_squares ||= pieces.pluck(:x_pos, :y_pos)
   end
 
   def is_on_square?(x, y)
