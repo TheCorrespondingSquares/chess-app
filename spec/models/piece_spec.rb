@@ -2,49 +2,52 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
-  let!(:piece) { FactoryGirl.create(:piece, x_pos: 3, y_pos: 3, game_id: game.id) }
+  let!(:game) { FactoryGirl.create(:game, black_player_id: user.id)}
 
-  describe "#right_or_left" do
-    subject(:right_or_left) { piece.right_or_left(destination_x) }
+  describe "direction" do
+    let!(:rook) { FactoryGirl.create(:rook, color: "black", x_pos: 3, y_pos: 3, game_id: game.id) }
+    
+    describe "#right_or_left" do
+      subject(:right_or_left) { rook.right_or_left(destination_x) }
 
-    context 'for horizontal path' do
-      context 'when moving right' do
-        let(:destination_x) { 5 }
+      context 'for horizontal path' do
+        context 'when moving right' do
+          let(:destination_x) { 5 }
 
-        it { is_expected.to eq(1) }
-      end
+          it { is_expected.to eq(1) }
+        end
 
-      context 'when moving left' do
-        let(:destination_x) { 2 }
+        context 'when moving left' do
+          let(:destination_x) { 2 }
 
-        it { is_expected.to eq(-1) }
+          it { is_expected.to eq(-1) }
+        end
       end
     end
-  end
 
-  describe "#up_or_down" do
-    subject(:up_or_down) { piece.up_or_down(destination_y) }
+    describe "#up_or_down" do
+      subject(:up_or_down) { rook.up_or_down(destination_y) }
 
-    context 'for vertical path' do
-      context 'when moving up' do
-        let(:destination_y) { 7 }
+      context 'for vertical path' do
+        context 'when moving up' do
+          let(:destination_y) { 7 }
 
-        it { is_expected.to eq(1) }
-      end
+          it { is_expected.to eq(1) }
+        end
 
-      context 'when moving down' do
-        let(:destination_y) { 0 }
+        context 'when moving down' do
+          let(:destination_y) { 0 }
 
-        it { is_expected.to eq(-1) }
+          it { is_expected.to eq(-1) }
+        end
       end
     end
   end
 
   describe "#is_on_square?" do
-    subject(:is_on_square?) { piece.is_on_square?(x, y) }
+    subject(:is_on_square?) { pawn.is_on_square?(x, y) }
 
-    let!(:piece) { FactoryGirl.create(:piece, x_pos: 1, y_pos: 1, game_id: game.id) }
+    let!(:pawn) { FactoryGirl.create(:pawn, color: "black", x_pos: 1, y_pos: 1, game_id: game.id) }
 
     context 'for the coordinates' do
       context 'when there is an existing piece' do
@@ -65,86 +68,168 @@ RSpec.describe Piece, type: :model do
 
   # This can be sub-divided to de clutter this test-suite.
   describe "#is_obstructed?" do
-    subject(:is_obstructed?) { piece_move.is_obstructed?(destination_x, destination_y) }
+    subject(:is_obstructed?) { piece_to_move.is_obstructed?(destination_x, destination_y) }
 
-    let!(:piece_move) { FactoryGirl.create(:piece, name: "Queen", game_id: game.id) }
-    let(:destination_x) { 1 }
-    let(:destination_y) { 5 }
+    let!(:piece_to_move) { FactoryGirl.create(:piece, color: "black", name: name_to_move, x_pos: 3, y_pos: 2, game_id: game.id) }
 
     describe "For Knight can't be obstructed" do
-      let!(:name) { "Knight" }
-      let(:x_start) { 3 }
-      let(:y_start) { 2 }
+      let(:name_to_move) { "Knight" }
       let(:destination_x) { 5 }
       let(:destination_y) { 3 }
 
-      it { is_expected.to be false }
+      it { is_expected.to eq("invalid") }
     end
 
-    describe 'Any obstructions' do
-      let!(:piece_obstruct) { FactoryGirl.create(:piece, name: name_obstruct, x_pos: x_obstruct, y_pos: y_obstruct, game_id: game.id) }
+    describe 'Any obstructions' do      
+      let!(:piece_obstructs) { FactoryGirl.create(:rook, color: "white", x_pos: x_obstructs, y_pos: y_obstructs, game_id: game.id) }
+      let!(:name_to_move) { "Queen" }
 
       context 'for the horizontal direction' do
+        let!(:destination_x) { 6 }
+        let!(:destination_y) { 2 }
+
         context 'when there is an obstruction' do
-          let(:name_obstruct) { "Bishop" }
-          let(:x_obstruct) { 1 }
-          let(:y_obstruct) { 3 }
+          let(:x_obstructs) { 5 }
+          let(:y_obstructs) { 2 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:name_obstruct) { "Rook" }
-          let(:x_obstruct) { 6 }
-          let(:y_obstruct) { 5 }
+          let(:x_obstructs) { 6 }
+          let(:y_obstructs) { 2 }
 
           it { is_expected.to eq(false) }
         end
       end
 
       context 'for the vertical direction' do
+        let!(:destination_x) { 3 }
+        let!(:destination_y) { 6 }
+
         context 'when there is an obstruction' do
-          let(:name_obstruct) { "Pawn" }
-          let(:x_obstruct) { 1 }
-          let(:y_obstruct) { 4 }
+          let(:x_obstructs) { 3 }
+          let(:y_obstructs) { 3 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:name_obstruct) { "Pawn" }
-          let(:x_obstruct) { 7 }
-          let(:y_obstruct) { 6 }
+          let(:x_obstructs) { 0 }
+          let(:y_obstructs) { 0 }
 
           it { is_expected.to eq(false) }
         end
       end
 
       context 'for the diagonal direction' do
-        context 'when there is an obstruction' do
-          let(:destination_x) { 4 }
-          let(:destination_y) { 4 }
+          let!(:destination_x) { 7 }
+          let!(:destination_y) { 6 }        
 
-          let(:name_obstruct) { "Knight" }
-          let(:x_obstruct) { 2 }
-          let(:y_obstruct) { 2 }
+        context 'when there is an obstruction' do
+          let(:x_obstructs) { 5 }
+          let(:y_obstructs) { 4 }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when there is no obstruction' do
-          let(:x_start) { 2 }
-          let(:y_start) { 5 }
-          let(:destination_x) { 3 }
-          let(:destination_y) { 4 }
-
-          let(:name_obstruct) { "Bishop" }
-          let(:x_obstruct) { 6 }
-          let(:y_obstruct) { 1 }
+          let(:x_obstructs) { 7 }
+          let(:y_obstructs) { 6 }
 
           it { is_expected.to eq(false) }
         end
       end
+    end
+  end
+
+  describe "#king_valid_move?" do
+    subject(:king_valid_move?) { king.king_valid_move?(destination_x, destination_y) }
+
+    let!(:king) { FactoryGirl.create(:king, color: "black", x_pos: 4, y_pos: 0, game_id: game.id) }
+
+    context 'for horizontal move' do
+      let!(:destination_y) { king.y_pos }
+
+      context 'when valid' do
+        let(:destination_x) { 3 }
+        
+        it { is_expected.to eq(true) }
+      end
+
+      context 'when not valid' do
+        let(:destination_x) { 6 }
+
+        it { is_expected.to eq(false) }
+      end
+    end
+
+    context 'for vertical move' do
+      let!(:destination_x) { king.x_pos }
+
+      context 'when valid' do
+        let(:destination_y) { 1 }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'when not valid' do
+        let(:destination_y) { 5 }
+
+        it { is_expected.to eq(false) }
+      end
+    end
+
+    context 'for diagonal move' do
+      context 'when valid' do
+        let(:destination_x) { 3 }
+        let(:destination_y) { 1 }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'when not valid' do
+        let(:destination_x) { 1 }
+        let(:destination_y) { 3 }
+
+        it { is_expected.to eq(false) }
+      end
+    end
+  end
+
+  describe "#queen_valid_move?" do
+    subject(:queen_valid_move?) { queen.queen_valid_move?(destination_x, destination_y) }
+
+    let!(:queen) { FactoryGirl.create(:queen, color: "black", x_pos: 3, y_pos: 0, game_id: game.id) }
+
+    context 'for valid move' do
+      context 'horizontal' do
+        let(:destination_x) { 6 }
+        let(:destination_y) { queen.y_pos }
+
+        it { is_expected.to eq(true) }      
+      end
+
+      context 'vertical' do
+        let(:destination_x) { queen.x_pos }
+        let(:destination_y) { 5 }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'diagonal' do
+        let(:destination_x) { 1 }
+        let(:destination_y) { 2 }
+
+        it { is_expected.to eq(true) }   
+      end
+    end
+
+    context 'for invalid move' do
+      let(:destination_x) { 4 }
+      let(:destination_y) { 5 }
+
+      it { is_expected.to eq(false) }
     end
   end
 end
