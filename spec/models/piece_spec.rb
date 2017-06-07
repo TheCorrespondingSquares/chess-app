@@ -143,20 +143,6 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe "#move_to!" do
-    let(:piece_moving) { FactoryGirl.create(:queen, color: "Black", x_pos: 7, y_pos: 7, game_id: game.id) }
-    let(:destination_x) { 6 }
-    let(:destination_y) { 6 }
-
-    context 'empty square' do
-      it 'and update piece position' do
-        piece_moving.move_to!(destination_x, destination_y)
-        expect(piece_moving.x_pos).to eq(destination_x)
-        expect(piece_moving.y_pos).to eq(destination_y)
-      end
-    end
-  end
-
   describe "#capture_piece!" do
     let(:piece_capturer) { FactoryGirl.create(:bishop, color: "Black", x_pos: 7, y_pos: 3, game_id: game.id) }
     let(:piece_target) { FactoryGirl.create(:pawn, color: captured_color, x_pos: target_x, y_pos: target_y, game_id: game.id) }
@@ -194,7 +180,39 @@ RSpec.describe Piece, type: :model do
         expect(piece_target.captured).to eq(false)
       end
     end     
-  end  
+  end    
+
+  describe "#move_to!" do
+    let(:piece_moving) { FactoryGirl.create(:queen, color: "Black", x_pos: 7, y_pos: 7, game_id: game.id) }
+    let(:destination_x) { 6 }
+    let(:destination_y) { 6 }
+
+    context 'empty square' do
+      it 'and update piece position' do
+        piece_moving.move_to!(destination_x, destination_y)
+        expect(piece_moving.x_pos).to eq(destination_x)
+        expect(piece_moving.y_pos).to eq(destination_y)
+      end
+    end
+
+    context 'move and capture' do
+      let(:captured_piece) { FactoryGirl.create(:knight, color: "White", x_pos: 6, y_pos: 6, game_id: game.id) }
+
+      it ', update positions of moving piece and captured piece' do
+        expect(captured_piece.x_pos).to eq(6)
+        expect(captured_piece.y_pos).to eq(6)
+
+        piece_moving.move_to!(destination_x, destination_y)
+        captured_piece.reload
+
+        expect(captured_piece.x_pos).to eq(nil)
+        expect(captured_piece.y_pos).to eq(nil)
+        expect(captured_piece.captured).to eq(true)
+        expect(piece_moving.x_pos).to eq(destination_x)
+        expect(piece_moving.y_pos).to eq(destination_y)
+      end
+    end
+  end
 
   describe "#king_valid_move?" do
     subject(:king_valid_move?) { king.king_valid_move?(destination_x, destination_y) }
