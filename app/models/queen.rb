@@ -1,6 +1,6 @@
 class Queen < Piece
 
-	def queen_valid_move?(to_x, to_y)
+  def queen_valid_move?(to_x, to_y)
     if queen_move_horizontal?(to_x) && queen_move_vertical?(to_y)
       queen_move_diagonal?(to_x, to_y)
     else
