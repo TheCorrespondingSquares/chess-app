@@ -1,4 +1,13 @@
 class Queen < Piece
+after_create :icon
+    
+  def icon
+    if color == "White"
+      '&#9813;'
+    else
+      '&#9819;'
+    end
+  end
 
   def queen_valid_move?(to_x, to_y)
     if queen_move_horizontal?(to_x) && queen_move_vertical?(to_y)
