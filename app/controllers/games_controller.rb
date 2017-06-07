@@ -12,7 +12,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
-    @game.populate_board!
+    # @game.populate_board!
     redirect_to game_path(@game)
   end
 
@@ -38,6 +38,6 @@ class GamesController < ApplicationController
   end
 
   def join_params
-    params.require(:game).permit(:name, :white_player_id, :black_player_id)
+    params.permit(:black_player_id)
   end
 end
