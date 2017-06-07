@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
-  let!(:user) { FactoryGirl.create(:user) }
-  let!(:game) { FactoryGirl.create(:game, black_player_id: user.id)}
+  let(:user) { FactoryGirl.create(:user) }
+  let(:game) { FactoryGirl.create(:game, black_player_id: user.id)}
+  before(:each) { game.pieces.destroy_all }
 
   describe "direction" do
-    let!(:rook) { FactoryGirl.create(:rook, color: "black", x_pos: 3, y_pos: 3, game_id: game.id) }
+    let(:rook) { FactoryGirl.create(:rook, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id) }
     
     describe "#right_or_left" do
       subject(:right_or_left) { rook.right_or_left(destination_x) }
@@ -47,7 +48,7 @@ RSpec.describe Piece, type: :model do
   describe "#is_on_square?" do
     subject(:is_on_square?) { pawn.is_on_square?(x, y) }
 
-    let!(:pawn) { FactoryGirl.create(:pawn, color: "black", x_pos: 1, y_pos: 1, game_id: game.id) }
+    let(:pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 1, y_pos: 1, game_id: game.id) }
 
     context 'for the coordinates' do
       context 'when there is an existing piece' do
@@ -66,11 +67,10 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  # This can be sub-divided to de clutter this test-suite.
   describe "#is_obstructed?" do
     subject(:is_obstructed?) { piece_to_move.is_obstructed?(destination_x, destination_y) }
 
-    let!(:piece_to_move) { FactoryGirl.create(:piece, color: "black", name: name_to_move, x_pos: 3, y_pos: 2, game_id: game.id) }
+    let(:piece_to_move) { FactoryGirl.create(:piece, color: "Black", name: name_to_move, x_pos: 3, y_pos: 2, game_id: game.id) }
 
     describe "For Knight can't be obstructed" do
       let(:name_to_move) { "Knight" }
@@ -81,12 +81,12 @@ RSpec.describe Piece, type: :model do
     end
 
     describe 'Any obstructions' do      
-      let!(:piece_obstructs) { FactoryGirl.create(:rook, color: "white", x_pos: x_obstructs, y_pos: y_obstructs, game_id: game.id) }
-      let!(:name_to_move) { "Queen" }
+      before(:each) { FactoryGirl.create(:rook, color: "White", x_pos: x_obstructs, y_pos: y_obstructs, game_id: game.id) }
+      let(:name_to_move) { "Queen" }
 
       context 'for the horizontal direction' do
-        let!(:destination_x) { 6 }
-        let!(:destination_y) { 2 }
+        let(:destination_x) { 6 }
+        let(:destination_y) { 2 }
 
         context 'when there is an obstruction' do
           let(:x_obstructs) { 5 }
@@ -104,8 +104,8 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'for the vertical direction' do
-        let!(:destination_x) { 3 }
-        let!(:destination_y) { 6 }
+        let(:destination_x) { 3 }
+        let(:destination_y) { 6 }
 
         context 'when there is an obstruction' do
           let(:x_obstructs) { 3 }
@@ -123,8 +123,8 @@ RSpec.describe Piece, type: :model do
       end
 
       context 'for the diagonal direction' do
-          let!(:destination_x) { 7 }
-          let!(:destination_y) { 6 }        
+          let(:destination_x) { 7 }
+          let(:destination_y) { 6 }        
 
         context 'when there is an obstruction' do
           let(:x_obstructs) { 5 }
@@ -146,7 +146,7 @@ RSpec.describe Piece, type: :model do
   describe "#king_valid_move?" do
     subject(:king_valid_move?) { king.king_valid_move?(destination_x, destination_y) }
 
-    let!(:king) { FactoryGirl.create(:king, color: "black", x_pos: 4, y_pos: 0, game_id: game.id) }
+    let(:king) { FactoryGirl.create(:king, color: "Black", x_pos: 4, y_pos: 0, game_id: game.id) }
 
     context 'for horizontal move' do
       let!(:destination_y) { king.y_pos }
@@ -200,7 +200,7 @@ RSpec.describe Piece, type: :model do
   describe "#queen_valid_move?" do
     subject(:queen_valid_move?) { queen.queen_valid_move?(destination_x, destination_y) }
 
-    let!(:queen) { FactoryGirl.create(:queen, color: "black", x_pos: 3, y_pos: 0, game_id: game.id) }
+    let!(:queen) { FactoryGirl.create(:queen, color: "Black", x_pos: 3, y_pos: 0, game_id: game.id) }
 
     context 'for valid move' do
       context 'horizontal' do
@@ -232,6 +232,7 @@ RSpec.describe Piece, type: :model do
       it { is_expected.to eq(false) }
     end
   end
+<<<<<<< HEAD
 
   describe "#pawn_valid_move?" do
     subject(:pawn_valid_move?) { pawn.pawn_valid_move?(destination_x, destination_y) }
@@ -284,4 +285,5 @@ RSpec.describe Piece, type: :model do
       end
     end
   end
+
 end

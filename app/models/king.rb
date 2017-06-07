@@ -1,4 +1,13 @@
 class King < Piece
+after_create :icon
+    
+  def icon
+    if color == "White"
+      '&#9812;'
+    else
+      '&#9818;'
+    end
+  end
 
   def king_valid_move?(to_x, to_y)
     king_move_horizontal?(to_x) || king_move_vertical?(to_y) || king_move_diagonal?(to_x, to_y)
