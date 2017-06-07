@@ -22,26 +22,6 @@ class Game < ApplicationRecord
 		big_pieces.each_with_index do |piece, i|
 			Piece.create(name: piece, color: 'Black', game_id: self.id, x_pos: i, y_pos: 7)
 		end
-
-	  # ------ Black pieces -----------
-	  8.times do |i|
-	  	Pawn.create(color: 'Black', game_id: self.id, x_pos: i, y_pos: 1)
-	  end
-	  
-		big_pieces.each_with_index do |piece, i|
-			Piece.create(name: piece, color: 'Black', game_id: self.id, x_pos: i, y_pos: 0)
-		end
-
-	  # ------ White pieces ----------
-		
-	  8.times do |i|
-	  	Pawn.create(color: 'White', game_id: self.id, x_pos: i, y_pos: 6)
-	  end
-
-		big_pieces.each_with_index do |piece, i|
-			Piece.create(name: piece, color: 'White', game_id: self.id, x_pos: i, y_pos: 7)
-		end
-
 	end
 
 	def big_pieces
