@@ -10,7 +10,7 @@ after_create :icon
   end
 
   def knight_valid_move?(to_x, to_y)
-    knight_move_wide? || knight_move_tall?
+    knight_move_wide?(to_x, to_y) || knight_move_tall?(to_x, to_y)
   end
 
   private
