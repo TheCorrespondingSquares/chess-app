@@ -35,5 +35,9 @@ class Piece < ApplicationRecord
 
     self.update_attributes(x_pos: destination_x, y_pos: destination_y)
   end
+
+  def block_if_obstructed!(destination_x, destination_y)
+    return false if self.is_obstructed?(destination_x, destination_y)
+  end
   
 end

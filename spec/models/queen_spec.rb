@@ -34,10 +34,22 @@ RSpec.describe Queen, type: :model do
     end
 
     context 'for invalid move' do
-      let(:destination_x) { 4 }
-      let(:destination_y) { 5 }
+      context 'when not obstructed' do
+        let(:destination_x) { 4 }
+        let(:destination_y) { 5 }
 
-      it { is_expected.to eq(false) }
+        it { is_expected.to eq(false) }
+      end
+
+      context 'when obstructed' do
+        let(:destination_x) { 6 }
+        let(:destination_y) { 3 }
+
+        it 'when obstructed' do
+          FactoryGirl.create(:bishop, color: "White", x_pos: 5, y_pos: 2, game_id: game.id)
+          expect(queen_valid_move?).to eq(false)
+        end
+      end
     end
   end
 
