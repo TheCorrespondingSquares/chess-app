@@ -6,7 +6,7 @@ RSpec.describe Knight, type: :model do
   before(:each) { game.pieces.destroy_all }
 
   describe "#knight_valid_move?" do
-    subject (:knight_valid_move?) {knight.knight_valid_move?(to_x, to_y)}
+    subject(:knight_valid_move?) { knight.knight_valid_move?(to_x, to_y) }
     
     let(:knight) {FactoryGirl.create(:knight, x_pos: 2, y_pos: 0, color: 'White', game_id: game.id)}
     
