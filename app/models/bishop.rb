@@ -10,6 +10,7 @@ class Bishop < Piece
   end
 
   def bishop_valid_move?(to_x, to_y)
+    return false if self.is_obstructed?(to_x, to_y)
     bishop_move_diagonal?(to_x, to_y)
   end
 
