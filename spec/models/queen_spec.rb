@@ -8,14 +8,14 @@ RSpec.describe Queen, type: :model do
   describe "#queen_valid_move?" do
     subject(:queen_valid_move?) { queen.queen_valid_move?(destination_x, destination_y) }
 
-    let(:queen) { FactoryGirl.create(:queen, color: "White", x_pos: 3, y_pos: 0, game_id: game.id) }
+    let!(:queen) { FactoryGirl.create(:queen, color: "White", x_pos: 3, y_pos: 0, game_id: game.id) }
 
     context 'for valid move' do
       context 'horizontal' do
         let(:destination_x) { 6 }
         let(:destination_y) { queen.y_pos }
 
-        it { is_expected.to eq(true) }      
+        it { is_expected.to eq(true) }
       end
 
       context 'vertical' do
@@ -29,7 +29,7 @@ RSpec.describe Queen, type: :model do
         let(:destination_x) { 1 }
         let(:destination_y) { 2 }
 
-        it { is_expected.to eq(true) }   
+        it { is_expected.to eq(true) }
       end
     end
 
@@ -42,15 +42,13 @@ RSpec.describe Queen, type: :model do
       end
 
       context 'when obstructed' do
+        let!(:bishop) { FactoryGirl.create(:bishop, color: "White", x_pos: 5, y_pos: 2, game_id: game.id) }
         let(:destination_x) { 6 }
         let(:destination_y) { 3 }
 
-        it 'should return false' do
-          FactoryGirl.create(:bishop, color: "White", x_pos: 5, y_pos: 2, game_id: game.id)
-          expect(queen_valid_move?).to eq(false)
-        end
+        it { is_expected.to eq(false) }
       end
     end
   end
 
-end  
+end
