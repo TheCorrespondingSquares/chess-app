@@ -15,7 +15,7 @@ RSpec.describe Bishop, type: :model do
         let(:destination_x) { 1 }
         let(:destination_y) { 2 }
 
-        it { is_expected.to eq(true) }   
+        it { is_expected.to eq(true) }
       end
     end
 
@@ -28,15 +28,13 @@ RSpec.describe Bishop, type: :model do
       end
 
       context 'when obstructed' do
+        let!(:rook) { FactoryGirl.create(:rook, color: "White", x_pos: 5, y_pos: 2, game_id: game.id) }
         let(:destination_x) { 6 }
         let(:destination_y) { 3 }
 
-        it 'should return false' do
-          FactoryGirl.create(:rook, color: "White", x_pos: 5, y_pos: 2, game_id: game.id)
-          expect(bishop_valid_move?).to eq(false)
-        end
-      end      
+        it { is_expected.to eq(false) }
+      end
     end
   end
 
-end  
+end
