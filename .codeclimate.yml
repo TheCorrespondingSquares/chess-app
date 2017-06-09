@@ -12,6 +12,7 @@ engines:
     enabled: true
   brakeman:
     enabled: true
+    # --ignore-model-output
   csslint:
     enabled: true
   coffeelint:
