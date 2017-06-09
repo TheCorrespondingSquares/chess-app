@@ -232,7 +232,6 @@ RSpec.describe Piece, type: :model do
       it { is_expected.to eq(false) }
     end
   end
-<<<<<<< HEAD
 
   describe "#pawn_valid_move?" do
     subject(:pawn_valid_move?) { pawn.pawn_valid_move?(destination_x, destination_y) }
@@ -249,17 +248,18 @@ RSpec.describe Piece, type: :model do
 
       context 'vertical' do
         let(:destination_x) { pawn.x_pos }
-        let(:destination_y) { 4 }
+        let(:destination_y) { 2 }
 
         it { is_expected.to eq(true) }
       end
 
-      context 'diagonal' do
-        let(:destination_x) { 1 }
-        let(:destination_y) { 2 }
+      # context 'diagonal' do
+      #   let(:rook) { FactoryGirl.create(:rook, color: "Black", x_pos: 4, y_pos: 2, game_id:game.id) }
+      #   let(:destination_x) { 4 }
+      #   let(:destination_y) { 2 }
 
-        it { is_expected.to eq(true) }   
-      end
+      #   it { is_expected.to eq(true) }   
+      # end
     end
 
     context 'for invalid move' do
@@ -267,19 +267,26 @@ RSpec.describe Piece, type: :model do
         let(:destination_x) { 3 }
         let(:destination_y) { 4 }
 
-        it { is_expected.to eq(true) }   
+        it { is_expected.to eq(false) }   
       end
 
       context 'diagonal without capture' do
-        let(:destination_x) { 1 }
-        let(:destination_y) { 2 }
+        let(:destination_x) {4}
+        let(:destination_y) {2}
 
-        it { is_expected.to eq(true) }   
+        it { is_expected.to eq(false) } 
       end
 
       context 'backward vertical move' do
         let(:destination_x) { 3 }
         let(:destination_y) { 0 }
+
+        it { is_expected.to eq(false) }   
+      end
+
+      context 'horizontal move' do
+        let(:destination_x) { 4 }
+        let(:destination_y) { 1 }
 
         it { is_expected.to eq(false) }   
       end
