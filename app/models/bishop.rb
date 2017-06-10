@@ -9,20 +9,14 @@ class Bishop < Piece
     end
   end
   
-  def rook_valid_move?(to_x, to_y)
-    return false if self.is_obstructed(to_x, to_y)
-    rook.horizantal_move?(to_y) || rook.vertical_move?(to_x)
+  def bishop_valid_move?(to_x, to_y)
+    return false if self.is_obstructed?(to_x, to_y)
+    bishop_move_diagonal?(to_x, to_y)
   end
 
   private
-  
-  def horizantal_move?(to_y)
-    if to_y != starting_point_y
-    end
-  end
-  
-  def vertical_move?(to_x)
-    if to_y != starting_point_x
-    end
-  end
+
+  def bishop_move_diagonal?(to_x, to_y)
+    (starting_point_x - to_x).abs == (starting_point_y - to_y).abs
+  end  
 end

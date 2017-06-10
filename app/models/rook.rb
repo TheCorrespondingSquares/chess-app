@@ -22,7 +22,8 @@ after_create :icon
   end
   
   def vertical_move?(to_x)
-    if to_y != starting_point_x
+    if to_x != starting_point_x
     end
   end
+  
 end
