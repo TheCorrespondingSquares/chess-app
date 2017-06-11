@@ -11,9 +11,9 @@ RSpec.describe Game, type: :model do
   		let!(:game1) { FactoryGirl.create(:game, white_player_id: user.id) }
   		let!(:game2) { FactoryGirl.create(:game, black_player_id: user2.id, white_player_id: user.id)}
 
-			it 'show an available game' do
+      it 'show an available game' do
   			expect(Game.available.count).to eq 1
-  		end
+      end
 
   		it 'show the last available game' do
   			expect(Game.available.last).to eq game1
@@ -24,9 +24,9 @@ RSpec.describe Game, type: :model do
   		let!(:game1) { FactoryGirl.create(:game, white_player_id: user.id)}
   		let!(:game2) { FactoryGirl.create(:game, black_player_id: user2.id)}
 
-			it 'show an available game' do
+      it 'show an available game' do
   			expect(Game.available.count).to eq 2
-  		end
+      end
 
 			it 'show the last vailable game' do
 				expect(Game.available.last).to eq game2
