@@ -5,8 +5,15 @@ module Obstructions
   # Check for obstructions
   def is_obstructed?(destination_x, destination_y)
     # Knights can't be obstructed
-    return "invalid" if self.name == "Knight"
+    return false if self.name == "Knight"
 
+    destination_x = destination_x.to_i
+    destination_y = destination_y.to_i
+
+    logger.info "is_obstructed called:
+    starting_point_x: #{starting_point_x.inspect}, starting_point_y: #{starting_point_y.inspect}
+    destination_x: #{destination_x.inspect}, destination_y: #{destination_y.inspect}"
+    
     if starting_point_y == destination_y                    # If y doesn't change, movement is horizontal
       horizontal_obstruction?(destination_x, destination_y)
     elsif starting_point_x == destination_x                 # If x doesn't change, movement is vertical
@@ -20,6 +27,7 @@ module Obstructions
 
   # Check for horizontal obstruction
   def horizontal_obstruction?(destination_x, y)
+    logger.info "horizontal_obstruction? called"
     move_x = starting_point_x + right_or_left(destination_x)
 
     while move_x != destination_x
@@ -32,6 +40,7 @@ module Obstructions
 
   # Check for vertical obstruction
   def vertical_obstruction?(x, destination_y)
+    logger.info "vertical_obstruction? called"
     move_y = starting_point_y + up_or_down(destination_y)
 
     while move_y != destination_y
@@ -44,6 +53,7 @@ module Obstructions
 
   # Check for diagonal obstruction
   def diagonal_obstruction?(destination_x, destination_y)
+    logger.info "diagonal_obstruction? called"
     move_x = starting_point_x + right_or_left(destination_x)
     move_y = starting_point_y + up_or_down(destination_y)
 

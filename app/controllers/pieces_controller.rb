@@ -9,21 +9,20 @@ class PiecesController < ApplicationController
 		logger.info "Params:
 		Orig x_pos: #{piece.x_pos}, Orig y_pos: #{piece.y_pos},
 		Dest x_pos: #{params[:x_pos]}, Dest y_pos: #{params[:y_pos]}"
-		logger.info "is_obstructed? result: #{piece.is_obstructed?(params[:x_pos], params[:y_pos]).to_s}"
 
 		@game = piece.game
 		
 		
 		return render_not_found if piece.blank?
 
-		# piece.update_attributes(piece_params)
-		piece.move_to!(params[:x_pos], params[:y_pos])
-
-		if piece.valid?
-			return render json: piece
+		logger.info "is_obstructed? result: #{piece.is_obstructed?(params[:x_pos], params[:y_pos])}"
+		if piece.is_obstructed?(params[:x_pos], params[:y_pos]) == false
+    	piece.move_to!(params[:x_pos], params[:y_pos])
 		else
-			return render :edit, status: :unprocessable_entity
+			flash[:alert] = "Your move was obstructed!"
+			redirect_to game_path(piece.game)
 		end
+
 	end
 
   private
