@@ -9,7 +9,7 @@ class PiecesController < ApplicationController
 		logger.info "Params:
 		Orig x_pos: #{piece.x_pos}, Orig y_pos: #{piece.y_pos},
 		Dest x_pos: #{params[:x_pos]}, Dest y_pos: #{params[:y_pos]}"
-		
+		logger.info "is_obstructed? result: #{piece.is_obstructed?(params[:x_pos], params[:y_pos]).to_s}"
 
 		@game = piece.game
 		
