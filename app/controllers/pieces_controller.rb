@@ -6,16 +6,19 @@ class PiecesController < ApplicationController
 
 	def update
 		piece = Piece.find(params[:id])
-		logger.info "Params:"
-		logger.info "#{params}"
+		logger.info "Params:
+		Orig x_pos: #{piece.x_pos}, Orig y_pos: #{piece.y_pos},
+		Dest x_pos: #{params[:x_pos]}, Dest y_pos: #{params[:y_pos]}"
+		
 
 		@game = piece.game
 		
 		
 		return render_not_found if piece.blank?
 
-		piece.update_attributes(piece_params)
-		
+		# piece.update_attributes(piece_params)
+		piece.move_to!(params[:x_pos], params[:y_pos])
+
 		if piece.valid?
 			return render json: piece
 		else
