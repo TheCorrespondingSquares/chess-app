@@ -14,8 +14,18 @@ FactoryGirl.define do
     captured false
   end
 
+  factory :bishop, class: Bishop do
+    name "Bishop"
+    captured false
+  end
+
   factory :rook, class: Rook do
     name "Rook"
+    captured false
+  end
+
+  factory :knight, class: Knight do
+    name "Knight"
     captured false
   end
 
