@@ -15,7 +15,7 @@ RSpec.describe Piece, type: :model do
       let(:destination_x) { 5 }
       let(:destination_y) { 3 }
 
-      it { is_expected.to eq("invalid") }
+      it { is_expected.to eq(false) }
     end
 
     describe 'Any obstructions' do      
