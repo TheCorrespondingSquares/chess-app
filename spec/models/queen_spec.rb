@@ -5,8 +5,8 @@ RSpec.describe Queen, type: :model do
   let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
 
-  describe "#queen_valid_move?" do
-    subject(:queen_valid_move?) { queen.queen_valid_move?(destination_x, destination_y) }
+  describe "queen#valid_move?" do
+    subject(:queen_valid_move?) { queen.valid_move?(destination_x, destination_y) }
 
     let!(:queen) { FactoryGirl.create(:queen, color: "White", x_pos: 3, y_pos: 0, game_id: game.id) }
 
