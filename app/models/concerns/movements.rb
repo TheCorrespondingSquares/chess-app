@@ -28,4 +28,8 @@ module Movements
     to_y != starting_point_y && starting_point_x == to_x
   end
 
+  def diagonal_move?(to_x, to_y)
+    (starting_point_x - to_x).abs == (starting_point_y - to_y).abs
+  end    
+
 end

@@ -13,7 +13,7 @@ after_create :icon
     return false if self.is_obstructed?(to_x, to_y)
 
     if queen_move_horizontal?(to_x) && queen_move_vertical?(to_y)
-      queen_move_diagonal?(to_x, to_y)
+      diagonal_move?(to_x, to_y)
     else
       queen_move_horizontal?(to_x) || queen_move_vertical?(to_y)
     end
@@ -28,9 +28,5 @@ after_create :icon
   def queen_move_vertical?(to_y)
     up_or_down(to_y) != 0
   end
-
-  def queen_move_diagonal?(to_x, to_y)
-    (starting_point_x - to_x).abs == (starting_point_y - to_y).abs
-  end  
 
 end
