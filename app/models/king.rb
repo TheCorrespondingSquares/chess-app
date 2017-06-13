@@ -9,7 +9,7 @@ after_create :icon
     end
   end
 
-  def king_valid_move?(to_x, to_y)
+  def valid_move?(to_x, to_y)
     king_move_horizontal?(to_x) || king_move_vertical?(to_y) || king_move_diagonal?(to_x, to_y)
   end
 

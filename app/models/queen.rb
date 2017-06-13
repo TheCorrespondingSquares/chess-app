@@ -9,7 +9,7 @@ after_create :icon
     end
   end
 
-  def queen_valid_move?(to_x, to_y)
+  def valid_move?(to_x, to_y)
     return false if self.is_obstructed?(to_x, to_y)
 
     if queen_move_horizontal?(to_x) && queen_move_vertical?(to_y)
