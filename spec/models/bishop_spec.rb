@@ -5,8 +5,8 @@ RSpec.describe Bishop, type: :model do
   let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
 
-  describe "#bishop_valid_move?" do
-    subject(:bishop_valid_move?) { bishop.bishop_valid_move?(destination_x, destination_y) }
+  describe "bishop#valid_move?" do
+    subject(:bishop_valid_move?) { bishop.valid_move?(destination_x, destination_y) }
 
     let(:bishop) { FactoryGirl.create(:bishop, color: "White", x_pos: 3, y_pos: 0, game_id: game.id) }
 

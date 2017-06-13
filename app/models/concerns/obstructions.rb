@@ -1,6 +1,4 @@
 module Obstructions
-  include Movements
-  include Squares
 
   # Check for obstructions
   def is_obstructed?(destination_x, destination_y)
