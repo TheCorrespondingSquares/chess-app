@@ -14,8 +14,6 @@ $(function() {
           type: 'PUT',
           success: function(data) {
             location.reload();
-            // $(data.id).
-            // console.log(data);
           }
         });
     } else {

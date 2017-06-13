@@ -22,7 +22,6 @@ module Obstructions
 
   # Check for horizontal obstruction
   def horizontal_obstruction?(destination_x, y)
-    logger.info "horizontal_obstruction? called"
     move_x = starting_point_x + right_or_left(destination_x)
 
     while move_x != destination_x
@@ -35,7 +34,6 @@ module Obstructions
 
   # Check for vertical obstruction
   def vertical_obstruction?(x, destination_y)
-    logger.info "vertical_obstruction? called"
     move_y = starting_point_y + up_or_down(destination_y)
 
     while move_y != destination_y
@@ -48,7 +46,6 @@ module Obstructions
 
   # Check for diagonal obstruction
   def diagonal_obstruction?(destination_x, destination_y)
-    logger.info "diagonal_obstruction? called"
     move_x = starting_point_x + right_or_left(destination_x)
     move_y = starting_point_y + up_or_down(destination_y)
 
