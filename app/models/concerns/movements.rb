@@ -1,13 +1,11 @@
 module Movements
-  destination_x = destination_x.to_i
-  destination_y = destination_y.to_i
-
+  
   def starting_point_x
-    @starting_point_x = self.x_pos.to_i
+    @starting_point_x = self.x_pos
   end
 
   def starting_point_y
-    @starting_point_y = self.y_pos.to_i
+    @starting_point_y = self.y_pos
   end
 
   def right_or_left(destination_x)

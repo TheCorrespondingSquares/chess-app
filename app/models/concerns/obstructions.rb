@@ -5,9 +5,6 @@ module Obstructions
     # Knights can't be obstructed
     return false if self.name == "Knight"
 
-    destination_x = destination_x.to_i
-    destination_y = destination_y.to_i
-
     logger.info "is_obstructed called:
     starting_point_x: #{starting_point_x.inspect}, starting_point_y: #{starting_point_y.inspect}
     destination_x: #{destination_x.inspect}, destination_y: #{destination_y.inspect}"
