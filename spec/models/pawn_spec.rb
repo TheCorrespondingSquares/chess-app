@@ -5,7 +5,7 @@ RSpec.describe Pawn, type: :model do
   let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
 
-	describe "#pawn_valid_move?" do
+  describe "#pawn_valid_move?" do
     subject(:pawn_valid_move?) { pawn.pawn_valid_move?(destination_x, destination_y) }
 
     let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
@@ -24,7 +24,7 @@ RSpec.describe Pawn, type: :model do
 
         it { is_expected.to eq(true) }
       end
-	  end
+    end
 
     context 'for invalid move' do
       context '2 squares other than first move' do
