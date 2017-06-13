@@ -1,5 +1,5 @@
 module Movements
-
+  
   def starting_point_x
     @starting_point_x = self.x_pos
   end

@@ -9,7 +9,7 @@ after_create :icon
     end
   end
 
-  def valid_move?(to_x, to_y)
+  def valid_move?(to_x, to_y)    
     knight_move_wide?(to_x, to_y) || knight_move_tall?(to_x, to_y)
   end
 
