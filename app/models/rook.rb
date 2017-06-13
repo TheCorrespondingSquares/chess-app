@@ -11,6 +11,7 @@ after_create :icon
 
   def valid_move?(to_x, to_y)
     return false if self.is_obstructed?(to_x, to_y)
-    horizontal_move?(to_x, to_y) || vertical_move?(to_y, to_x)
+    only_horizontal_move?(to_x, to_y) || only_vertical_move?(to_x, to_y)
   end
+  
 end

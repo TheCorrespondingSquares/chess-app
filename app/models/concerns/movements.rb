@@ -20,12 +20,20 @@ module Movements
     return 0 if starting_point_y == destination_y
   end
 
-  def horizontal_move?(to_x, to_y)
-    to_x != starting_point_x && starting_point_y == to_y
+  def horizontal_move?(to_x)
+    right_or_left(to_x) != 0
   end
 
-  def vertical_move?(to_y, to_x)
-    to_y != starting_point_y && starting_point_x == to_x
+  def vertical_move?(to_y)
+    up_or_down(to_y) != 0
+  end
+
+  def only_horizontal_move?(to_x, to_y)
+    horizontal_move?(to_x) && !vertical_move?(to_y)
+  end
+
+  def only_vertical_move?(to_x, to_y)
+    vertical_move?(to_y) && !horizontal_move?(to_x)
   end
 
   def diagonal_move?(to_x, to_y)
