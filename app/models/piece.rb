@@ -18,22 +18,32 @@ class Piece < ApplicationRecord
 		%w(King Queen Bishop Knight Rook Pawn)
 	end
 
-  def find_piece(x, y, game_id)
-    Piece.find_by(x_pos: x, y_pos: y, game_id: game_id)
+  def find_piece(x, y)
+    # Piece.find_by(x_pos: x, y_pos: y, game_id: game_id)
+    game.pieces.find_by(x_pos: x, y_pos: y)
   end
 
-  def capture_piece!(x, y)
-    piece_to_capture = find_piece(x, y, self.game_id)
+  def friendly_piece?(other_piece)
+    other_piece.color == self.color
+  end
 
-    if piece_to_capture && piece_to_capture.color != self.color
-      piece_to_capture.update_attributes(x_pos: nil, y_pos: nil, captured: true)
+  def opposite_piece?(other_piece)
+    !friendly_piece?(other_piece)
+  end
+
+  def capture_piece!(x, y, piece_to_capture)
+    piece_to_capture.update_attributes(x_pos: nil, y_pos: nil, captured: true)
+    self.update_attributes(x_pos: x, y_pos: y)
+  end
+
+  def move_to!(to_x, to_y)
+    piece_on_square = find_piece(to_x, to_y)
+
+    if piece_on_square && opposite_piece?(piece_on_square)
+      capture_piece!(to_x, to_y, piece_on_square)
+    elsif !piece_on_square
+      self.update_attributes(x_pos: to_x, y_pos: to_y)
     end
-  end
-
-  def move_to!(destination_x, destination_y)
-    capture_piece!(destination_x, destination_y)
-
-    self.update_attributes(x_pos: destination_x, y_pos: destination_y)
   end
 
 end

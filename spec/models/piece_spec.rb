@@ -7,41 +7,21 @@ RSpec.describe Piece, type: :model do
 
   describe "#capture_piece!" do
     let(:piece_capturer) { FactoryGirl.create(:bishop, color: "Black", x_pos: 7, y_pos: 3, game_id: game.id) }
-    let(:piece_target) { FactoryGirl.create(:pawn, color: captured_color, x_pos: target_x, y_pos: target_y, game_id: game.id) }
+    let(:piece_target) { FactoryGirl.create(:pawn, color: "White", x_pos: target_x, y_pos: target_y, game_id: game.id) }
     let(:target_x) { 5 }
     let(:target_y) { 5 }
     
-    context 'capture opposing piece' do
-      let(:captured_color) { "White" }
+    it ', remove opposing piece from board and update piece position' do
+      expect(piece_target.x_pos).to eq(target_x)
+      expect(piece_target.y_pos).to eq(target_y)
 
-      it ', remove opposing piece from board, and update piece position' do
-        expect(piece_target.x_pos).to eq(target_x)
-        expect(piece_target.y_pos).to eq(target_y)
+      piece_capturer.capture_piece!(target_x, target_y, piece_target)
+      piece_target.reload
 
-        piece_capturer.capture_piece!(target_x, target_y)
-        piece_target.reload
-
-        expect(piece_target.x_pos).to eq(nil)
-        expect(piece_target.y_pos).to eq(nil)
-        expect(piece_target.captured).to eq(true)
-      end
-    end
-
-    context 'cannot capture your own piece' do
-      let(:captured_color) { "Black" }
-
-      it ', target piece doesn\'t change' do
-        expect(piece_target.x_pos).to eq(target_x)
-        expect(piece_target.y_pos).to eq(target_y)
-
-        piece_capturer.capture_piece!(target_x, target_y)
-        piece_target.reload
-
-        expect(piece_target.x_pos).to eq(target_x)
-        expect(piece_target.y_pos).to eq(target_y)
-        expect(piece_target.captured).to eq(false)
-      end
-    end     
+      expect(piece_target.x_pos).to eq(nil)
+      expect(piece_target.y_pos).to eq(nil)
+      expect(piece_target.captured).to eq(true)
+    end  
   end    
 
   describe "#move_to!" do
@@ -58,22 +38,44 @@ RSpec.describe Piece, type: :model do
     end
 
     context 'move and capture' do
-      let(:captured_piece) { FactoryGirl.create(:knight, color: "White", x_pos: 6, y_pos: 6, game_id: game.id) }
+      let(:other_piece) { FactoryGirl.create(:knight, color: other_color, x_pos: destination_x, y_pos: destination_y, game_id: game.id) }
 
-      it ', update positions of moving piece and captured piece' do
-        expect(captured_piece.x_pos).to eq(6)
-        expect(captured_piece.y_pos).to eq(6)
+      context 'capture opponent\'s piece' do
+        let(:other_color) { "White" }
 
-        piece_moving.move_to!(destination_x, destination_y)
-        captured_piece.reload
+        it ', update positions of moving piece and captured piece' do
+          expect(other_piece.x_pos).to eq(destination_x)
+          expect(other_piece.y_pos).to eq(destination_x)
 
-        expect(captured_piece.x_pos).to eq(nil)
-        expect(captured_piece.y_pos).to eq(nil)
-        expect(captured_piece.captured).to eq(true)
-        expect(piece_moving.x_pos).to eq(destination_x)
-        expect(piece_moving.y_pos).to eq(destination_y)
+          piece_moving.move_to!(destination_x, destination_y)
+          other_piece.reload
+
+          expect(other_piece.x_pos).to eq(nil)
+          expect(other_piece.y_pos).to eq(nil)
+          expect(other_piece.captured).to eq(true)
+          expect(piece_moving.x_pos).to eq(destination_x)
+          expect(piece_moving.y_pos).to eq(destination_y)
+        end
       end
-    end
+
+      context 'cannot move or capture if your own piece is there' do
+        let(:other_color) { "Black" }
+
+        it ', piece positions do not change' do
+          expect(other_piece.x_pos).to eq(destination_x)
+          expect(other_piece.y_pos).to eq(destination_x)
+
+          piece_moving.move_to!(destination_x, destination_x)
+          other_piece.reload
+
+          expect(other_piece.x_pos).to eq(destination_x)
+          expect(other_piece.y_pos).to eq(destination_x)
+          expect(other_piece.captured).to eq(false)
+          expect(piece_moving.x_pos).to eq(7)
+          expect(piece_moving.y_pos).to eq(7)
+        end
+      end
+    end      
   end
 <<<<<<< HEAD
 <<<<<<< HEAD
