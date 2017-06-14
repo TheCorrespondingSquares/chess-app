@@ -5,8 +5,8 @@ RSpec.describe Rook, type: :model do
     let!(:game) { FactoryGirl.create :game, white_player_id: user.id }
     before(:each) {game.pieces.destroy_all}
 
-    describe "#rook_valid_move?" do
-      subject(:rook_valid_move?) { rook.rook_valid_move?(to_x, to_y) }
+    describe "rook#valid_move?" do
+      subject(:rook_valid_move?) { rook.valid_move?(to_x, to_y) }
       let(:rook) { FactoryGirl.create(:rook, x_pos: 0, y_pos: 0, color: 'White', game_id: game.id) }
 
         context "for valid move" do
