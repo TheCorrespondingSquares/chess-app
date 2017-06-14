@@ -1,6 +1,7 @@
 $(function() {
   var selectedPieceId = null;
   var isPieceSelected = false;
+  var previousSquare;
   var grabPiece;
   
 
@@ -30,7 +31,6 @@ $(function() {
 
             clickedSquare.append(grabPiece);
             // location.reload();
-            // grabPiece.detach();
           }
         });
     } else {
@@ -41,11 +41,12 @@ $(function() {
           isPieceSelected = false;
         } else {
           $(this).addClass('active');
+          previousSquare = $(this);
           selectedPieceId = pieceId;
           isPieceSelected = true;
           
           grabPiece = $('.piece[data-piece-id="' + pieceId + '"]');
-          console.log("grabPiece set:")
+          console.log("grabPiece set:");
           console.log(grabPiece);
 
           // Hardcode test
