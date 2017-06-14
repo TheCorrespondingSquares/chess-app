@@ -1,6 +1,8 @@
 $(function() {
   var selectedPieceId = null;
   var isPieceSelected = false;
+  var grabPiece;
+  
 
   $('#board td').click(function() {
     var pieceId = $(this).children('.piece').data('pieceId');
@@ -8,12 +10,27 @@ $(function() {
     var yPos = $(this).data('yPos');
     var gameId = $('#gameId').data('gameId');
 
+    var clickedSquare = $('td[data-x-pos="' + xPos + '"][data-y-pos="' + yPos + '"]');
+    
+    
+    // console.log(grabPiece);
+
     if (isPieceSelected === true && selectedPieceId !== null && selectedPieceId !== pieceId ) {
+      var pieceToMove = grabPiece.detach();
+      console.log("pieceToMove set:");
+      console.log(pieceToMove);
+
       $.ajax({
           url: '/games/' + gameId +'/pieces/' + selectedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
           type: 'PUT',
           success: function(data) {
-            location.reload();
+            $('#board td').removeClass('active');
+            selectedPieceId = null;
+            isPieceSelected = false;
+
+            clickedSquare.append(grabPiece);
+            // location.reload();
+            // grabPiece.detach();
           }
         });
     } else {
@@ -26,6 +43,16 @@ $(function() {
           $(this).addClass('active');
           selectedPieceId = pieceId;
           isPieceSelected = true;
+          
+          grabPiece = $('.piece[data-piece-id="' + pieceId + '"]');
+          console.log("grabPiece set:")
+          console.log(grabPiece);
+
+          // Hardcode test
+          // var pieceToMove = grabPiece.detach();
+          // $('td[data-x-pos="0"][data-y-pos="0"]').append(pieceToMove);
+          
+          // return grabPiece;
         }
       }
     }
