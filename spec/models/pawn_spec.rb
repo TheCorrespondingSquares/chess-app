@@ -5,56 +5,88 @@ RSpec.describe Pawn, type: :model do
   let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
 
-	describe "#pawn_valid_move?" do
-    subject(:pawn_valid_move?) { pawn.pawn_valid_move?(destination_x, destination_y) }
-
+  describe "#pawn_valid_move?" do
+    subject(:pawn_valid_move?) { pawn.pawn_valid_move?(to_x, to_y) }
     let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
 
     context 'for valid move' do
-      context 'vertical first move' do
-        let(:destination_x) { pawn.x_pos }
-        let(:destination_y) { 3 }
+      context 'there is another piece (same color) on destination square' do
+        let!(:pawn2) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 3, game_id: game.id) }
+        let(:to_x) { 3 }
+        let(:to_y) { 3 }
 
-        it { is_expected.to eq(true) }      
+        it { is_expected.to eq(false) }
       end
 
-      context 'vertical' do
-        let(:destination_x) { pawn.x_pos }
-        let(:destination_y) { 2 }
+      context 'there is another piece (opposite color) on destination square' do
+        let!(:pawn2) { FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id) }
+        let(:to_x) { 3 }
+        let(:to_y) { 3 }
+
+        it { is_expected.to eq(false) }
+      end
+
+      context 'vertical first move' do
+        let(:to_x) { pawn.x_pos }
+        let(:to_y) { 3 }
 
         it { is_expected.to eq(true) }
       end
-	  end
 
-    context 'for invalid move' do
+      context 'vertical move of the opponent' do
+        let(:pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 5, game_id: game.id) }
+        let(:to_x) { pawn.x_pos }
+        let(:to_y) { 4 }
+        
+        it 'should be true' do
+          expect(pawn.pawn_valid_move?(to_x, to_y)).to eq(true)
+        end
+      end
+
+      context 'diagonal move' do
+        let!(:pawn2) { FactoryGirl.create(:pawn, color: "Black", x_pos: 4, y_pos: 2, game_id: game.id) }
+        let(:to_x) { 4 }
+        let(:to_y) { 2 }
+
+        it 'should be true' do
+          expect(pawn.pawn_valid_move?(to_x, to_y)).to eq(true)
+        end
+      end
+    end
+
+    context 'not valid move' do
       context '2 squares other than first move' do
-        let(:destination_x) { 3 }
-        let(:destination_y) { 4 }
+        let(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 2, game_id: game.id) }
+        let(:to_x) { pawn.x_pos }
+        let(:to_y) { 4 }
 
         it { is_expected.to eq(false) }   
       end
 
       context 'diagonal without capture' do
-  
-    let(:destination_x) {4}
-        let(:destination_y) {2}
+        let(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
+        let(:to_x) { 4 }
+        let(:to_y) { 2 }
 
-        it { is_expected.to eq(false) } 
+        it 'should be false' do
+          expect(pawn.pawn_valid_move?(to_x, to_y)).to eq(false)
+        end
       end
 
       context 'backward vertical move' do
-        let(:destination_x) { 3 }
-        let(:destination_y) { 0 }
+        let(:to_x) { 3 }
+        let(:to_y) { 0 }
 
         it { is_expected.to eq(false) }   
       end
 
       context 'horizontal move' do
-        let(:destination_x) { 4 }
-        let(:destination_y) { 1 }
+        let(:to_x) { 4 }
+        let(:to_y) { 1 }
 
         it { is_expected.to eq(false) }   
       end
     end
   end
+
 end
