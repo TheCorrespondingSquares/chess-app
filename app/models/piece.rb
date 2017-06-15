@@ -45,5 +45,9 @@ class Piece < ApplicationRecord
       self.update_attributes(x_pos: to_x, y_pos: to_y)
     end
   end
-
+  
+  def moved?
+    return true if self.created_at != self.updated_at
+  end
+  
 end
