@@ -5,8 +5,8 @@ RSpec.describe Pawn, type: :model do
   let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
 
-  describe "#pawn_valid_move?" do
-    subject(:pawn_valid_move?) { pawn.pawn_valid_move?(to_x, to_y) }
+  describe "#valid_move?" do
+    subject(:valid_move?) { pawn.valid_move?(to_x, to_y) }
     let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
 
     context 'for valid move' do
@@ -39,7 +39,7 @@ RSpec.describe Pawn, type: :model do
         let(:to_y) { 4 }
         
         it 'should be true' do
-          expect(pawn.pawn_valid_move?(to_x, to_y)).to eq(true)
+          expect(pawn.valid_move?(to_x, to_y)).to eq(true)
         end
       end
 
@@ -49,7 +49,7 @@ RSpec.describe Pawn, type: :model do
         let(:to_y) { 2 }
 
         it 'should be true' do
-          expect(pawn.pawn_valid_move?(to_x, to_y)).to eq(true)
+          expect(pawn.valid_move?(to_x, to_y)).to eq(true)
         end
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe Pawn, type: :model do
         let(:to_y) { 2 }
 
         it 'should be false' do
-          expect(pawn.pawn_valid_move?(to_x, to_y)).to eq(false)
+          expect(pawn.valid_move?(to_x, to_y)).to eq(false)
         end
       end
 
