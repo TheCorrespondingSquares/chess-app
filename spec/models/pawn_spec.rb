@@ -7,6 +7,7 @@ RSpec.describe Pawn, type: :model do
 
   describe "#valid_move?" do
     subject(:valid_move?) { pawn.valid_move?(to_x, to_y) }
+
     let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
 
     context 'for valid move' do

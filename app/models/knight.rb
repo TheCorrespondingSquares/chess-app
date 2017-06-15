@@ -22,4 +22,5 @@ after_create :icon
   def knight_move_tall?(to_x, to_y)
     (starting_point_x - to_x).abs == 1 && (starting_point_y - to_y).abs == 2
   end
+
 end

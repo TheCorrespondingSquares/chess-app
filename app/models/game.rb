@@ -18,7 +18,7 @@ class Game < ApplicationRecord
 	  # ------ Black pieces ----------
 		8.times do |i|
 	  	Pawn.create(color: 'Black', game_id: self.id, x_pos: i, y_pos: 6, icon:"&#9823;")
-	  end
+		end
 		big_pieces.each_with_index do |piece, i|
 			Piece.create(name: piece, color: 'Black', game_id: self.id, x_pos: i, y_pos: 7)
 		end
