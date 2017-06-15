@@ -79,12 +79,19 @@ RSpec.describe Piece, type: :model do
   end
   
   describe '#moved?' do
-    let!(:piece){FactoryGirl.create(:king, color: 'White', x_pos: 3, y_pos: 0, game_id: game.id)}
-    let!(:x_pos){4}
-    let!(:y_pos){5}
+    subject(:moved?) {piece.moved?}
+    let(:piece){FactoryGirl.create(:king, color: 'White', x_pos: 3, y_pos: 0, game_id: game.id)}
     
     context 'when piece moved' do
-      it {is_expected.to eq(true)}
+      it 'equals true' do
+        piece.move_to!(5,0)
+        expect(piece.moved?).to eq(true)
+      end
+    end
+    context 'when piece is not moved' do
+      it 'equal false' do
+        expect(piece.moved?).to eq(false)
+      end
     end
   end
   

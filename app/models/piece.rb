@@ -47,7 +47,7 @@ class Piece < ApplicationRecord
   end
   
   def moved?
-    return true if self.created_at != self.updated_at
+    self.created_at != self.updated_at ? true : false
   end
   
 end
