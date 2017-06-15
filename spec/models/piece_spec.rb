@@ -78,4 +78,14 @@ RSpec.describe Piece, type: :model do
     end      
   end
   
+  describe '#moved?' do
+    let!(:piece){FactoryGirl.create(:king, color: 'White', x_pos: 3, y_pos: 0, game_id: game.id)}
+    let!(:x_pos){4}
+    let!(:y_pos){5}
+    
+    context 'when piece moved' do
+      it {is_expected.to eq(true)}
+    end
+  end
+  
 end
