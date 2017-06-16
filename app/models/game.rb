@@ -30,7 +30,7 @@ class Game < ApplicationRecord
 	end
 
 	def big_pieces
-		%w(Rook Bishop Knight Queen King Knight Bishop Rook)
+		%w(Rook Knight Bishop Queen King Bishop Knight Rook)
 	end
   
 	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
