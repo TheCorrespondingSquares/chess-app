@@ -44,27 +44,23 @@ RSpec.describe Game, type: :model do
   end
 
   describe "#check!" do
-    let!(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+    let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+    let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }
     before(:each) { game.pieces.destroy_all }
-    
-    context ' when a rook moves' do
-      let!(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 4, game_id: game.id) }
-      let!(:piece_making_check) { FactoryGirl.create(:rook, color: "Black", captured: false, x_pos: to_x, y_pos: to_y, game_id: game.id) }
-      let(:to_x) { 0 }
-      let(:to_y) { 4 }
 
-      it ' notifies when a king is in check position (rook)' do
+    
+    context 'when a rook moves' do
+      let!(:piece_making_check) { FactoryGirl.create(:rook, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
+
+      it 'notifies when a king is in check position (rook)' do
         expect(game.check?(king.color)).to eq(true)
       end  
     end
 
-    context ' when a bishop moves' do
-      let!(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 4, game_id: game.id) }
-      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: to_x, y_pos: to_y, game_id: game.id) }
-      let(:to_x) { 2 }
-      let(:to_y) { 2 }
+    context 'when a bishop moves' do
+      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 2, y_pos: 2, game_id: game.id) }
 
-      it ' notifies when a king is in check position (bishop)' do
+      it 'notifies when a king is in check position (bishop)' do
         expect(game.check?(king.color)).to eq(true)
       end  
     end
