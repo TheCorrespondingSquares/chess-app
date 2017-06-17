@@ -43,37 +43,28 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  describe "#check!" do
-    let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+  describe "#check?" do
+    subject(:check?) { game.check?(king.color) }
     let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }
     before(:each) { game.pieces.destroy_all }
 
     
-    context 'when a rook moves' do
+    context 'when a Rook puts King in check' do
       let!(:piece_making_check) { FactoryGirl.create(:rook, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
 
-      it 'notifies when a king is in check position (rook)' do
-        expect(game.check?(king.color)).to eq(true)
-      end  
+      it { is_expected.to eq(true) }
     end
 
-    context 'when a bishop moves' do
+    context 'when a Bishop puts King in check' do
       let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 2, y_pos: 2, game_id: game.id) }
 
-      it 'notifies when a king is in check position (bishop)' do
-        expect(game.check?(king.color)).to eq(true)
-      end  
+      it { is_expected.to eq(true) } 
     end
 
-    context ' when a bishop moves but does not cause a check' do
-      let!(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 4, game_id: game.id) }
-      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: to_x, y_pos: to_y, game_id: game.id) }
-      let(:to_x) { 2 }
-      let(:to_y) { 3 }
+    context 'when a piece does not put King in check' do
+      let!(:piece_doesnt_check) { FactoryGirl.create(:queen, color: "Black", captured: false, x_pos: 2, y_pos: 3, game_id: game.id) }
 
-      it ' should not notify that the king is in check position' do
-        expect(game.check?(king.color)).to eq(false)
-      end  
+      it { is_expected.to eq(false) } 
     end       
   end
 
