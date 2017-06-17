@@ -3,6 +3,16 @@ $(function() {
   var isPieceSelected = false;
   var previousSquare;
   var grabPiece;
+
+  $( ".piece" ).draggable();
+  $( "#board td" ).droppable({
+    tolerance: "pointer",
+    hoverClass: "drop-hover",
+    drop: function( event, ui ) {
+      console.log("Dropped");
+      $( this ).addClass( "dropped" );
+    }
+  });
   
 
   $('#board td').click(function() {
@@ -13,7 +23,7 @@ $(function() {
 
     var clickedSquare = $('td[data-x-pos="' + xPos + '"][data-y-pos="' + yPos + '"]');
     
-    
+    console.log("Clicked");
     // console.log(grabPiece);
 
     if (isPieceSelected === true && selectedPieceId !== null && selectedPieceId !== pieceId ) {
