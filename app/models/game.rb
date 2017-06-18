@@ -27,6 +27,19 @@ class Game < ApplicationRecord
 	def big_pieces
 		%w(Rook Knight Bishop Queen King Bishop Knight Rook)
 	end
+
+  def check?(color)
+    king = pieces.find_by(name: 'King', color: color)
+    opposite_pieces = pieces.where(captured: false).where.not(color: color)
+    
+    opposite_pieces.each do |piece|
+      if piece.valid_move?(king.x_pos, king.y_pos)
+        @piece_making_check = piece
+        return true
+      end
+    end
+    false
+  end
   
 	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
 end
