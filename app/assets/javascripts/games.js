@@ -3,14 +3,51 @@ $(function() {
   var isPieceSelected = false;
   var previousSquare;
   var grabPiece;
+  var draggedPieceId;
 
-  $( ".piece" ).draggable();
+  
+
+  $( ".piece" ).draggable({
+    start: function(e) {
+        draggedPieceId = $(this).data('pieceId');
+        console.log("Piece dragged: " + draggedPieceId);
+        $(this).parent().addClass('active');
+    },
+    revert: true
+  });
   $( "#board td" ).droppable({
     tolerance: "pointer",
-    hoverClass: "drop-hover",
+    hoverClass: "active",
     drop: function( event, ui ) {
-      console.log("Dropped");
-      $( this ).addClass( "dropped" );
+      var xPos = $(this).data('xPos');
+      var yPos = $(this).data('yPos');
+      var gameId = $('#gameId').data('gameId');
+      var $this = $(this);
+
+      var clickedSquare = $('td[data-x-pos="' + xPos + '"][data-y-pos="' + yPos + '"]');
+      grabPiece = $('.piece[data-piece-id="' + draggedPieceId + '"]');
+
+      $.ajax({
+          url: '/games/' + gameId +'/pieces/' + draggedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
+          type: 'PUT',
+          success: function(data) {
+            console.log("AJAX Called");
+            $('#board td').removeClass('active');
+            selectedPieceId = null;
+            isPieceSelected = false;
+
+            var pieceToMove = grabPiece.detach();
+            console.log("pieceToMove: " + pieceToMove);
+            console.log("grabPiece: " + grabPiece);
+            console.log("clickedSquare: " + clickedSquare);
+            $this.append(pieceToMove);
+            $( grabPiece ).draggable( "destroy" );
+            // location.reload();
+          }
+        });
+
+      console.log("Dropped on Square: " + xPos + " " + yPos);
+      console.log("piece: " + draggedPieceId);
     }
   });
   
