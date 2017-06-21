@@ -1,5 +1,6 @@
 class Rook < Piece
 after_create :icon
+delegate :rook, to: :king, prefix: true
 
   def icon
     if color == "White"
