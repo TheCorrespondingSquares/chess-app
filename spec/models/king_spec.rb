@@ -65,7 +65,7 @@ RSpec.describe King, type: :model do
       let(:to_y) {king.y_pos}
       
       context 'when king already moved' do
-        
+        let!(self.moved?) {true}
         it { is_expected.to eq(nil)}
       end
       
@@ -76,5 +76,4 @@ RSpec.describe King, type: :model do
       end
     end
   end
-
 end  
