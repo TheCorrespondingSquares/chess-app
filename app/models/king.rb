@@ -20,6 +20,8 @@ after_create :icon
           self.move_to!(2, y_pos) && rook.move_to!(3, y_pos)
         elsif self.valid_move?(to_x) == 6
           self.move_to!(6, y_pos) && rook.move_to!(5, y_pos)
+        else
+          nil
         end
   end
 end

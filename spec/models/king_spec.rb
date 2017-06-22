@@ -57,8 +57,6 @@ RSpec.describe King, type: :model do
       end
     end
   end
-  
-<<<<<<< HEAD
     
   describe "King#castle" do
   subject(:king_castle) {King.castle(to_x, to_y)}
@@ -67,7 +65,6 @@ RSpec.describe King, type: :model do
       let(:to_y) {king.y_pos}
       
       context 'when king already moved' do
-        let(self.moved?) {true}
         
         it { is_expected.to eq(nil)}
       end
@@ -77,16 +74,6 @@ RSpec.describe King, type: :model do
         
         it {is_expected.to eq(nil)}
       end
-=======
-  describe "king#castle" do
-    subject(:king_castle) {king.castle(to_x, to_y)}
-    
-    context 'for left castle move' do
-      let!(:rook){FactoryGirl.create(:rook, color: 'Black', x_pos: 0, y_pos: 0, game_id: game.id)}
-      let(:to_x) {-2}
-      let(:to_y) {0}
-      expect(self.castle(to_x, to_y).to eq(x_pos: -2, y_pos: 0))
->>>>>>> 3ffa07525b06ec6754bcd1189c2d7c55018dbd31
     end
   end
 
