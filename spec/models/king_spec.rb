@@ -58,21 +58,13 @@ RSpec.describe King, type: :model do
     end
   end
     
-  describe "King#castle" do
-  subject(:king_castle) {King.castle(to_x, to_y)}
-    
-    context 'for left move' do
-      let(:to_y) {king.y_pos}
-      
-      context 'when king already moved' do
-        let!(self.moved?) {true}
-        it { is_expected.to eq(nil)}
-      end
-      
-      context "when rook moved" do 
-        let(rook.moved?) {true}
+  describe "King#Castle" do
+    context "if king moved" do
+      let!(king.moved?) {true}
+      it 'will respond with cannot castle!' do
         
-        it {is_expected.to eq(nil)}
+      
+        expect(response).to raise_error("cannot castle!") 
       end
     end
   end
