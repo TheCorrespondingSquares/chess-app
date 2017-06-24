@@ -4,6 +4,7 @@ class Game < ApplicationRecord
 	belongs_to :black_player, class_name: "User", optional: true
 	validates :name, presence: true
 	after_create :populate_board!
+	after_create :white_goes_first
 	
 	scope :available,	-> { where('white_player_id is NULL OR black_player_id is NULL') }
 	
@@ -27,6 +28,15 @@ class Game < ApplicationRecord
 	def big_pieces
 		%w(Rook Knight Bishop Queen King Bishop Knight Rook)
 	end
+	
+	#white player goes first
+	def white_goes_first
+		until pieces.color("White") && :created_at != :updated_at do
+			return "White Goes first"
+		end
+	end
+	
+	
 
   def check?(color)
     king = pieces.find_by(name: 'King', color: color)
