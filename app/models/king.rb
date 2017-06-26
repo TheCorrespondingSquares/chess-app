@@ -13,4 +13,16 @@ after_create :icon
     horizontal_move_one_square?(to_x) || vertical_move_one_square?(to_y) || diagonal_move_one_square?(to_x, to_y)
   end
 
+  def is_able_to_escape_check?
+    ((x_pos - 1)..(x_pos + 1)).each do |x|
+      ((y_pos - 1 )..(y_pos + 1)).each do |y|
+        if !is_on_square?(x, y) && valid_move?(x, y)
+          return true
+        end
+      end
+    end
+    false
+  end
+
+
 end
