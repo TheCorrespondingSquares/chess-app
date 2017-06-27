@@ -28,7 +28,12 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     @game.update_attributes(join_params)
-    @game.play!
+    
+    #ADDED THIS TO CORRESPOND WITH 
+    if @game.turn == 0 && game.full?
+      @game.update_attributes(turn: 1)
+    end
+    
     redirect_to game_path(@game)
   end
 
