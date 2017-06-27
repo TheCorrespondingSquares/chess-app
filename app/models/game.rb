@@ -30,11 +30,10 @@ class Game < ApplicationRecord
 	end
 
   def check?(color)
-    king = pieces.find_by(name: 'King', color: color)
-    opposite_pieces = pieces.where(captured: false).where.not(color: color)
-    
-    opposite_pieces.each do |piece|
-      if piece.valid_move?(king.x_pos, king.y_pos)
+    generate_king_and_opposite_pieces(color)
+
+    @opposite_pieces.each do |piece|
+      if piece.valid_move?(@king.x_pos, @king.y_pos)
         @piece_making_check = piece
         return true
       end
@@ -43,22 +42,33 @@ class Game < ApplicationRecord
   end
 
   def checkmate?(color)
-    king = pieces.find_by(name: 'King', color: color)
+    generate_king_and_opposite_pieces(color)
 
   	return false unless check?(color)
-  	return false if can_capture_piece?(color)
-  	return false if king.is_able_to_escape_check?
+  	return false if king_can_capture_piece?(color)
+  	return false if king_can_be_obstructed?(color)
+  	return false if @king.is_able_to_escape_check?
 
   	true
   end
 
-  def can_capture_piece?(color)
-  	king = pieces.find_by(name: 'King', color: color)
+  def king_can_capture_piece?(color)
+  	generate_king_and_opposite_pieces(color)
 
   	x = @piece_making_check.x_pos
   	y = @piece_making_check.y_pos
 
-  	king.valid_move?(x, y)
+  	@king.valid_move?(x, y)
+  end
+
+  def king_can_be_obstructed?(color)
+  	
+
+  end
+
+  def generate_king_and_opposite_pieces(color)
+  	@king = pieces.find_by(name: 'King', color: color)
+    @opposite_pieces = pieces.where(captured: false).where.not(color: color)
   end
   
 	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
