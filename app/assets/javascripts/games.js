@@ -12,13 +12,15 @@ $(function() {
         draggedPieceId = $(this).data('pieceId');
         console.log("Piece dragged: " + draggedPieceId);
         $(this).parent().addClass('active');
-    },
-    revert: true
+    }
   });
   $( "#board td" ).droppable({
     tolerance: "pointer",
     hoverClass: "active",
-    drop: function( event, ui ) {
+    drop: handlePieceDrop
+  });
+
+  function handlePieceDrop( event, ui ) {
       var xPos = $(this).data('xPos');
       var yPos = $(this).data('yPos');
       var gameId = $('#gameId').data('gameId');
@@ -37,19 +39,16 @@ $(function() {
             isPieceSelected = false;
 
             var pieceToMove = grabPiece.detach();
-            console.log("pieceToMove: " + pieceToMove);
+            // console.log("pieceToMove: " + pieceToMove);
             console.log("grabPiece: " + grabPiece);
-            console.log("clickedSquare: " + clickedSquare);
             $this.append(pieceToMove);
-            $( grabPiece ).draggable( "destroy" );
-            // location.reload();
+            $( grabPiece ).css({ top: 0, left: 0 });
           }
         });
 
       console.log("Dropped on Square: " + xPos + " " + yPos);
       console.log("piece: " + draggedPieceId);
     }
-  });
   
 
   $('#board td').click(function() {
@@ -61,7 +60,6 @@ $(function() {
     var clickedSquare = $('td[data-x-pos="' + xPos + '"][data-y-pos="' + yPos + '"]');
     
     console.log("Clicked");
-    // console.log(grabPiece);
 
     if (isPieceSelected === true && selectedPieceId !== null && selectedPieceId !== pieceId ) {
       var pieceToMove = grabPiece.detach();
@@ -95,12 +93,6 @@ $(function() {
           grabPiece = $('.piece[data-piece-id="' + pieceId + '"]');
           console.log("grabPiece set:");
           console.log(grabPiece);
-
-          // Hardcode test
-          // var pieceToMove = grabPiece.detach();
-          // $('td[data-x-pos="0"][data-y-pos="0"]').append(pieceToMove);
-          
-          // return grabPiece;
         }
       }
     }
