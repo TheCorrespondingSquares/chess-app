@@ -5,9 +5,12 @@ $(function() {
   var grabPiece;
   var draggedPieceId;
 
+  var board = $( "#board" );
+
   
 
   $( ".piece" ).draggable({
+    containment: board,
     start: function(e) {
         draggedPieceId = $(this).data('pieceId');
         console.log("Piece dragged: " + draggedPieceId);
