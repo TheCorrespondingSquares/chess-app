@@ -45,8 +45,8 @@ class Game < ApplicationRecord
     generate_king_and_opposite_pieces(color)
 
   	return false unless check?(color)
+  	return false if king_can_be_blocked?(color)
   	return false if king_can_capture_piece?(color)
-  	return false if king_can_be_obstructed?(color)
   	return false if @king.is_able_to_escape_check?
 
   	true
@@ -61,9 +61,8 @@ class Game < ApplicationRecord
   	@king.valid_move?(x, y)
   end
 
-  def king_can_be_obstructed?(color)
-  	
-
+  def king_can_be_blocked?(color)
+  	true
   end
 
   def generate_king_and_opposite_pieces(color)

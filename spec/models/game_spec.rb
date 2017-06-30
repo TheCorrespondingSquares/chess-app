@@ -90,13 +90,13 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    # context 'when a bishop moves to a checkmate position' do
-    #   let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
-    #   let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 3, y_pos: 3, game_id: game.id) }
-    #   it ' the bishop can be obstructed' do
-    #     expect(game.checkmate?(king.color)).to eq(false)
-    #   end  
-    # end
+    context 'when a bishop moves to a checkmate position' do
+      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
+      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 3, y_pos: 3, game_id: game.id) }
+      it ' the bishop can be blocked' do
+        expect(game.checkmate?(king.color)).to eq(true)
+      end  
+    end
 
   end
 
