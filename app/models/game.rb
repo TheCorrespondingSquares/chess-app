@@ -30,11 +30,11 @@ class Game < ApplicationRecord
 	
 	#white player goes first
 	def white_goes_first
-		return true if self.turn == 0
+		self.turn == 0 ? true : false
 	end
 	
-	def switch_turns
-	  self.turn.even? ? "white_turn" : "black_turn"
+	def white_piece_turn?
+	  self.turn.even? ? true : false
 	end
 	
 	#makes sure both present to start game

@@ -27,22 +27,22 @@ class PiecesController < ApplicationController
 			flash[:alert] = "Waiting for another player to join!"
 		elsif piece.valid_move?(new_x_pos, new_y_pos)
 		  if @game.white_goes_first == 0
-			piece.move_to!(new_x_pos, new_y_pos)
-			@game.turn += 1
+			piece.(color: 'White').move_to!(new_x_pos, new_y_pos)
+			@game.update(turn: 1)
 		  else
 			flash[:alert] = "White Moves First!"
 		  end
-		  if @game.turn == "black_turn"
-			piece.move_to!(new_x_pos, new_y_pos).where(color: "Black")
-			@game.turn += 1
+		  if @game.white_piece_turn?
+			piece.(color: "White").move_to!(new_x_pos, new_y_pos)
+			@game.update(turn: 0)
 		  else
-			flash[:alert] = "It is Black's move"
+			flash[:alert] = "It is White's move"
 		  end
-		  if @game.turn == "white_turn"
-			piece.move_to!(new_x_pos, new_y_pos).where(color: "White")
-			@game.turn += 1
+		  if @game.white_piece_turn? == false
+			piece.(color: "Black").move_to!(new_x_pos, new_y_pos)
+			@game.update(turn: 1)
 		  else
-			flash[:alert] = " It is White's Move"
+			flash[:alert] = " It is Black's Move"
 		  end
 		else
 			flash[:alert] = "Sorry your #{piece.name} can't move there."
