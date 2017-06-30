@@ -19,7 +19,6 @@ class Piece < ApplicationRecord
 	end
 
   def find_piece(x, y)
-    # Piece.find_by(x_pos: x, y_pos: y, game_id: game_id)
     game.pieces.find_by(x_pos: x, y_pos: y)
   end
 

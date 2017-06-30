@@ -42,4 +42,30 @@ RSpec.describe Game, type: :model do
   		end
     end
   end
+
+  describe "#check?" do
+    subject(:check?) { game.check?(king.color) }
+    let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }
+    before(:each) { game.pieces.destroy_all }
+
+    
+    context 'when a Rook puts King in check' do
+      let!(:piece_making_check) { FactoryGirl.create(:rook, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
+
+      it { is_expected.to eq(true) }
+    end
+
+    context 'when a Bishop puts King in check' do
+      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 2, y_pos: 2, game_id: game.id) }
+
+      it { is_expected.to eq(true) } 
+    end
+
+    context 'when a piece does not put King in check' do
+      let!(:piece_doesnt_check) { FactoryGirl.create(:queen, color: "Black", captured: false, x_pos: 2, y_pos: 3, game_id: game.id) }
+
+      it { is_expected.to eq(false) } 
+    end       
+  end
+
 end
