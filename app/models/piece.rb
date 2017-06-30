@@ -1,4 +1,5 @@
 class Piece < ApplicationRecord
+  include ActiveModel::Dirty
 	include Movements
 	include Squares
 	include Obstructions
@@ -44,5 +45,5 @@ class Piece < ApplicationRecord
       self.update_attributes(x_pos: to_x, y_pos: to_y)
     end
   end
-
+	
 end

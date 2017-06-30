@@ -21,13 +21,33 @@ class PiecesController < ApplicationController
 		logger.info "is_obstructed? result: #{piece.is_obstructed?(new_x_pos, new_y_pos)}"
 		logger.info "valid_move? results: #{piece.valid_move?(new_x_pos, new_y_pos)}"
 		
-		if piece.valid_move?(new_x_pos, new_y_pos)
-    	piece.move_to!(new_x_pos, new_y_pos)
+		logger.info "game_full? result: #{@game.game_full?}"
+			
+		if @game.game_full? == false
+			flash[:alert] = "Waiting for another player to join!"
+		elsif piece.valid_move?(new_x_pos, new_y_pos)
+		  if @game.white_goes_first == 0
+			piece.move_to!(new_x_pos, new_y_pos)
+			@game.turn += 1
+		  else
+			flash[:alert] = "White Moves First!"
+		  end
+		  if @game.turn == "black_turn"
+			piece.move_to!(new_x_pos, new_y_pos).where(color: "Black")
+			@game.turn += 1
+		  else
+			flash[:alert] = "It is Black's move"
+		  end
+		  if @game.turn == "white_turn"
+			piece.move_to!(new_x_pos, new_y_pos).where(color: "White")
+			@game.turn += 1
+		  else
+			flash[:alert] = " It is White's Move"
+		  end
 		else
 			flash[:alert] = "Sorry your #{piece.name} can't move there."
 			redirect_to game_path(piece.game)
 		end
-
 	end
 
   private

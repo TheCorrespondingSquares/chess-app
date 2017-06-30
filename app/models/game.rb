@@ -4,7 +4,6 @@ class Game < ApplicationRecord
 	belongs_to :black_player, class_name: "User", optional: true
 	validates :name, presence: true
 	after_create :populate_board!
-	after_create :white_goes_first?
 	
 	scope :available,	-> { where('white_player_id is NULL OR black_player_id is NULL') }
 	
@@ -30,19 +29,23 @@ class Game < ApplicationRecord
 	end
 	
 	#white player goes first
-	def white_goes_first?
+	def white_goes_first
 		return true if self.turn == 0
 	end
 	
-	def take_turns(color)
-		#place holder ternery for turns
-		self.turn.even? ? whites_turn : blacks_turn
+	def switch_turns
+	  self.turn.even? ? "white_turn" : "black_turn"
 	end
 	
+	#makes sure both present to start game
 	def game_full?
-		return true if (white_player_id.present? && black_player_id.present?)
+		if white_player_id.present? && black_player_id.present?
+		  true
+		else
+			false
+		end
 	end
-	
+			
   def check?(color)
     king = pieces.find_by(name: 'King', color: color)
     opposite_pieces = pieces.where(captured: false).where.not(color: color)
