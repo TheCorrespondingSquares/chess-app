@@ -25,6 +25,7 @@ class PiecesController < ApplicationController
 		
 		if !@game.game_full?
 			flash[:alert] = "Waiting for another player to join..."
+      redirect_to game_path(piece.game)
 		elsif piece.valid_move?(new_x_pos, new_y_pos)
 	  	if white_piece_turn? || black_piece_turn?
 	  		piece.move_to!(new_x_pos, new_y_pos)
