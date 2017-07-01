@@ -65,8 +65,6 @@ $(function() {
         submitMove();
       }
       
-
-      // if clickedSquare 
       function submitMove() {
         $.ajax({
           url: '/games/' + gameId +'/pieces/' + draggedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
@@ -114,18 +112,31 @@ $(function() {
       console.log("pieceToMove set:");
       console.log(pieceToMove);
 
-      $.ajax({
-          url: '/games/' + gameId +'/pieces/' + selectedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
-          type: 'PUT',
-          success: function(data) {
-            $('#board td').removeClass('active');
-            selectedPieceId = null;
-            isPieceSelected = false;
+      destinationPieceId = $(this).children().data('pieceId');
 
-            clickedSquare.append(grabPiece);
-            // location.reload();
+      if (destinationPieceId != undefined) {
+        $.get('/games/' + gameId +'/pieces/' + destinationPieceId).success( function( data ) {
+          console.log( "Destination data: " + data);
+          destinationPiece = data;
+
+          console.log( "Selected piece color: " + selectedPiece.color);
+          console.log( "Destination piece color: " + destinationPiece.color);
+          if (destinationPiece.color === selectedPiece.color) {
+            console.log( grabPiece );
+            var revertPiece = grabPiece.css({ top: 0, left: 0 }).detach();
+            console.log( revertPiece[0] );
+            var prevSquare = $('td[data-x-pos="' + selectedPiece.x_pos + '"][data-y-pos="' + selectedPiece.y_pos + '"]');
+            console.log( "prevSquare:" + selectedPiece.x_pos + "y: " + selectedPiece.y_pos );
+            $(prevSquare).append(revertPiece);
+          } else {
+            clickSendMove();
           }
         });
+      } else {
+       clickSendMove();
+      }
+
+      
     } else {
       if (pieceId !== undefined && pieceId !== null) {
         if ($(this).hasClass('active')) {
@@ -141,8 +152,35 @@ $(function() {
           grabPiece = $('.piece[data-piece-id="' + pieceId + '"]');
           console.log("grabPiece set:");
           console.log(grabPiece);
+
+          $.get('/games/' + gameId +'/pieces/' + pieceId).success( function( data ) {
+            selectedPiece = data;
+            // console.log( "Data ID is: " + selectedPiece.id);
+            // console.log( "Is captured?: " + selectedPiece.captured);
+            // console.log( "Color: " + selectedPiece.color);
+          });
         }
       }
     }
+
+    function clickSendMove(){
+        $.ajax({
+          url: '/games/' + gameId +'/pieces/' + selectedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
+          type: 'PUT',
+          success: function(data) {
+            if ( destinationPiece != undefined) {
+              var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();
+              console.log( "Captured Piece: " + destinationPiece.color + destinationPiece.name + "id#" + destinationPiece.id )
+            }
+
+            $('#board td').removeClass('active');
+            selectedPieceId = null;
+            isPieceSelected = false;
+
+            clickedSquare.append(grabPiece);
+            // location.reload();
+          }
+        });
+      }
   });
 });
