@@ -50,41 +50,49 @@ $(function() {
 
           console.log( "Selected piece color: " + selectedPiece.color);
           console.log( "Destination piece color: " + destinationPiece.color);
+          if (destinationPiece.color === selectedPiece.color) {
+            console.log( grabPiece );
+            var revertPiece = grabPiece.css({ top: 0, left: 0 }).detach();
+            console.log( revertPiece[0] );
+            var prevSquare = $('td[data-x-pos="' + selectedPiece.x_pos + '"][data-y-pos="' + selectedPiece.y_pos + '"]');
+            console.log( "prevSquare:" + selectedPiece.x_pos + "y: " + selectedPiece.y_pos );
+            $(prevSquare).append(revertPiece);
+          } else {
+            submitMove();
+          }
         });
-        
+      } else {
+        submitMove();
       }
       
 
       // if clickedSquare 
-
-      $.ajax({
+      function submitMove() {
+        $.ajax({
           url: '/games/' + gameId +'/pieces/' + draggedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
           type: 'PUT',
           success: function(data) {
             console.log("AJAX Called");
             $('#board td').removeClass('active');
-            selectedPieceId = null;
-            isPieceSelected = false;
+            
 
             console.log( "Destination Piece ID: " + destinationPieceId );
             if ( destinationPiece != undefined) {
-              if (selectedPiece.color === destinationPiece.color) {
-                console.log( "Same Color, revert!" );
-                grabPiece.draggable({ revert: true });
-              } else {
-                
-                var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();;
-                console.log( "Captured Piece: " + destinationPiece.color + destinationPiece.name + "id#" + destinationPiece.id );
-              }
+                var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();
+                console.log( "Captured Piece: " + destinationPiece.color + destinationPiece.name + "id#" + destinationPiece.id )
             }
 
             var pieceToMove = grabPiece.detach();
             // console.log("pieceToMove: " + pieceToMove);
+            selectedPieceId = null;
+            isPieceSelected = false;
             console.log("grabPiece: " + grabPiece);
             $this.append(pieceToMove);
             $( grabPiece ).css({ top: 0, left: 0 });
           }
         });
+      }
+      
 
       console.log("Dropped on Square: " + xPos + " " + yPos);
       console.log("piece: " + draggedPieceId);
