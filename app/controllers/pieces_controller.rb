@@ -1,5 +1,6 @@
 class PiecesController < ApplicationController
-    
+  before_action :require_game_player, only: [:update]
+
   def show
     render json: current_piece
   end
@@ -51,11 +52,30 @@ class PiecesController < ApplicationController
   end
 
   def white_piece_turn?
-    @game.white_piece_turn? && current_piece.color == "White"
+    @game.white_piece_turn? && current_piece.color == "White" && current_white_player
   end
 
   def black_piece_turn?
-    @game.black_piece_turn? && current_piece.color == "Black"
+    @game.black_piece_turn? && current_piece.color == "Black" && current_black_player
+  end
+
+  def current_white_player
+    current_user == current_piece.game.white_player
+  end
+
+  def current_black_player
+    current_user == current_piece.game.black_player
+  end
+
+  def current_game_player
+    current_white_player || current_black_player
+  end
+
+  def require_game_player
+    if !current_game_player
+      flash[:alert] = "Sorry, you are not part of this game."
+      redirect_to game_path(current_piece.game)
+    end
   end
 
 end
