@@ -30,11 +30,7 @@ class Game < ApplicationRecord
   
   #makes sure both present to start game
   def game_full?
-    if white_player_id.present? && black_player_id.present?
-      true
-    else
-      false
-    end
+    white_player_id.present? && black_player_id.present?
   end
 
   #white player goes first
