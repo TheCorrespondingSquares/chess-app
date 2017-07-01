@@ -43,6 +43,14 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe "#white_piece_turn?" do
+    
+  end
+
+  describe "#black_piece_turn?" do
+
+  end
+
   describe "#check?" do
     subject(:check?) { game.check?(king.color) }
     let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }

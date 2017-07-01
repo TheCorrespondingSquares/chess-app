@@ -28,15 +28,6 @@ class Game < ApplicationRecord
 		%w(Rook Knight Bishop Queen King Bishop Knight Rook)
 	end
 	
-	#white player goes first
-	def white_goes_first
-		self.turn == 0 ? true : false
-	end
-	
-	def white_piece_turn?
-	  self.turn.even? ? true : false
-	end
-	
 	#makes sure both present to start game
 	def game_full?
 		if white_player_id.present? && black_player_id.present?
@@ -45,6 +36,19 @@ class Game < ApplicationRecord
 			false
 		end
 	end
+
+	#white player goes first
+	def white_goes_first
+		self.turn == 0
+	end
+	
+	def white_piece_turn?
+	  white_goes_first || self.turn.even?
+	end
+
+	def black_piece_turn?
+		!white_piece_turn?
+	end	
 			
   def check?(color)
     king = pieces.find_by(name: 'King', color: color)
