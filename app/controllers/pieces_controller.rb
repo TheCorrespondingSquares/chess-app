@@ -31,6 +31,7 @@ class PiecesController < ApplicationController
 				@game.update(turn: @turn + 1)
 	  	else
 	  		flash[:alert] = "Sorry, it's not your turn."
+	  		redirect_to game_path(piece.game)
 	  	end
 		else
 			flash[:alert] = "Sorry your #{piece.name} can't move there."
