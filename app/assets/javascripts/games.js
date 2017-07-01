@@ -5,16 +5,26 @@ $(function() {
   var grabPiece;
   var draggedPieceId;
 
-  var board = $( "#board" );
+  var selectedPiece;
+  var destinationPiece;
+  var destinationPieceId;
 
-  
+  var board = $( "#board" );
 
   $( ".piece" ).draggable({
     containment: board,
     start: function(e) {
         draggedPieceId = $(this).data('pieceId');
+        grabPiece = $('.piece[data-piece-id="' + draggedPieceId + '"]');
         console.log("Piece dragged: " + draggedPieceId);
         $(this).parent().addClass('active');
+
+        $.get('/games/' + gameId +'/pieces/' + draggedPieceId).success( function( data ) {
+          selectedPiece = data;
+          // console.log( "Data ID is: " + selectedPiece.id);
+          // console.log( "Is captured?: " + selectedPiece.captured);
+          // console.log( "Color: " + selectedPiece.color);
+        });
     }
   });
   $( "#board td" ).droppable({
@@ -24,13 +34,28 @@ $(function() {
   });
 
   function handlePieceDrop( event, ui ) {
-      var xPos = $(this).data('xPos');
-      var yPos = $(this).data('yPos');
-      var gameId = $('#gameId').data('gameId');
       var $this = $(this);
+      var xPos = $this.data('xPos');
+      var yPos = $this.data('yPos');
+      var gameId = $('#gameId').data('gameId');
 
       var clickedSquare = $('td[data-x-pos="' + xPos + '"][data-y-pos="' + yPos + '"]');
-      grabPiece = $('.piece[data-piece-id="' + draggedPieceId + '"]');
+     
+      destinationPieceId = $(this).children().data('pieceId');
+
+      if (destinationPieceId != undefined) {
+        $.get('/games/' + gameId +'/pieces/' + destinationPieceId).success( function( data ) {
+          console.log( "Destination data: " + data);
+          destinationPiece = data;
+
+          console.log( "Selected piece color: " + selectedPiece.color);
+          console.log( "Destination piece color: " + destinationPiece.color);
+        });
+        
+      }
+      
+
+      // if clickedSquare 
 
       $.ajax({
           url: '/games/' + gameId +'/pieces/' + draggedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
@@ -40,6 +65,18 @@ $(function() {
             $('#board td').removeClass('active');
             selectedPieceId = null;
             isPieceSelected = false;
+
+            console.log( "Destination Piece ID: " + destinationPieceId );
+            if ( destinationPiece != undefined) {
+              if (selectedPiece.color === destinationPiece.color) {
+                console.log( "Same Color, revert!" );
+                grabPiece.draggable({ revert: true });
+              } else {
+                
+                var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();;
+                console.log( "Captured Piece: " + destinationPiece.color + destinationPiece.name + "id#" + destinationPiece.id );
+              }
+            }
 
             var pieceToMove = grabPiece.detach();
             // console.log("pieceToMove: " + pieceToMove);
