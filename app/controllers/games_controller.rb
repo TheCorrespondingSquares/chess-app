@@ -18,7 +18,11 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     @white_player = User.find(@game.white_player_id)
-    @black_player = User.find(@game.black_player_id)
+    if @game.black_player_id == nil
+      flash[:notice] = "Waiting for another player to join..."
+    else
+       @black_player = User.find(@game.black_player_id)
+    end
     @pieces = @game.pieces
   end
 
@@ -29,7 +33,7 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     @game.update_attributes(join_params)
-    
+
     redirect_to game_path(@game)
   end
 

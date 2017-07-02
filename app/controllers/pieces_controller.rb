@@ -25,7 +25,7 @@ class PiecesController < ApplicationController
     logger.info "game_full? result: #{@game.game_full?}"
     
     if !@game.game_full?
-      flash[:alert] = "Waiting for another player to join..."
+      
       redirect_to game_path(piece.game)
     elsif piece.valid_move?(new_x_pos, new_y_pos)
       if your_turn_your_piece?

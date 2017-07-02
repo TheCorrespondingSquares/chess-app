@@ -30,8 +30,12 @@
           <div class="col">
             <div class="card-block" style="background: #333; color: #fff;">
               <h6 class="text-muted">Black Player</h6>
-              <h5 class="card-title"><%= @black_player.email %></h5>
-              
+              <% if @game.black_player_id == nil %>
+                <h5 class="card-title">Waiting on Opponent</h5>
+              <% else %>
+                <h5 class="card-title"><%= @black_player.email %></h5>
+              <% end %>
+
               <p id="captured-white-pieces" class="card-text">
                 <% @captured_white = @pieces.where(color: 'White', captured: true) %>
                 <% @captured_white.each do |captured_piece| %>
@@ -49,7 +53,10 @@
       <!--<h1 id="gameId" data-game-id="<%= @game.id %>"><%= @game.name %></h1>-->
       <br />
       <table id="board" class="center text-center">
-        <% 8.times do |row| %>
+        
+
+
+        <% (0..7).each do |row| %>
           <tr>
           <% 8.times do |col| %>
             <% piece = @pieces.where(x_pos: col, y_pos: row).first %>
