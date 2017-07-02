@@ -69,3 +69,12 @@ td { width:42px; height:42px; }
     from {color: white;}
     to {color: black;}
 }
+
+.drop-hover {
+  background-color: yellow;
+}
+
+.dropped {
+  outline: red;
+  background-color: red;
+}
