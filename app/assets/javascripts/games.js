@@ -61,7 +61,10 @@ $(function() {
             if (destinationPiece.color === selectedPiece.color) {
               destinationPiece = undefined;
             } else {
+              console.log('.captured-' + destinationPiece.color.toLowerCase() + '-pieces');
+              console.log(destinationPiece.icon);
               var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();
+              $('#captured-' + destinationPiece.color.toLowerCase() + '-pieces' ).append(destinationPiece.icon);
             }   
           }
           var pieceToMove = selectedPieceDiv.detach();
