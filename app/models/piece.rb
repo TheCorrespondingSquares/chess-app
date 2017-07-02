@@ -44,5 +44,13 @@ class Piece < ApplicationRecord
       self.update_attributes(x_pos: to_x, y_pos: to_y)
     end
   end
+  
+  def is_white?
+    self.color == "White"
+  end
+  
+  def is_black?
+    self.color == "Black"
+  end
 
 end
