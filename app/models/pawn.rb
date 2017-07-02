@@ -3,7 +3,6 @@ class Pawn < Piece
   def valid_move?(to_x, to_y)
     if pawn_move_diagonal?(to_x, to_y)
       if is_on_square?(to_x, to_y)
-        move_to!(to_x, to_y)
         return true
       else
         return false
@@ -40,6 +39,25 @@ class Pawn < Piece
     else
       self.y_pos == 6 ? to_y > 3 : vertical_move_one_square?(to_y)
     end
+  end
+  
+  def can_promote?(to_y)
+    if (to_y == 7 && self.color == "White") || (to_y == 0 && self.color == "Black")
+      true
+    else
+      false
+    end
+  end
+  
+  def promote_pawn(params)
+    self.destroy!
+    game.pieces.create(
+      name: "Queen",
+      x_pos: x_pos,
+      y_pos: y_pos,
+      game_id: game.id,
+      player_id: user.id
+      )
   end
 
 end
