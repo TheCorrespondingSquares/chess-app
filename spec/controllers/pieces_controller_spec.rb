@@ -33,10 +33,9 @@ RSpec.describe PiecesController, type: :controller do
       let!(:white_pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 4, y_pos: 1, game_id: game.id) }
       let!(:black_pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 4, y_pos: 6, game_id: game.id) }
       before(:each) { game.update_attributes(turn: 0) }
-      before(:each) { sign_in white_player }
-      before(:each) { sign_in black_player }
 
       it 'should not allow Black piece to move first' do
+        sign_in black_player
         patch :update, params: { game_id: game.id, id: black_pawn.id, x_pos: 4, y_pos: 4 }
         black_pawn.reload
 
@@ -47,17 +46,20 @@ RSpec.describe PiecesController, type: :controller do
       end
 
       it 'should allow White piece to move first' do
+        sign_in white_player
+        game.update_attributes(turn: 0)
+        game.reload
         patch :update, params: { game_id: game.id, id: white_pawn.id, x_pos: 4, y_pos: 3 }
         white_pawn.reload
         game.reload
 
-        # currently getting "Sorry, it's not your turn."
         expect(white_pawn.x_pos).to eq 4
         expect(white_pawn.y_pos).to eq 3
         expect(game.turn).to eq(1)
       end
 
       it 'should allow Black piece to move second' do
+        sign_in black_player
         game.update_attributes(turn: 1)
         game.reload
         patch :update, params: { game_id: game.id, id: black_pawn.id, x_pos: 4, y_pos: 4 }
@@ -70,6 +72,7 @@ RSpec.describe PiecesController, type: :controller do
       end
 
       it 'should not allow White piece to move on Black piece\'s turn' do
+        sign_in white_player
         game.update_attributes(turn: 19)
         game.reload
         patch :update, params: { game_id: game.id, id: white_pawn.id, x_pos: 4, y_pos: 2 }
@@ -82,6 +85,7 @@ RSpec.describe PiecesController, type: :controller do
       end
 
       it 'should not allow Black piece to move on White piece\'s turn' do
+        sign_in black_player
         game.update_attributes(turn: 34)
         game.reload
         patch :update, params: { game_id: game.id, id: black_pawn.id, x_pos: 4, y_pos: 5 }
