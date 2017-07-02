@@ -23,11 +23,6 @@ class PiecesController < ApplicationController
 		
 		if piece.valid_move?(new_x_pos, new_y_pos)
     	piece.move_to!(new_x_pos, new_y_pos)
-    	  #if can_promote?(new_y_pos)
-    	  #	promote_pawn(new_piece)
-    	  #	flash[:alert] = "Your pawn has been promoted!"
-    	  #	redirect_to game_path(piece.game)
-    	  #end
 		else
 			flash[:alert] = "Sorry your #{piece.name} can't move there."
 			redirect_to game_path(piece.game)

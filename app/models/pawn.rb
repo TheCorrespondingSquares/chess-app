@@ -3,7 +3,7 @@ class Pawn < Piece
   def valid_move?(to_x, to_y)
     if pawn_move_diagonal?(to_x, to_y)
       if is_on_square?(to_x, to_y)
-        move_to!(to_x, to_y)
+        #move_to!(to_x, to_y)
         return true
       else
         return false
@@ -12,9 +12,9 @@ class Pawn < Piece
     pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) 
   end
   
-  def move_pawn(params)
+  def move_to!(params)
     if can_promote?(to_y) && valid_move?(to_x, to_y)
-      promote_pawn(params)
+      promote_pawn(name)
     else
       super(params)
     end
