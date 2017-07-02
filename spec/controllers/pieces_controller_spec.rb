@@ -34,6 +34,8 @@ RSpec.describe PiecesController, type: :controller do
       let!(:white_pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 4, y_pos: 1, game_id: game.id) }
       let!(:black_pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 4, y_pos: 6, game_id: game.id) }
       before(:each) { game.update_attributes(turn: 0) }
+      before(:each) { sign_out white_player }
+      before(:each) { sign_out black_player }
 
       it 'should not allow Black piece/player to move first' do
         sign_in black_player
@@ -102,30 +104,30 @@ RSpec.describe PiecesController, type: :controller do
 
       it 'should not allow White player to move Black piece' do
         sign_in white_player
-        game.update_attributes(turn: 3)
+        game.update_attributes(turn: 4)
         game.reload
         patch :update, params: { game_id: game.id, id: black_pawn.id, x_pos: 4, y_pos: 5 }
         black_pawn.reload
         game.reload
 
-        expect(flash[:alert]).to match("Sorry, that piece isn't yours.")
+        expect(flash[:alert]).to match("Sorry, that's not your piece.")
         expect(black_pawn.x_pos).to eq 4
         expect(black_pawn.y_pos).to eq 6
-        expect(game.turn).to eq(3)
+        expect(game.turn).to eq(4)
       end
 
       it 'should not allow Black player to move White piece' do
         sign_in black_player
-        game.update_attributes(turn: 10)
+        game.update_attributes(turn: 11)
         game.reload
         patch :update, params: { game_id: game.id, id: white_pawn.id, x_pos: 4, y_pos: 1 }
         white_pawn.reload
         game.reload
 
-        expect(flash[:alert]).to match("Sorry, that piece isn't yours.")
+        expect(flash[:alert]).to match("Sorry, that's not your piece.")
         expect(white_pawn.x_pos).to eq 4
         expect(white_pawn.y_pos).to eq 1
-        expect(game.turn).to eq(10)
+        expect(game.turn).to eq(11)
       end
 
       context 'if a user who is not in the game tries to move a piece' do
