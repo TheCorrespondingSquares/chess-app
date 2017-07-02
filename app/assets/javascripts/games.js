@@ -33,7 +33,7 @@ $(function() {
       selectedPiece = output;
     });
 
-    if (destinationPieceId != undefined) {
+    if (destinationPieceId !== undefined) {
       getJsonData(gameId, destinationPieceId, function(output) {
         destinationPiece = output;
       });
@@ -57,8 +57,8 @@ $(function() {
         success: function(data) {
           $('#board td').removeClass('active');
         
-          if ( destinationPiece != undefined) {
-            if (destinationPiece.color == selectedPiece.color) {
+          if ( destinationPiece !== undefined) {
+            if (destinationPiece.color === selectedPiece.color) {
               destinationPiece = undefined;
             } else {
               var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();
@@ -86,7 +86,7 @@ $(function() {
       var pieceToMove = selectedPieceDiv.detach();
       destinationPieceId = $(this).children().data('pieceId');
 
-      if (destinationPieceId != undefined) {
+      if (destinationPieceId !== undefined) {
         getJsonData(gameId, destinationPieceId, function(output) {
           destinationPiece = output;
         });
@@ -133,7 +133,7 @@ $(function() {
           url: '/games/' + gameId +'/pieces/' + selectedPieceId + '?x_pos=' + xPos + '&y_pos=' + yPos,
           type: 'PUT',
           success: function(data) {
-            if ( destinationPiece != undefined) {
+            if ( destinationPiece !== undefined) {
               var capturedPiece = $('.piece[data-piece-id="' + destinationPiece.id + '"]').detach();
             }
             // Reset default values
