@@ -2,11 +2,12 @@ class Knight < Piece
 after_create :icon
 
   def icon
-    if color == "White"
-      '&#9816;'
-    else
-      '&#9822;'
-    end
+    # if color == "White"
+    #   '&#9816;'
+    # else
+    #   '&#9822;'
+    # end
+    '&#9822;'
   end
 
   def valid_move?(to_x, to_y)    
