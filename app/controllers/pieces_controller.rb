@@ -28,10 +28,10 @@ class PiecesController < ApplicationController
       flash[:alert] = "Waiting for another player to join..."
       redirect_to game_path(piece.game)
     elsif piece.valid_move?(new_x_pos, new_y_pos)
-      if white_move_white? || black_move_black?
+      if your_turn_your_piece?
         piece.move_to!(new_x_pos, new_y_pos)
         @game.update(turn: @turn + 1)
-      elsif white_move_black? || black_move_white?
+      elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
       else
@@ -63,11 +63,11 @@ class PiecesController < ApplicationController
   end
 
   def white_piece_turn?
-    @game.white_piece_turn? #&& white_piece? && current_player_white?
+    @game.white_piece_turn?
   end
 
   def black_piece_turn?
-    @game.black_piece_turn? #&& black_piece? && current_player_black?
+    @game.black_piece_turn?
   end
 
   def white_player?
@@ -92,6 +92,14 @@ class PiecesController < ApplicationController
 
   def black_move_white?
     black_piece_turn? && black_player? && white_piece?
+  end
+
+  def your_turn_your_piece?
+    white_move_white? || black_move_black?
+  end
+
+  def your_turn_not_your_piece?
+    white_move_black? || black_move_white?
   end
 
   def current_game_player?
