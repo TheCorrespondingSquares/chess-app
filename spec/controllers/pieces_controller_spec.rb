@@ -108,7 +108,7 @@ RSpec.describe PiecesController, type: :controller do
         black_pawn.reload
         game.reload
 
-        # new alert?
+        expect(flash[:alert]).to match("Sorry, that piece isn't yours.")
         expect(black_pawn.x_pos).to eq 4
         expect(black_pawn.y_pos).to eq 6
         expect(game.turn).to eq(3)
@@ -122,7 +122,7 @@ RSpec.describe PiecesController, type: :controller do
         white_pawn.reload
         game.reload
 
-        # new alert?
+        expect(flash[:alert]).to match("Sorry, that piece isn't yours.")
         expect(white_pawn.x_pos).to eq 4
         expect(white_pawn.y_pos).to eq 1
         expect(game.turn).to eq(10)
