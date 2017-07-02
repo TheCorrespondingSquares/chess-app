@@ -45,7 +45,12 @@
               <h6 class="text-muted">White Player</h6>
               <h5 class="card-title"><%= @white_player.email %></h5>
 
-              <p class="card-text">[Captured Pieces Here]</p>
+              <p id="captured-black-pieces" class="card-text">
+                <% @captured_black = @pieces.where(color: 'Black', captured: true) %>
+                <% @captured_black.each do |captured_piece| %>
+                  <%= captured_piece.icon.html_safe %>
+                <% end %>
+              </p>
               <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
             </div>
           </div>
@@ -57,7 +62,12 @@
               <h6 class="text-muted">Black Player</h6>
               <h5 class="card-title"><%= @black_player.email %></h5>
               
-              <p class="card-text">[Captured Pieces Here]</p>
+              <p id="captured-white-pieces" class="card-text">
+                <% @captured_white = @pieces.where(color: 'White', captured: true) %>
+                <% @captured_white.each do |captured_piece| %>
+                  <%= captured_piece.icon.html_safe %>
+                <% end %>
+              </p>
               <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
             </div>
           </div>
