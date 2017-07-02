@@ -16,6 +16,7 @@ after_create :icon
   def is_able_to_escape_check?
     ((x_pos - 1)..(x_pos + 1)).each do |x|
       ((y_pos - 1 )..(y_pos + 1)).each do |y|
+        binding.pry
         if !is_on_square?(x, y) && valid_move?(x, y)
           return true
         end
@@ -23,6 +24,5 @@ after_create :icon
     end
     false
   end
-
 
 end

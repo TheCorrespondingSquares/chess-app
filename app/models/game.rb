@@ -41,12 +41,25 @@ class Game < ApplicationRecord
     false
   end
 
+  def possible_check?(color, x, y)
+    generate_king_and_opposite_pieces(color)
+
+    @opposite_pieces.each do |piece|
+      if piece.valid_move?(x, y)
+        @piece_making_check = piece
+        return true
+      end
+    end
+    false
+  end
+
   def checkmate?(color)
+  	CheckMate.new(self, color).call
     generate_king_and_opposite_pieces(color)
 
   	return false unless check?(color)
-  	return false if king_can_be_blocked?(color)
-  	return false if king_can_capture_piece?(color)
+  	# return false if king_can_be_blocked?(color)
+  	# return false if king_can_capture_piece?(color)
   	return false if @king.is_able_to_escape_check?
 
   	true
@@ -62,7 +75,7 @@ class Game < ApplicationRecord
   end
 
   def king_can_be_blocked?(color)
-  	true
+  	# true
   end
 
   def generate_king_and_opposite_pieces(color)
