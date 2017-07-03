@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     resources :games do
     	resources :pieces, only: [:show, :update, :new]
     end
+    resources :dashboards, only: :index
     root 'games#index'
 end
