@@ -11,14 +11,6 @@ class Pawn < Piece
     end
     pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) 
   end
-  
-  def move_to!(params)
-    if can_promote?(to_y) && valid_move?(to_x, to_y)
-      promote_pawn(name)
-    else
-      super(params)
-    end
-  end
 
   private
 
@@ -50,24 +42,24 @@ class Pawn < Piece
     end
   end
   
-  def can_promote?(to_y)
-    reached_opposite_border?(to_y)
+  def can_promote?(y_pos)
+    reached_opposite_border?(y_pos)
   end
   
-  def reached_opposite_border?(to_y)
-    white_reached_border?(to_y) || black_reached_border?(to_y)
+  def reached_opposite_border?(y_pos)
+    white_reached_border?(y_pos) || black_reached_border?(y_pos)
   end
   
-  def white_reached_border?(to_y)
-    to_y == 7 && is_white?
+  def white_reached_border?(y_pos)
+    y_pos == 7 && is_white?
   end
   
-  def black_reached_border?(to_y)
-    to_y == 7 && is_black?
+  def black_reached_border?(y_pos)
+    y_pos == 7 && is_black?
   end
   
   def promote_pawn(name)
-    self.update_attributes(name: name)
+    self.update_attributes(name: "Queen")
   end
 
 end

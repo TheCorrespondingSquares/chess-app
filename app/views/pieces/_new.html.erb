@@ -1,0 +1,9 @@
+<div class="row text-center">
+  <div class="columns container">
+    <h1>Select Your New Piece</h1>
+    <%= simple_form_for @game.pieces do |f| %>
+      <%= f.input :name, placeholder: "Queen, Rook, Bishop, Knight" %>
+      <%= f.submit 'Create Piece', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
