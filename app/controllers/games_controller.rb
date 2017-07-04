@@ -12,12 +12,17 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
-    # @game.populate_board!
     redirect_to game_path(@game)
   end
 
   def show
     @game = Game.find(params[:id])
+    @white_player = User.find(@game.white_player_id)
+    if @game.black_player_id == nil
+      flash[:notice] = "Waiting for another player to join..."
+    else
+       @black_player = User.find(@game.black_player_id)
+    end
     @pieces = @game.pieces
   end
 
@@ -28,13 +33,14 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     @game.update_attributes(join_params)
+
     redirect_to game_path(@game)
   end
 
   private
 
   def game_params
-    params.require(:game).permit(:name, :user_id, :white_player_id, :black_player_id)
+    params.require(:game).permit(:name, :user_id, :white_player_id, :black_player_id, :turn)
   end
 
   def join_params

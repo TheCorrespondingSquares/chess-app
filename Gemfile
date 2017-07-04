@@ -33,6 +33,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails' # Use jquery as the JavaScript library
+gem 'jquery-ui-rails' # Use jQueryUI draggable and sortable to move pieces
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 

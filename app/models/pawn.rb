@@ -1,5 +1,9 @@
 class Pawn < Piece
 
+  def icon
+    '&#9823;'
+  end
+
   def valid_move?(to_x, to_y)
     if pawn_move_diagonal?(to_x, to_y)
       if is_on_square?(to_x, to_y)

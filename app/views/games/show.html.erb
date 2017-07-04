@@ -1,33 +1,87 @@
-<div class="row text-center">
-  <div class="columns container">
-    <h1 id="gameId" data-game-id="<%= @game.id %>"><%= @game.name %></h1>
-    <br />
-    <table id="board" class="center">
-      <% 8.times do |row| %>
-        <tr>
-        <% 8.times do |col| %>
-          <% piece = @pieces.where(x_pos: col, y_pos: row).first %>
-          <% if (row + col) % 2 == 0 %>
-            <td class="black_tile" data-x-pos="<%= col %>" data-y-pos="<%= row %>">
-                <% if piece.present? %>
-                  <div class="piece" data-piece-id="<%= piece.id %>">
-                    <%= piece.icon.html_safe %>
-                  </div>
+<br />
+<div class="container">
+  <div class="row align-items-center">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-block">
+          <h3 class="card-title" style="margin-bottom: 0;"><%= @game.name %></h3>
+        </div>
+      </div>
+      <br />
+      <div class="card">
+        <div class="row align-items-start">
+          <div class="col">
+            <div class="card-block">
+              <h6 class="text-muted">White Player</h6>
+              <h5 class="card-title"><%= @white_player.email %></h5>
+
+              <p id="captured-black-pieces" class="card-text">
+                <% @captured_black = @pieces.where(color: 'Black', captured: true) %>
+                <% @captured_black.each do |captured_piece| %>
+                  <%= captured_piece.icon.html_safe %>
                 <% end %>
-            </td>
-          <% else %>
-            <td class="white_tile" data-x-pos="<%= col %>" data-y-pos="<%= row %>">
-                <% if piece.present? %>
-                  <div class="piece" data-piece-id="<%= piece.id %>">
-                    <%= piece.icon.html_safe %>
-                  </div>
+              </p>
+              <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+            </div>
+          </div>
+          
+        </div>
+        <div class="row align-items-end">
+          <div class="col">
+            <div class="card-block" style="background: #333; color: #fff;">
+              <h6 class="text-muted">Black Player</h6>
+              <% if @game.black_player_id == nil %>
+                <h5 class="card-title">Waiting on Opponent</h5>
+              <% else %>
+                <h5 class="card-title"><%= @black_player.email %></h5>
+              <% end %>
+
+              <p id="captured-white-pieces" class="card-text">
+                <% @captured_white = @pieces.where(color: 'White', captured: true) %>
+                <% @captured_white.each do |captured_piece| %>
+                  <%= captured_piece.icon.html_safe %>
                 <% end %>
-            </td>
+              </p>
+              <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col">
+      <!--<h1 id="gameId" data-game-id="<%= @game.id %>"><%= @game.name %></h1>-->
+      <br />
+      <table id="board" class="center text-center">
+        
+
+
+        <% (0..7).each do |row| %>
+          <tr>
+          <% 8.times do |col| %>
+            <% piece = @pieces.where(x_pos: col, y_pos: row).first %>
+            <% if (row + col) % 2 == 0 %>
+              <td class="black_tile" data-x-pos="<%= col %>" data-y-pos="<%= row %>">
+                  <% if piece.present? %>
+                    <div class="piece <%= piece.color.downcase %>" data-piece-id="<%= piece.id %>">
+                      <%= piece.icon.html_safe %>
+                    </div>
+                  <% end %>
+              </td>
+            <% else %>
+              <td class="white_tile" data-x-pos="<%= col %>" data-y-pos="<%= row %>">
+                  <% if piece.present? %>
+                    <div class="piece <%= piece.color.downcase %>" data-piece-id="<%= piece.id %>">
+                      <%= piece.icon.html_safe %>
+                    </div>
+                  <% end %>
+              </td>
+            <% end %>
           <% end %>
+          </tr>
         <% end %>
-        </tr>
-      <% end %>
-    </table>
+      </table>
+    </div>
   </div>
 </div>
 

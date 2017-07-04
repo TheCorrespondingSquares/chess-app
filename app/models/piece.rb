@@ -1,22 +1,23 @@
 class Piece < ApplicationRecord
-	include Movements
-	include Squares
-	include Obstructions
+  include ActiveModel::Dirty
+  include Movements
+  include Squares
+  include Obstructions
 
-	belongs_to :game
+  belongs_to :game
 
-	self.inheritance_column = :name
+  self.inheritance_column = :name
 
-	scope :kings,		-> { where(name: 'King') }
-	scope :queens, 	-> { where(name: 'Queen') }
-	scope :bishops, -> { where(name: 'Bishop') }
-	scope :knights, -> { where(name: 'Knight') }
-	scope :rooks,		-> { where(name: 'Rook') }
-	scope :pawns, 	-> { where(name: 'Pawn') }
+  scope :kings,   -> { where(name: 'King') }
+  scope :queens,  -> { where(name: 'Queen') }
+  scope :bishops, -> { where(name: 'Bishop') }
+  scope :knights, -> { where(name: 'Knight') }
+  scope :rooks,   -> { where(name: 'Rook') }
+  scope :pawns,   -> { where(name: 'Pawn') }
 
-	def self.names
-		%w(King Queen Bishop Knight Rook Pawn)
-	end
+  def self.names
+    %w(King Queen Bishop Knight Rook Pawn)
+  end
 
   def find_piece(x, y)
     game.pieces.find_by(x_pos: x, y_pos: y)
@@ -45,12 +46,4 @@ class Piece < ApplicationRecord
     end
   end
   
-  def is_white?
-    self.color == "White"
-  end
-  
-  def is_black?
-    self.color == "Black"
-  end
-
 end
