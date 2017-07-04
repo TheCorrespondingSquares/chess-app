@@ -97,7 +97,10 @@ class Game < ApplicationRecord
 
   def results_in_check?(color)
     player_valid_moves(color).each do |move|
+      x = move[0]
+      y = move[1]
 
+      #if the move were to happen, would king be in check?
     end
   end
 
