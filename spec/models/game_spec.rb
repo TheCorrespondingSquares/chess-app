@@ -73,18 +73,20 @@ RSpec.describe Game, type: :model do
     let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 7, y_pos: 7, game_id: game.id) }
     before(:each) { game.pieces.destroy_all }  
 
-    # context 'when a bishop moves to a checkmate position' do
-    #   let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
-    #   let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 3, y_pos: 3, game_id: game.id) }
-    #   it ' the bishop can be blocked ' do
-    #     expect(game.checkmate?(king.color)).to eq(true)
-    #   end  
-    # end
+    context 'when a bishop moves to a checkmate position' do
+      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 4, y_pos: 4, game_id: game.id) }
+      let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 5, y_pos: 4, game_id: game.id) }
+      let!(:bishop) { FactoryGirl.create(:bishop, color: "White", x_pos: 7, y_pos: 6, game_id: game.id) }
+      let!(:knight) { FactoryGirl.create(:knight, color: "White", x_pos: 6, y_pos: 7, game_id: game.id) }
+      it ' the bishop can be blocked ' do
+        expect(game.checkmate?(king.color)).to eq(false)
+      end  
+    end
 
     context 'when a bishop moves to a checkmate position' do
       let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 2, y_pos: 2, game_id: game.id) }
-      let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 7, y_pos: 6, game_id: game.id) }
-      let!(:knight) { FactoryGirl.create(:knight, color: "White", x_pos: 6, y_pos: 7, game_id: game.id) }
+      let!(:bishop) { FactoryGirl.create(:bishop, color: "White", x_pos: 7, y_pos: 6, game_id: game.id) }
+      let!(:bishop2) { FactoryGirl.create(:bishop, color: "White", x_pos: 6, y_pos: 7, game_id: game.id) }
       it ' the king cannot capture the bishop' do
         expect(game.checkmate?(king.color)).to eq(true)
       end
@@ -99,8 +101,8 @@ RSpec.describe Game, type: :model do
 
     context 'when a bishop moves to a checkmate position' do
       let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
-      let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 7, y_pos: 6, game_id: game.id) }
-      let!(:knight) { FactoryGirl.create(:knight, color: "White", x_pos: 6, y_pos: 7, game_id: game.id) }
+      let!(:bishop) { FactoryGirl.create(:bishop, color: "White", x_pos: 7, y_pos: 6, game_id: game.id) }
+      let!(:bishop2) { FactoryGirl.create(:bishop, color: "White", x_pos: 6, y_pos: 7, game_id: game.id) }
       it ' the king cannot move out of the check position' do
         expect(game.checkmate?(king.color)).to eq(true)
       end
