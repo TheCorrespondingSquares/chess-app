@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  include Squares
+
   has_many :pieces
   belongs_to :white_player, class_name: "User", optional: true
   belongs_to :black_player, class_name: "User", optional: true
@@ -44,7 +46,7 @@ class Game < ApplicationRecord
 
   def black_piece_turn?
     !white_piece_turn?
-  end 
+  end
       
   def check?(color)
     king = pieces.find_by(name: 'King', color: color)
@@ -57,6 +59,35 @@ class Game < ApplicationRecord
       end
     end
     false
+  end
+
+  def active_pieces(color)
+    return pieces.where(captured: false).where(color: color)
+  end
+
+  def player_valid_moves(color)
+    valid_moves = []
+
+    active_pieces(color).each do |piece|
+      all_squares.each do |square|
+        x = square[0]
+        y = square[1]
+
+        valid_moves << [x, y] if piece.valid_move?(x, y)
+      end
+    end
+
+    return valid_moves  
+  end  
+
+  def results_in_check?(color)
+    player_valid_moves(color).each do |move|
+
+    end
+  end
+
+  def stalemate?(color)
+
   end
   
   delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
