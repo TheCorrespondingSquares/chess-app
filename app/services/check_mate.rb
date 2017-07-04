@@ -10,14 +10,14 @@ class CheckMate
 	end
 
 	def call
-  	return false unless check?(king_color)
-  	return false if king_can_be_blocked?(king_color) || king_can_capture_piece?(king_color) || king.is_able_to_escape_check?
+  	return false unless check?
+  	return false if king_can_be_blocked? || king_can_capture_piece? || king.is_able_to_escape_check?
   	true
 	end
 
 	private
 
-  def check?(color)
+  def check?
     opposite_pieces.each do |piece|
       if piece.valid_move?(king.x_pos, king.y_pos)
         @piece_making_check = piece
@@ -27,7 +27,7 @@ class CheckMate
     false
   end
 
-  def king_can_be_blocked?(color)
+  def king_can_be_blocked?
 
     obstruction_path = []
     starting_x = @piece_making_check.x_pos
@@ -48,7 +48,7 @@ class CheckMate
     false
   end
 
-  def king_can_capture_piece?(color)
+  def king_can_capture_piece?
     x = @piece_making_check.x_pos
     y = @piece_making_check.y_pos
     king.valid_move?(x, y)
