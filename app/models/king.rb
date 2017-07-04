@@ -15,9 +15,10 @@ after_create :icon
 
   def is_able_to_escape_check?
     ((x_pos - 1)..(x_pos + 1)).each do |x|
+      next if x > 7 || x < 0
       ((y_pos - 1 )..(y_pos + 1)).each do |y|
-        binding.pry
-        if !is_on_square?(x, y) && valid_move?(x, y)
+        next if y > 7 || y < 0
+        if !is_on_square?(x, y) && valid_move?(x, y) && !game.possible_check?(self.color, x, y)
           return true
         end
       end

@@ -57,23 +57,13 @@ class Game < ApplicationRecord
   	CheckMate.new(self, color).call
   end
 
-  def king_can_capture_piece?(color)
-  	generate_king_and_opposite_pieces(color)
+  delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
 
-  	x = @piece_making_check.x_pos
-  	y = @piece_making_check.y_pos
-
-  	@king.valid_move?(x, y)
-  end
-
-  def king_can_be_blocked?(color)
-  	# true
-  end
+  private
 
   def generate_king_and_opposite_pieces(color)
   	@king = pieces.find_by(name: 'King', color: color)
     @opposite_pieces = pieces.where(captured: false).where.not(color: color)
   end
-  
-	delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
+
 end
