@@ -4,6 +4,21 @@ RSpec.describe Pawn, type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
+  
+  describe "white#can_promote?" do
+    subject(:can_promote?) {white_pawn.can_promote?(y_pos)}
+    let(:white_pawn) {FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 7, game_id: game.id)}
+    
+    #context "for white pawn promotion" do
+      it { is_expected.to eq(true)}
+  end
+  
+  describe "black#can_promote?" do
+    subject(:can_promote?) {black_pawn.can_promote?(y_pos)}
+    let(:black_pawn) {FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 0, game_id: game.id)}
+      it {is_expected.to eq(true)}
+
+  end
 
   describe "#valid_move?" do
     subject(:valid_move?) { pawn.valid_move?(to_x, to_y) }

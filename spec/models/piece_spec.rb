@@ -4,22 +4,6 @@ RSpec.describe Piece, type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:game) { FactoryGirl.create(:game, black_player_id: user.id)}
   before(:each) { game.pieces.destroy_all }
-  
-  describe "#can_promote?" do
-  subject(:can_promote?) {piece.can_promote?(y_pos)}
-    
-    context "for white pawn promotion" do
-      let!(:pawn) {FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 1, game_id: game.id)}
-      let(:y_pos) {7}
-      it { is_expected.to eq(true)}
-    end
-    
-    context 'for black pawn promotion' do
-      let!(:pawn2) {FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 6, game_id: game.id)}
-      let(:y_pos) {0}
-      it {is_expected.to eq(true)}
-    end
-  end
 
   describe "#capture_piece!" do
     let(:piece_capturer) { FactoryGirl.create(:bishop, color: "Black", x_pos: 7, y_pos: 3, game_id: game.id) }

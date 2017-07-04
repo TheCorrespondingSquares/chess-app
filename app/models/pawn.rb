@@ -3,21 +3,21 @@ class Pawn < Piece
   def valid_move?(to_x, to_y)
     if pawn_move_diagonal?(to_x, to_y)
       if is_on_square?(to_x, to_y)
-        #move_to!(to_x, to_y)
         return true
       else
         return false
       end
     end
-    pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) 
+    pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)
   end
-
+  
+  def can_promote?(y_pos)
+    reached_opposite_border?(y_pos)
+  end
+      
+    
   private
-
-  def pawn_capture?(to_x, to_y)
-    move_to!(to_x, to_y)
-  end
-
+  
   def pawn_move_vertical?(to_x, to_y)
     pawn_move_forward?(to_y) && !is_on_square?(to_x, to_y) && pawn_first_move?(to_y)
   end
@@ -42,10 +42,6 @@ class Pawn < Piece
     end
   end
   
-  def can_promote?(y_pos)
-    reached_opposite_border?(y_pos)
-  end
-  
   def reached_opposite_border?(y_pos)
     white_reached_border?(y_pos) || black_reached_border?(y_pos)
   end
@@ -55,11 +51,7 @@ class Pawn < Piece
   end
   
   def black_reached_border?(y_pos)
-    y_pos == 7 && is_black?
-  end
-  
-  def promote_pawn(name)
-    self.update_attributes(name: "Queen")
+    y_pos == 0 && is_black?
   end
 
 end
