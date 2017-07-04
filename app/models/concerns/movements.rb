@@ -52,4 +52,12 @@ module Movements
     horizontal_move_one_square?(to_x) && vertical_move_one_square?(to_y)
   end
 
+  def x_out_of_range?(x)
+    x > 7 || x < 0
+  end
+
+  def y_out_of_range?(y)
+    y > 7 || y < 0
+  end
+
 end
