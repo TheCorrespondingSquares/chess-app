@@ -1,21 +1,21 @@
 class CheckMate
-	attr_accessor :game, :king_color, :king, :opposite_pieces, :friendly_pieces
+  attr_accessor :game, :king_color, :king, :opposite_pieces, :friendly_pieces
 
-	def initialize(game, king_color)
-		@game = game
-		@king_color = king_color
-		@king = @game.pieces.find_by(name: 'King', color: king_color)
+  def initialize(game, king_color)
+    @game = game
+    @king_color = king_color
+    @king = @game.pieces.find_by(name: 'King', color: king_color)
     @opposite_pieces = @game.pieces.where(captured: false).where.not(color: king_color)
     @friendly_pieces = @game.pieces.where(captured: false).where(color: king_color)
-	end
+  end
 
-	def call
-  	return false unless check?
-  	return false if king_can_be_blocked? || king_can_capture_piece? || king.is_able_to_escape_check?
-  	true
-	end
+  def call
+    return false unless check?
+    return false if king_can_be_blocked? || king_can_capture_piece? || king.is_able_to_escape_check?
+    true
+  end
 
-	private
+  private
 
   def check?
     opposite_pieces.each do |piece|
