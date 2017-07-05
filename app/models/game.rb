@@ -80,27 +80,13 @@ class Game < ApplicationRecord
     return pieces.where(captured: false).where(color: color)
   end
 
-  def player_valid_moves(color)
-    valid_moves = []
-
-    active_pieces(color).each do |piece|
-      all_squares.each do |square|
-        x = square[0]
-        y = square[1]
-
-        valid_moves << [x, y] if piece.valid_move?(x, y)
-      end
-    end
-
-    return valid_moves  
-  end  
-
   def results_in_check?(color)
-    player_valid_moves(color).each do |move|
-      x = move[0]
-      y = move[1]
+    active_pieces(color).each do |piece|
+      piece.all_valid_moves.each do |move|
+        x = move[0]
+        y = move[1]
 
-      #if the move were to happen, would king be in check?
+        # if the move were to happen, would king be in check?
     end
   end
 

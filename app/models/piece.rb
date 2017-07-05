@@ -45,5 +45,18 @@ class Piece < ApplicationRecord
       self.update_attributes(x_pos: to_x, y_pos: to_y)
     end
   end
+
+  def all_valid_moves
+    valid_moves = []
+
+    all_squares.each do |square|
+      x = square[0]
+      y = square[1]
+
+      valid_moves << [x, y] if self.valid_move?(x, y)
+    end
+
+    return valid_moves
+  end
   
 end

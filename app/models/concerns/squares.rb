@@ -6,7 +6,7 @@ module Squares
     n = 0
 
     while n < 8
-      array = (0..7).map { |i| [nil, i] }
+      array = (0..7).map { |i| [n, i] }
       squares << array
       n += 1
     end
