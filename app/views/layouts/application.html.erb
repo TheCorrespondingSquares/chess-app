@@ -15,7 +15,6 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <%= link_to 'ChessApp', root_path, class: 'navbar-brand' %>
-        <%= link_to 'RSS', 'http://rss.uptimerobot.com/u453056-310386fab8b9f430319f7a3c09f51f4a', class: 'nav-link' %>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
@@ -25,6 +24,7 @@
           </ul>
           <ul class="navbar-nav">
             <% if current_user %>
+              <%= link_to 'My Dashboard', dashboards_path, class: 'navbar-brand' %>
               <li>
                 <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'nav-link' %>
               </li>
