@@ -76,23 +76,31 @@ class Game < ApplicationRecord
   	CheckMate.new(self, color).call
   end
 
-  def active_pieces(color)
+  def friendly_pieces(color)
     return pieces.where(captured: false).where(color: color)
   end
 
-  def results_in_check?(color)
-    active_pieces(color).each do |piece|
-      piece.all_valid_moves.each do |move|
-        x = move[0]
-        y = move[1]
-
-        # if the move were to happen, would king be in check?
-    end
-  end
-
   def stalemate?(color)
+    results_in_check = []
 
-  end  
+    friendly_pieces(color).each do |piece|
+      piece.transaction do
+        piece.all_valid_moves.each do |move|
+          x = move[0]
+          y = move[1]
+
+          piece.move_to!(x, y)
+          results_in_check << piece.name
+          results_in_check << piece.color
+          results_in_check << move
+          results_in_check << check?(color)
+          raise ActiveRecord::Rollback
+        end
+      end
+    end
+    puts results_in_check.inspect
+    !results_in_check.include?(false)
+  end
 
   delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
 
