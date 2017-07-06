@@ -19,7 +19,7 @@ class Piece < ApplicationRecord
     %w(King Queen Bishop Knight Rook Pawn)
   end
 
-  def find_piece(x, y)
+  def piece_exists?(x, y)
     game.pieces.find_by(x_pos: x, y_pos: y)
   end
 
@@ -31,13 +31,21 @@ class Piece < ApplicationRecord
     !friendly_piece?(other_piece)
   end
 
+  def friendly_piece_on_square?(x, y)
+    if piece_exists?(x, y)
+      piece_exists?(x, y).color == self.color
+    else
+      false
+    end
+  end
+
   def capture_piece!(x, y, piece_to_capture)
     piece_to_capture.update_attributes(x_pos: nil, y_pos: nil, captured: true)
     self.update_attributes(x_pos: x, y_pos: y)
   end
 
   def move_to!(to_x, to_y)
-    piece_on_square = find_piece(to_x, to_y)
+    piece_on_square = piece_exists?(to_x, to_y)
 
     if piece_on_square && opposite_piece?(piece_on_square)
       capture_piece!(to_x, to_y, piece_on_square)

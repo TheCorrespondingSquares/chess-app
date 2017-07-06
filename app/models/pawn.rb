@@ -5,6 +5,7 @@ class Pawn < Piece
   end
 
   def valid_move?(to_x, to_y)
+    return false if friendly_piece_on_square?(to_x, to_y)
     if pawn_move_diagonal?(to_x, to_y)
       if is_on_square?(to_x, to_y)
         move_to!(to_x, to_y)
