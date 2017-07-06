@@ -87,19 +87,21 @@ class Game < ApplicationRecord
       puts piece.color
       puts piece.name
       puts piece.all_valid_moves.inspect
-      piece.transaction do
+      # piece.transaction do
         piece.all_valid_moves.each do |move|
-          x = move[0]
-          y = move[1]
+          self.transaction do
+            x = move[0]
+            y = move[1]
 
-          piece.move_to!(x, y)
-          results_in_check << piece.name
-          results_in_check << piece.color
-          results_in_check << move
-          results_in_check << check?(color)
-          raise ActiveRecord::Rollback
+            piece.move_to!(x, y)
+            results_in_check << piece.name
+            results_in_check << piece.color
+            results_in_check << move
+            results_in_check << check?(color)
+            raise ActiveRecord::Rollback
+          end
         end
-      end
+      # end
     end
     puts results_in_check.inspect
     !results_in_check.include?(false)
