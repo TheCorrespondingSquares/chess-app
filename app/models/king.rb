@@ -11,7 +11,7 @@ after_create :icon
   end
 
   def valid_move?(to_x, to_y)
-    horizontal_move_one_square?(to_x) || vertical_move_one_square?(to_y) || diagonal_move_one_square?(to_x, to_y)
+    horizontal_move_one_square_only?(to_x, to_y) || vertical_move_one_square_only?(to_x, to_y) || diagonal_move_one_square?(to_x, to_y)
   end
 
   def is_able_to_escape_check?

@@ -84,6 +84,9 @@ class Game < ApplicationRecord
     results_in_check = []
 
     friendly_pieces(color).each do |piece|
+      puts piece.color
+      puts piece.name
+      puts piece.all_valid_moves.inspect
       piece.transaction do
         piece.all_valid_moves.each do |move|
           x = move[0]
