@@ -13,7 +13,12 @@ class Pawn < Piece
         return false
       end
     end
-    pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) 
+    pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)
+  end
+
+  def en_passant(to_x, to_y, capture_pawn)
+    move_to!(to_x, to_y)
+    capture_pawn.update_attributes(x_pos: nil, y_pos: nil, captured: true)
   end
 
   private
@@ -45,5 +50,4 @@ class Pawn < Piece
       self.y_pos == 6 ? to_y > 3 : vertical_move_one_square?(to_y)
     end
   end
-
 end
