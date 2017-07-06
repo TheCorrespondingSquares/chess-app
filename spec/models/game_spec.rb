@@ -121,17 +121,22 @@ RSpec.describe Game, type: :model do
   describe "#stalemate?" do
     let(:black_player) { FactoryGirl.create(:user) }
     let(:game_stalemate) { FactoryGirl.create(:game, white_player_id: user.id, black_player_id: black_player.id) }
-    let(:black_king) { FactoryGirl.create(:king, color: "Black", x_pos: 0, y_pos: 7, game_id: game_stalemate.id) }
-    let(:black_bishop) { FactoryGirl.create(:bishop, color: "Black", x_pos: 1, y_pos: 7, game_id: game_stalemate.id) }
-    let(:white_king) { FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id) }
-    let(:white_rook) { FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: white_rook_y_pos, game_id: game_stalemate.id) }    
+    # let(:black_king) { FactoryGirl.create(:king, color: "Black", x_pos: 0, y_pos: 7, game_id: game_stalemate.id) }
+    # let(:black_bishop) { FactoryGirl.create(:bishop, color: "Black", x_pos: 1, y_pos: 7, game_id: game_stalemate.id) }
+    # let(:white_king) { FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id) }
+    # let(:white_rook) { FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: white_rook_y_pos, game_id: game_stalemate.id) }    
     before(:each) { game_stalemate.update_attributes(turn: 43) }
-    # before(:each) { game_stalemate.pieces.destroy_all }
+    before(:each) { game_stalemate.pieces.destroy_all }
 
     context 'when there is a stalemate' do
-      let(:white_rook_y_pos) { 7 }
-      
-      it 'should return TRUE and leave game unchanged' do
+      # let(:white_rook_y_pos) { 7 }
+
+      it 'if stalemate, should return TRUE and leave game unchanged' do
+        black_king = FactoryGirl.create(:king, color: "Black", x_pos: 0, y_pos: 7, game_id: game_stalemate.id)
+        black_bishop = FactoryGirl.create(:bishop, color: "Black", x_pos: 1, y_pos: 7, game_id: game_stalemate.id)
+        white_king = FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id)
+        white_rook = FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: 7, game_id: game_stalemate.id)
+
         stalemate = game_stalemate.stalemate?("Black")
         game_stalemate.reload
         black_king.reload
@@ -147,9 +152,14 @@ RSpec.describe Game, type: :model do
     end
 
     context 'when there is no stalemate' do
-      let(:white_rook_y_pos) { 4 }     
+      # let(:white_rook_y_pos) { 4 }     
       
-      it 'should return FALSE and leave game unchanged' do
+      it 'if no stalemate, should return FALSE and leave game unchanged' do
+        black_king = FactoryGirl.create(:king, color: "Black", x_pos: 0, y_pos: 7, game_id: game_stalemate.id)
+        black_bishop = FactoryGirl.create(:bishop, color: "Black", x_pos: 1, y_pos: 7, game_id: game_stalemate.id)
+        white_king = FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id)
+        white_rook = FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: 4, game_id: game_stalemate.id)        
+        
         stalemate = game_stalemate.stalemate?("Black")
         game_stalemate.reload
         black_king.reload
