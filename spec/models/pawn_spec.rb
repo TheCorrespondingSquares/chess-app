@@ -7,9 +7,9 @@ RSpec.describe Pawn, type: :model do
   before(:each) { game.pieces.destroy_all }
 
   describe "#en_passant" do
-  subject(:en_passant) { pawn.en_passant?(to_x, to_y) }
+  subject(:en_passant) { pawn.en_passant?(to_x, to_y, capture_pawn) }
 
-   context 'for pawns first move is directly two squares' do
+    context 'for pawns first move is directly two squares' do
       it "should update the black pawn to do en_passant" do
         black_pawn = FactoryGirl.create(:pawn, color: "Black", x_pos: 5, y_pos: 6, game_id: game.id)
         white_pawn = FactoryGirl.create(:pawn, color: "White", x_pos: 4, y_pos: 4, game_id: game.id)
