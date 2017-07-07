@@ -53,6 +53,8 @@ class Game < ApplicationRecord
 
     @opposite_pieces.each do |piece|
       if piece.valid_move?(@king.x_pos, @king.y_pos)
+        puts "#{piece.color} #{piece.name} at [#{piece.x_pos}, #{piece.y_pos}] can check"
+        puts "#{piece.color} #{piece.name}'s valid moves: #{piece.all_valid_moves.inspect}"
         @piece_making_check = piece
         return true
       end
@@ -77,7 +79,7 @@ class Game < ApplicationRecord
   end
 
   def friendly_pieces(color)
-    return pieces.where(captured: false).where(color: color)
+    return pieces.where(color: color).where(captured: false)
   end
 
   def stalemate?(color)
@@ -89,15 +91,12 @@ class Game < ApplicationRecord
       puts piece.all_valid_moves.inspect
       # piece.transaction do
         piece.all_valid_moves.each do |move|
-          self.transaction do
-            x = move[0]
-            y = move[1]
-
+          x = move[0]
+          y = move[1]          
+          self.transaction do            
             piece.move_to!(x, y)
-            results_in_check << piece.name
-            results_in_check << piece.color
-            results_in_check << move
-            results_in_check << check?(color)
+            results_in_check << "#{piece.name} #{piece.color} moves to #{move}"
+            results_in_check << check?(piece.color)
             raise ActiveRecord::Rollback
           end
         end
