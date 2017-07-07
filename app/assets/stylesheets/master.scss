@@ -1,5 +1,14 @@
 @import "bootstrap";
 
+body {
+    background: #f1f1f1;
+}
+
+.navbar-bg {
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
 /* ------------------
   Chess Board Styles
 --------------------- */
@@ -93,4 +102,59 @@ td { width:42px; height:42px; }
 .dropped {
   outline: red;
   background-color: red;
+}
+
+/* ------------------------
+    Homepage Styles
+------------------------- */
+.hero {
+    background-image: linear-gradient( 135deg, #81FBB8 0%, #28C76F 100%);
+    padding: 4rem 2rem;
+    // color: rgba(255,255,255,1);
+}
+
+// .hero h1 {
+//     text-shadow: 0px 4px 3px rgba(0,0,0,0.3),
+//              0px 8px 13px rgba(0,0,0,0.1),
+//              0px 18px 23px rgba(0,0,0,0.1);
+// }
+
+.hero-img {
+    min-width: 50%;
+    height: auto;
+    margin: 0 auto;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: bounce;
+    transform-origin: center bottom;
+}
+
+@keyframes bounce {
+  from, 20%, 53%, 80%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0,-4px,0);
+  }
+}
+
+.card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border: none;
+}
+
+.available-games {
+    margin-bottom: 1rem;
 }
