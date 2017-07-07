@@ -53,10 +53,12 @@ class Game < ApplicationRecord
 
     @opposite_pieces.each do |piece|
       if piece.valid_move?(@king.x_pos, @king.y_pos)
-        puts "#{piece.color} #{piece.name} at [#{piece.x_pos}, #{piece.y_pos}] can check"
+        puts "#{piece.color} #{piece.name} at [#{piece.x_pos}, #{piece.y_pos}] can check at [#{@king.x_pos}, #{@king.y_pos}]"
         puts "#{piece.color} #{piece.name}'s valid moves: #{piece.all_valid_moves.inspect}"
         @piece_making_check = piece
         return true
+      else
+        puts "#{piece.color} #{piece.name} at [#{piece.x_pos}, #{piece.y_pos}] can't check at [#{@king.x_pos}, #{@king.y_pos}]"
       end
     end
     false
@@ -92,7 +94,8 @@ class Game < ApplicationRecord
       # piece.transaction do
         piece.all_valid_moves.each do |move|
           x = move[0]
-          y = move[1]          
+          y = move[1]
+          puts "x = #{x}, y = #{y}"          
           self.transaction do            
             piece.move_to!(x, y)
             results_in_check << "#{piece.name} #{piece.color} moves to #{move}"
