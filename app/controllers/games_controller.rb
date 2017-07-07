@@ -35,7 +35,7 @@ class GamesController < ApplicationController
     @game.update_attributes(join_params)
 
     # Pusher Test
-    Pusher.trigger('my_channel', 'my_event', {
+    Pusher.trigger('channel', 'trigger_refresh', {
       message: 'Joined Game'
     })
 

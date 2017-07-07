@@ -15,12 +15,10 @@ $(function() {
     encrypted: true
   });
 
-  var channel = pusher.subscribe('my_channel');
-  channel.bind('my_event', function(data) {
-    console.log(data);
-    if(data.message !== undefined) {
-      location.reload();
-    }
+  var channel = pusher.subscribe('channel');
+  channel.bind('trigger_refresh', function(data) {
+   console.log(data.message);
+    location.reload();
   });
 
   $( ".piece" ).draggable({

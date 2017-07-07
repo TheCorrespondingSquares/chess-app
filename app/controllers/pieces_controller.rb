@@ -31,7 +31,7 @@ class PiecesController < ApplicationController
       if your_turn_your_piece?
         piece.move_to!(new_x_pos, new_y_pos)
         @game.update(turn: @turn + 1)
-        Pusher.trigger('my_channel', 'my_event', {
+        Pusher.trigger('channel', 'trigger_refresh', {
           message: 'Piece Moved!'
         })
       elsif your_turn_not_your_piece?
