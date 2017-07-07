@@ -8,6 +8,21 @@ $(function() {
       destinationPiece,
       destinationPieceId;
 
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher('86cbbadbf46e965cc2f1', {
+    cluster: 'us2',
+    encrypted: true
+  });
+
+  var channel = pusher.subscribe('my_channel');
+  channel.bind('my_event', function(data) {
+    console.log(data);
+    if(data.message !== undefined) {
+      location.reload();
+    }
+  });
+
   $( ".piece" ).draggable({
     containment: $( "#board" ),
     start: function(e) {

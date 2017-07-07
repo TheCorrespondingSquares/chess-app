@@ -34,6 +34,11 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @game.update_attributes(join_params)
 
+    # Pusher Test
+    Pusher.trigger('my_channel', 'my_event', {
+      message: 'Joined Game'
+    })
+
     redirect_to game_path(@game)
   end
 
