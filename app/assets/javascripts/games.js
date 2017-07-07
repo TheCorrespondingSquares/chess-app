@@ -8,7 +8,7 @@ $(function() {
       destinationPiece,
       destinationPieceId;
 
-  Pusher.logToConsole = true;
+  // Pusher.logToConsole = true;
 
   var pusher = new Pusher('86cbbadbf46e965cc2f1', {
     cluster: 'us2',
