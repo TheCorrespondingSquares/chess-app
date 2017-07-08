@@ -16,6 +16,27 @@ RSpec.describe PiecesController, type: :controller do
 
   describe 'pieces#update action' do
     
+    context 'When a piece making a check?' do
+      before(:each) { game.pieces.destroy_all } 
+      let!(:white_bishop) { FactoryGirl.create(:bishop, color: "White", x_pos: 5, y_pos: 3, game_id: game.id) }
+      let!(:black_king) { FactoryGirl.create(:king, color: "Black", x_pos: 7, y_pos: 7, game_id: game.id) }
+      before(:each) { game.update_attributes(turn: 0) }
+      before(:each) { sign_out white_player }
+      before(:each) { sign_out black_player }
+
+      it 'should raise an alert' do
+        sign_in white_player
+        game.reload
+        patch :update, params: { game_id: game.id, id: white_bishop.id, x_pos: 4, y_pos: 4 }
+        white_bishop.reload
+        game.reload
+
+        expect(white_bishop.x_pos).to eq 4
+        expect(white_bishop.y_pos).to eq 4
+        expect(flash[:alert]).to match("Check!")
+      end
+    end
+
     context 'When only one player has joined' do
       let(:game_not_full) { FactoryGirl.create(:game, white_player_id: white_player.id, black_player_id: nil) }
       let(:player1_pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 5, y_pos: 1, game_id: game_not_full.id) }

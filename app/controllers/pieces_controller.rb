@@ -16,14 +16,14 @@ class PiecesController < ApplicationController
 
     @game = piece.game
     @turn = @game.turn
-    
+
     return render_not_found if piece.blank?
 
     logger.info "is_obstructed? result: #{piece.is_obstructed?(new_x_pos, new_y_pos)}"
     logger.info "valid_move? results: #{piece.valid_move?(new_x_pos, new_y_pos)}"
     
     logger.info "game_full? result: #{@game.game_full?}"
-    
+
     if !@game.game_full?
       
       redirect_to game_path(piece.game)
@@ -31,6 +31,7 @@ class PiecesController < ApplicationController
       if your_turn_your_piece?
         piece.move_to!(new_x_pos, new_y_pos)
         @game.update(turn: @turn + 1)
+        flash[:alert] = "Check!" if is_check?
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
@@ -45,6 +46,15 @@ class PiecesController < ApplicationController
   end
 
   private
+
+  def is_check?
+    if white_piece?
+      king_color = "Black"
+    else
+      king_color = "White"
+    end
+    @game.check? (king_color)
+  end
 
   def piece_params
     params.permit(:name, :x_pos, :y_pos, :color, :captured, :game_id, :id)
