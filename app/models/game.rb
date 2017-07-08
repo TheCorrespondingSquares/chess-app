@@ -53,12 +53,8 @@ class Game < ApplicationRecord
 
     @opposite_pieces.each do |piece|
       if piece.valid_move?(@king.x_pos, @king.y_pos)
-        puts "#{piece.color} #{piece.name} at [#{piece.x_pos}, #{piece.y_pos}] can check at [#{@king.x_pos}, #{@king.y_pos}]"
-        puts "#{piece.color} #{piece.name}'s valid moves: #{piece.all_valid_moves.inspect}"
         @piece_making_check = piece
         return true
-      else
-        puts "#{piece.color} #{piece.name} at [#{piece.x_pos}, #{piece.y_pos}] can't check at [#{@king.x_pos}, #{@king.y_pos}]"
       end
     end
     false
@@ -88,24 +84,22 @@ class Game < ApplicationRecord
     results_in_check = []
 
     friendly_pieces(color).each do |piece|
-      puts piece.color
-      puts piece.name
-      puts piece.all_valid_moves.inspect
-      # piece.transaction do
-        piece.all_valid_moves.each do |move|
-          x = move[0]
-          y = move[1]
-          puts "x = #{x}, y = #{y}"          
-          self.transaction do            
-            piece.move_to!(x, y)
-            results_in_check << "#{piece.name} #{piece.color} moves to #{move}"
-            results_in_check << check?(piece.color)
-            raise ActiveRecord::Rollback
-          end
+      start_x = piece.x_pos
+      start_y = piece.y_pos
+
+      piece.all_valid_moves.each do |move|
+        x = move[0]
+        y = move[1]
+        
+        piece.transaction do   
+          piece.move_to!(x, y)
+          results_in_check << check?(piece.color)
+          piece.move_to!(start_x, start_y)
+          raise ActiveRecord::Rollback          
         end
-      # end
+      end
     end
-    puts results_in_check.inspect
+
     !results_in_check.include?(false)
   end
 
