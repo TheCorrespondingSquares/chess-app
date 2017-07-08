@@ -22,7 +22,7 @@ body {
 }
 
 .black_tile {
-    background-color: #769656;
+    background-color: #28C76F;
     // color: white;
 }
 
@@ -157,4 +157,24 @@ td { width:42px; height:42px; }
 
 .available-games {
     margin-bottom: 1rem;
+}
+
+/* ------------------------
+    Footer Styles
+------------------------- */
+
+footer {
+    margin-top: 1rem;
+    background: #333;
+    color: #fff;
+    padding: 3rem 0;
+}
+
+footer a {
+    color: #fff;
+    transition: color .2s ease;
+
+    &:hover {
+        color: #28C76F;
+    }
 }
