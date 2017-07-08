@@ -1,0 +1,12 @@
+<%= simple_form_for @game.pieces.name do |f| %>
+  <div class="modal-body">
+  	<%= f.button :button, 'Rook', type: 'submit', name: 'update', value: 'Rook' %>
+    <%= f.button :button, 'Bishop', type: 'submit', name: 'update', value: 'Bishop' %>
+    <%= f.button :button, 'Knight', type: 'submit', name: 'update', value: 'Knight' %>
+    <%= f.button :button, 'Queen', type: 'submit', name: 'update', value: 'Queen' %>
+    <%= f.button :button, 'Pawn', type: 'submit', name: 'update', value: 'Pawn' %>
+  </ div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+   </div>
+<% end %>

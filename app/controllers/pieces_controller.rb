@@ -4,6 +4,11 @@ class PiecesController < ApplicationController
   def show
     render json: current_piece
   end
+  
+  def new
+    @piece = Piece.new(@game)
+    @game = Game.find(params[:id])
+  end
 
   def update
     piece = current_piece
@@ -31,6 +36,9 @@ class PiecesController < ApplicationController
       if your_turn_your_piece?
         piece.move_to!(new_x_pos, new_y_pos)
         @game.update(turn: @turn + 1)
+        #if piece.can_promote?
+        #  piece.update_attributes(pass in the name from the Modal)
+        #end
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        

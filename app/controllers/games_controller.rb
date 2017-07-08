@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
 
   def index
     @available_games = Game.available
@@ -16,7 +16,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find(params[:id])
+    @game = current_game
     @white_player = User.find(@game.white_player_id)
     if @game.black_player_id == nil
       flash[:notice] = "Waiting for another player to join..."
@@ -27,11 +27,11 @@ class GamesController < ApplicationController
   end
 
   def edit
-    @game = Game.find(params[:id])
+    @game = current_game
   end
 
   def update
-    @game = Game.find(params[:id])
+    @game = current_game
     @game.update_attributes(join_params)
 
     redirect_to game_path(@game)
@@ -45,5 +45,9 @@ class GamesController < ApplicationController
 
   def join_params
     params.permit(:black_player_id)
+  end
+  
+  def current_game
+    Game.find(params[:id])
   end
 end
