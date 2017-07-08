@@ -127,8 +127,8 @@ RSpec.describe Game, type: :model do
     it 'if stalemate, should return TRUE and leave game unchanged' do
       black_king = FactoryGirl.create(:king, color: "Black", x_pos: 0, y_pos: 7, game_id: game_stalemate.id)
       black_bishop = FactoryGirl.create(:bishop, color: "Black", x_pos: 1, y_pos: 7, game_id: game_stalemate.id)
-      white_king = FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id)
-      white_rook = FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: 7, game_id: game_stalemate.id)
+      FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id)
+      FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: 7, game_id: game_stalemate.id)
 
       stalemate = game_stalemate.stalemate?("Black")
       game_stalemate.reload
@@ -146,8 +146,8 @@ RSpec.describe Game, type: :model do
     it 'if no stalemate, should return FALSE and leave game unchanged' do
       black_king = FactoryGirl.create(:king, color: "Black", x_pos: 0, y_pos: 7, game_id: game_stalemate.id)
       black_bishop = FactoryGirl.create(:bishop, color: "Black", x_pos: 1, y_pos: 7, game_id: game_stalemate.id)
-      white_king = FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id)
-      white_rook = FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: 4, game_id: game_stalemate.id)        
+      FactoryGirl.create(:king, color: "White", x_pos: 1, y_pos: 5, game_id: game_stalemate.id)
+      FactoryGirl.create(:rook, color: "White", x_pos: 7, y_pos: 4, game_id: game_stalemate.id)        
       
       stalemate = game_stalemate.stalemate?("Black")
       game_stalemate.reload
