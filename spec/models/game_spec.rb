@@ -160,7 +160,6 @@ RSpec.describe Game, type: :model do
       expect(black_king.y_pos).to eq(7)
       expect(black_bishop.x_pos).to eq(1)
       expect(black_bishop.y_pos).to eq(7)
-      # test comment
     end
   end
 
