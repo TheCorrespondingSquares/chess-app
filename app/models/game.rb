@@ -79,7 +79,7 @@ class Game < ApplicationRecord
   private
 
   def generate_king_and_opposite_pieces(color)
-  	@king = pieces.find_by(name: 'King', color: color)
+    @king = pieces.find_by(name: 'King', color: color)
     @opposite_pieces = pieces.where(captured: false).where.not(color: color)
   end
 
