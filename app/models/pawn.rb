@@ -16,7 +16,7 @@ class Pawn < Piece
     pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)
   end
 
-  def en_passant(to_x, to_y, capture_pawn)
+  def en_passant?(to_x, to_y, capture_pawn)
     move_to!(to_x, to_y)
     capture_pawn.update_attributes(x_pos: nil, y_pos: nil, captured: true)
   end
