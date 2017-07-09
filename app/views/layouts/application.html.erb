@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ChessApp</title>
+    <title>The Corresponding Squares</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <nav class="navbar navbar-toggleable-md navbar-light navbar-bg">
       <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <%= link_to 'ChessApp', root_path, class: 'navbar-brand' %>
+        <%= link_to 'The Corresponding Squares', root_path, class: 'navbar-brand' %>
         <%= link_to 'RSS', 'http://rss.uptimerobot.com/u453056-310386fab8b9f430319f7a3c09f51f4a', class: 'nav-link' %>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -26,6 +27,7 @@
           </ul>
           <ul class="navbar-nav">
             <% if current_user %>
+              <%= link_to 'My Dashboard', dashboards_path, class: 'navbar-brand' %>
               <li>
                 <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'nav-link' %>
               </li>
@@ -56,6 +58,14 @@
 
     <%= yield %>
 
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col"><strong><%= link_to 'The Corresponding Squares', root_path, class: 'navbar-brand' %></strong></div>
+          <div class="col text-right"><%= link_to 'View on Github', 'https://github.com/TheCorrespondingSquares/chess-app', class: 'navbar-brand' %></div>
+        </div>
+      </div>
+    </footer>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </body>
 </html>
