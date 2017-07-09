@@ -58,7 +58,7 @@
     </div>
     <div class="row">
         <% @games.available.each do |game| %>
-            <div class="col-12 col-md-2 col-lg-4">
+            <div class="col-12 col-md-4">
                 <div class="available-games card text-center">
                     <div class="card-block">
                         <h4><%= game.name %></h4>
@@ -74,4 +74,38 @@
         <% end %>
     </div>
 </div>
-
+<br /><br />
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="display-4 text-center">Tools</h2>
+            <br />
+        </div>
+    </div>
+    <div class="row align-items-end">
+        <div class="col text-center">
+            <%= link_to "https://github.com/TheCorrespondingSquares/chess-app" do %>
+                <%= image_tag "github.svg" %>
+            <% end %>
+            <p><small>Version Control</small></p>
+        </div>
+        <div class="col text-center">
+            <%= link_to "https://travis-ci.org/TheCorrespondingSquares/" do %>
+                <%= image_tag "travis-ci.svg" %>
+            <% end %>
+            <p><small>Continuous Integration</small></p>
+        </div>
+        <div class="col text-center">
+            <%= link_to "https://trello.com/b/CWMwNSYB/ilya-may-tp" do %>
+                <%= image_tag "trello.svg" %>
+            <% end %>
+            <p><small>Agile Project Management</small></p>
+        </div>
+        <div class="col text-center">
+            <%= link_to "https://slack.com/" do %>
+                <%= image_tag "slack.svg" %>
+            <% end %>
+            <p><small>Team Communication</small></p>
+        </div>
+    </div>
+</div>
