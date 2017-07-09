@@ -120,7 +120,7 @@ RSpec.describe PiecesController, type: :controller do
         sign_in black_player
         game.update_attributes(turn: 11)
         game.reload
-        patch :update, params: { game_id: game.id, id: white_pawn.id, x_pos: 4, y_pos: 1 }
+        patch :update, params: { game_id: game.id, id: white_pawn.id, x_pos: 4, y_pos: 2 }
         white_pawn.reload
         game.reload
 
