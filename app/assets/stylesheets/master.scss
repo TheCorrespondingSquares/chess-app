@@ -159,6 +159,17 @@ td { width:42px; height:42px; }
     margin-bottom: 1rem;
 }
 
+.team-img {
+    max-width: 200px;
+    border: 2px solid #28C76F;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+#tools {
+    background: #fff;
+}
+
 /* ------------------------
     Footer Styles
 ------------------------- */

@@ -52,7 +52,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2 class="display-4 text-center">Available Games</h2>
+            <h2 class="display-4 text-center">Open Games</h2>
             <br />
         </div>
     </div>
@@ -74,38 +74,85 @@
         <% end %>
     </div>
 </div>
+<br />
+<div id="tools">
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="display-4 text-center">Tools</h2>
+                <br />
+            </div>
+        </div>
+        <div class="row align-items-end">
+            <div class="col text-center">
+                <%= link_to "https://github.com/TheCorrespondingSquares/chess-app" do %>
+                    <%= image_tag "github.svg" %>
+                <% end %>
+                <p><small>Version Control</small></p>
+            </div>
+            <div class="col text-center">
+                <%= link_to "https://travis-ci.org/TheCorrespondingSquares/" do %>
+                    <%= image_tag "travis-ci.svg" %>
+                <% end %>
+                <p><small>Continuous Integration</small></p>
+            </div>
+            <div class="col text-center">
+                <%= link_to "https://trello.com/b/CWMwNSYB/ilya-may-tp" do %>
+                    <%= image_tag "trello.svg" %>
+                <% end %>
+                <p><small>Agile Project Management</small></p>
+            </div>
+            <div class="col text-center">
+                <%= link_to "https://slack.com/" do %>
+                    <%= image_tag "slack.svg" %>
+                <% end %>
+                <p><small>Team Communication</small></p>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
 <br /><br />
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2 class="display-4 text-center">Tools</h2>
+            <h2 class="display-4 text-center">Team</h2>
             <br />
         </div>
     </div>
     <div class="row align-items-end">
         <div class="col text-center">
-            <%= link_to "https://github.com/TheCorrespondingSquares/chess-app" do %>
-                <%= image_tag "github.svg" %>
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/fisto@adorable.png", class: 'team-img' %>
+                <p>Fisto Satianto</p>
             <% end %>
-            <p><small>Version Control</small></p>
         </div>
         <div class="col text-center">
-            <%= link_to "https://travis-ci.org/TheCorrespondingSquares/" do %>
-                <%= image_tag "travis-ci.svg" %>
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/kirby@adorable.png", class: 'team-img' %>
+                <p>Kirby James</p>
             <% end %>
-            <p><small>Continuous Integration</small></p>
         </div>
         <div class="col text-center">
-            <%= link_to "https://trello.com/b/CWMwNSYB/ilya-may-tp" do %>
-                <%= image_tag "trello.svg" %>
+            <%= link_to "http://justinmunn.co/" do %>
+                <%= image_tag "justin.jpg", class: 'team-img' %>
+                <p>Justin Munn</p>
             <% end %>
-            <p><small>Agile Project Management</small></p>
         </div>
-        <div class="col text-center">
-            <%= link_to "https://slack.com/" do %>
-                <%= image_tag "slack.svg" %>
+    </div>
+    <div class="row align-items-end">
+        <div class="col-6 col-lg-4 offset-md-2 text-center">
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/miguel@adorable.png", class: 'team-img' %>
+                <p>Miguel B.</p>
             <% end %>
-            <p><small>Team Communication</small></p>
+        </div>
+        <div class="col-6 col-lg-4 text-center">
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/nikhil@adorable.png", class: 'team-img' %>
+                <p>Nikhil Nadkarny</p>
+            <% end %>
         </div>
     </div>
 </div>
