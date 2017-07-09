@@ -8,6 +8,23 @@ $(function() {
       destinationPiece,
       destinationPieceId;
 
+  // Pusher.logToConsole = true;
+
+  var pusher = new Pusher('86cbbadbf46e965cc2f1', {
+    cluster: 'us2',
+    encrypted: true
+  });
+
+  var channel = pusher.subscribe('channel');
+  channel.bind('trigger_refresh', function(data) {
+   console.log(data.message);
+    location.reload();
+  });
+  channel.bind('updateOnJoin', function(data) {
+   console.log(data.message);
+   $('.alert').first().removeClass( "alert-info" ).addClass( "alert-success" ).html("Player has joined game. You can move or refresh page.");
+  });
+
   $( ".piece" ).draggable({
     containment: $( "#board" ),
     start: function(e) {

@@ -77,5 +77,15 @@ RSpec.describe Piece, type: :model do
       end
     end      
   end
+
+  describe "#all_valid_moves" do
+    subject(:all_valid_moves) { knight.all_valid_moves }
+    let(:knight) { FactoryGirl.create(:knight, color: "White", x_pos: 3, y_pos: 4, game_id: game.id)}
+    let(:valid_moves) { [[1, 3], [1, 5], [2, 2], [2, 6], [4, 2], [4, 6], [5, 3], [5, 5]] }
+
+    context 'should return an array of all the piece\'s valid moves' do
+      it { is_expected.to eq(valid_moves) }
+    end
+  end
   
 end

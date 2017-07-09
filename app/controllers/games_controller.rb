@@ -32,8 +32,13 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
+    @white_player = User.find(@game.white_player_id)
     @game.update_attributes(join_params)
 
+    Pusher.trigger('channel', 'updateOnJoin', {
+      message: 'Joined Game'
+    })
+    
     redirect_to game_path(@game)
   end
 
@@ -45,5 +50,9 @@ class GamesController < ApplicationController
 
   def join_params
     params.permit(:black_player_id)
+  end
+
+  def black_player?
+    current_user == @game.black_player
   end
 end

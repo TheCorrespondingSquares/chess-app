@@ -7,7 +7,16 @@
           <h3 class="card-title" style="margin-bottom: 0;"><%= @game.name %></h3>
         </div>
       </div>
-      <br />
+      <% if @game.white_piece_turn? %>
+        <div class="alert alert-info" role="alert">
+          <strong>White Player Turn</strong>
+        </div>
+      <% else %>
+        <div class="alert alert-warning" role="alert">
+          <strong>Black Player Turn</strong>
+        </div>
+      <% end %>
+      
       <div class="card">
         <div class="row align-items-start">
           <div class="col">

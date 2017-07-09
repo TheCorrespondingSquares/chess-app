@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  include Squares
+
   has_many :pieces
   belongs_to :white_player, class_name: "User", optional: true
   belongs_to :black_player, class_name: "User", optional: true
@@ -46,7 +48,7 @@ class Game < ApplicationRecord
   def black_piece_turn?
     !white_piece_turn?
   end
-
+      
   def check?(color)
     generate_king_and_opposite_pieces(color)
 
@@ -58,7 +60,7 @@ class Game < ApplicationRecord
     end
     false
   end
-
+  
   def possible_check?(color, x, y)
     generate_king_and_opposite_pieces(color)
 
@@ -73,6 +75,33 @@ class Game < ApplicationRecord
 
   def checkmate?(color)
   	CheckMate.new(self, color).call
+  end
+
+  def friendly_pieces(color)
+    return pieces.where(color: color).where(captured: false)
+  end
+
+  def stalemate?(color)
+    results_in_check = []
+
+    friendly_pieces(color).each do |piece|
+      start_x = piece.x_pos
+      start_y = piece.y_pos
+
+      piece.all_valid_moves.each do |move|
+        x = move[0]
+        y = move[1]
+        
+        piece.transaction do   
+          piece.move_to!(x, y)
+          results_in_check << check?(piece.color)
+          piece.move_to!(start_x, start_y)
+          raise ActiveRecord::Rollback          
+        end
+      end
+    end
+
+    !results_in_check.include?(false)
   end
 
   delegate :kings, :queens, :bishops, :knights, :rooks, :pawns, to: :pieces
