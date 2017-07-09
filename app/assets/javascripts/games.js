@@ -20,6 +20,10 @@ $(function() {
    console.log(data.message);
     location.reload();
   });
+  channel.bind('updateOnJoin', function(data) {
+   console.log(data.message);
+   $('.alert').first().removeClass( "alert-info" ).addClass( "alert-success" ).html("Player has joined game. You can move or refresh page.");
+  });
 
   $( ".piece" ).draggable({
     containment: $( "#board" ),
