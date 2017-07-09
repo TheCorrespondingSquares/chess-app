@@ -21,6 +21,7 @@ gem "rails_best_practices" # code metric tool to check the quality of Rails code
 gem 'reek', '~> 4.6', '>= 4.6.2' # modules and methods and reports any code smells it finds.
 gem 'figaro' # app configuration using ENV variables and a single YAML file
 gem 'bootstrap', '~> 4.0.0.alpha6' # Use Bootstrap 4 for front-end framework
+gem 'pusher'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
