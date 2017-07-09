@@ -15,7 +15,7 @@ class Pawn < Piece
     pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)
   end
   
-  def self.can_promote?(y_pos)
+  def can_promote?(y_pos)
     reached_opposite_border?(y_pos)
   end
   

@@ -79,7 +79,7 @@
         <% end %>
       </table>
       <br />
-    <% if @game.pieces.can_promote? %>
+    <% if @game.pawns_can_promote? %>
     <!-- Modal trigger buttons -->
     <div class="modal-button">
       <%= link_to "Promote your pawn!", game_piece_path(@game), class: 'btn btn-primary', data: {toggle: 'modal', target: '#pawnPromote'} %>
