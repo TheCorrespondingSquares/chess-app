@@ -9,6 +9,8 @@ class PiecesController < ApplicationController
     piece = current_piece
     new_x_pos = params[:x_pos].to_i
     new_y_pos = params[:y_pos].to_i
+    starting_x = current_piece.x_pos
+    starting_y = current_piece.y_pos
 
     logger.info "Params:
     Orig x_pos: #{piece.x_pos.inspect}, Orig y_pos: #{piece.y_pos.inspect},
@@ -30,8 +32,14 @@ class PiecesController < ApplicationController
     elsif piece.valid_move?(new_x_pos, new_y_pos)
       if your_turn_your_piece?
         piece.move_to!(new_x_pos, new_y_pos)
-        @game.update(turn: @turn + 1)
-        flash[:alert] = "Check!" if is_check?
+        if your_king_is_in_check?
+          flash[:notice] = "Your king is still in check."
+          piece.move_to!(starting_x, starting_y)
+          redirect_to game_path(piece.game)
+        else
+          @game.update(turn: @turn + 1)
+          flash[:notice] = "Check!" if is_check?
+        end
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
@@ -54,6 +62,22 @@ class PiecesController < ApplicationController
       king_color = "White"
     end
     @game.check? (king_color)
+  end
+
+  def your_king_is_in_check?
+    @game.check? (current_piece.color)
+  end
+
+  def is_check_cleared?
+    starting_x = current_piece.x_pos
+    starting_y = current_piece.y_pos
+
+    if is_your_king_in_check?
+      flash[:alert] = "Your king is still in check position."
+      current_piece.move_to!(starting_x, starting_y)
+      return true
+    end
+    false
   end
 
   def piece_params
