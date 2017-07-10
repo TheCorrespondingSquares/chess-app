@@ -20,22 +20,25 @@ class PiecesController < ApplicationController
     logger.info "valid_move? results: #{piece.valid_move?(@new_x_pos, @new_y_pos)}"
     
     logger.info "game_full? result: #{@game.game_full?}"
-    before_move_conditions
+
+    move_if_possible
   end
 
   private
 
-  def before_move_conditions
+  def move_if_possible
     piece = current_piece
     if !@game.game_full?
       redirect_to game_path(piece.game)
     elsif piece.valid_move?(@new_x_pos, @new_y_pos)
       if your_turn_your_piece?
+        piece.move_to!(@new_x_pos, @new_y_pos)
         if your_king_is_in_check?
-          piece.move_to!(@new_x_pos, @new_y_pos)
-          prohibit_move_unless_check_is_clear(piece, @starting_x, @starting_y)
+          rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
+          # flash[:notice] = "Your king is in check."
+          # redirect_to game_path(piece.game)  
         else
-          piece.move_to!(@new_x_pos, @new_y_pos)
+          # piece.move_to!(@new_x_pos, @new_y_pos)
           update_game_turn
         end
         Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
@@ -66,13 +69,13 @@ class PiecesController < ApplicationController
     flash[:notice] = "Check!" if is_check?
   end
 
-  def prohibit_move_unless_check_is_clear(piece, _starting_x, _starting_y)
+  def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
     if your_king_is_in_check?
-      flash[:notice] = "Your king is still in check."
+      flash[:notice] = "Your king is in check."
       piece.move_to!(@starting_x, @starting_y)
       redirect_to game_path(piece.game)
-    else
-      update_game_turn
+    # else
+    #   update_game_turn
     end
   end
 
