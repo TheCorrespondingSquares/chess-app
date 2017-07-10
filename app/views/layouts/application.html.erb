@@ -11,58 +11,64 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-toggleable-md navbar-light navbar-bg">
-      <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <%= link_to 'The Corresponding Squares', root_path, class: 'navbar-brand' %>
-        <%= link_to 'RSS', 'http://rss.uptimerobot.com/u453056-310386fab8b9f430319f7a3c09f51f4a', class: 'nav-link' %>
+    <div class="content">
+      <nav class="navbar navbar-toggleable-md navbar-light navbar-bg">
+        <div class="container">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <%= link_to 'The Corresponding Squares', root_path, class: 'navbar-brand' %>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li>
-              <!--Left Nav will go here-->
-            </li>
-          </ul>
-          <ul class="navbar-nav">
-            <% if current_user %>
-              <%= link_to 'My Dashboard', dashboards_path, class: 'navbar-brand' %>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
               <li>
-                <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'nav-link' %>
+                <!--Left Nav will go here-->
               </li>
-            <% else %>
-              <li class="nav-item">
-                <%= link_to "Log In", new_user_session_path, class: 'nav-link' %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Sign Up", new_user_registration_path, class: 'nav-link' %>
-              </li>
-            <% end %>
-          </ul>
+            </ul>
+            <ul class="navbar-nav">
+              <% if current_user %>
+                <li>
+                  <%= link_to 'My Dashboard', dashboards_path, class: 'btn btn-outline-primary' %>
+                </li>
+                <li>
+                  <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'nav-link' %>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to "Log In", new_user_session_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to "Sign Up", new_user_registration_path, class: 'nav-link' %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
-    <!-- Devise Flash Messages -->
-    <% if notice.present? %>
-      <div class="alert alert-info text-center" role="alert">
-        <%= notice %>
-      </div>
-    <% end %>
-    <% if alert.present? %>
-      <div class="alert alert-danger text-center" role="alert">
-        <%= alert %>
-      </div>
-    <% end %>
+      <!-- Devise Flash Messages -->
+      <% if notice.present? %>
+        <div class="alert alert-info text-center" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="alert alert-danger text-center" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
 
-    <%= yield %>
-
+      <%= yield %>
+    </div>
     <footer>
       <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col"><strong><%= link_to 'The Corresponding Squares', root_path, class: 'navbar-brand' %></strong></div>
-          <div class="col text-right"><%= link_to 'View on Github', 'https://github.com/TheCorrespondingSquares/chess-app', class: 'navbar-brand' %></div>
+          <div class="col text-right">
+            <%= link_to 'https://github.com/TheCorrespondingSquares/chess-app', class: 'navbar-brand' do %>
+              View on Github&nbsp;<%= image_tag "github-mark.svg" %>
+            <% end %>
+            </div>
         </div>
       </div>
     </footer>
