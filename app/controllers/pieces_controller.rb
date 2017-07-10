@@ -12,10 +12,6 @@ class PiecesController < ApplicationController
     starting_x = current_piece.x_pos
     starting_y = current_piece.y_pos
 
-    logger.info "Params:
-    Orig x_pos: #{piece.x_pos.inspect}, Orig y_pos: #{piece.y_pos.inspect},
-    Dest x_pos: #{new_x_pos.inspect}, Dest y_pos: #{params[:y_pos].to_i.inspect}"
-
     @game = piece.game
     @turn = @game.turn
 
@@ -38,6 +34,7 @@ class PiecesController < ApplicationController
           piece.move_to!(new_x_pos, new_y_pos)
           update_game_turn
         end
+        Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
