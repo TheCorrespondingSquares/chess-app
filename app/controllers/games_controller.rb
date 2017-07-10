@@ -19,7 +19,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @white_player = User.find(@game.white_player_id)
     if @game.black_player_id == nil
-      flash[:notice] = "Waiting for another player to join..."
+      flash[:waiting] = "Waiting for another player to join..."
     else
        @black_player = User.find(@game.black_player_id)
     end
