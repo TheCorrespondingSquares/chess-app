@@ -66,7 +66,7 @@ class PiecesController < ApplicationController
     flash[:notice] = "Check!" if is_check?
   end
 
-  def prohibit_move_unless_check_is_clear(piece, starting_x, starting_y)
+  def prohibit_move_unless_check_is_clear(piece, _starting_x, _starting_y)
     if your_king_is_in_check?
       flash[:notice] = "Your king is still in check."
       piece.move_to!(@starting_x, @starting_y)
