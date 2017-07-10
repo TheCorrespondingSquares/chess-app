@@ -1,77 +1,68 @@
-<div class="row">
-    <div class="columns container">
-        <div class="jumbotron text-center">
-            <h1 class="display-3">Welcome to ChessApp</h1>
-            <p class="lead">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus mauris eget dictum tempor. Maecenas tempor dignissim ligula fringilla facilisis.
-            </p>
-            <!-- Button trigger modal -->
-            <% if current_user %>
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#newGameModal">
-                Create Game
-                </button>
-            <% else %>
-                <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary btn-lg' %>
-            <% end %>
+<div class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-lg-8 text-center">
+                <h1 class="display-3">Play Chess Online</h1>
+                <p class="lead">
+                    Create a game and play with a friend.<br />Can't wait? Join an open game to play now.
+                </p>
+                <!-- Button trigger modal -->
+                <% if current_user %>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#newGameModal">
+                    Create Game
+                    </button>
+                <% else %>
+                    <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary btn-lg' %>
+                <% end %>
+            </div>
+            <div class="col-12 col-lg-4">
+                <%= image_tag "knight.svg", class: 'hero-img' %>
+            </div>
+
         </div>
-
-
-
-        <!-- Modal -->
-        <% if current_user %>
-            <div class="modal fade" id="newGameModal" tabindex="-1" role="dialog" aria-labelledby="newGameModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="newGameModalLabel">Create a New Game</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <%= simple_form_for Game.new do |f| %>
-                    <div class="modal-body">
-                        <%= f.input :name, label: 'Name Your Game' %>
-                        <%= f.hidden_field :white_player_id, value: current_user.id %>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <%= f.submit 'Create Game', class: 'btn btn-primary' %>
-                    </div>
-                    <% end %>
-                    </div>
+    </div>
+    <!-- Hero Create Game Modal -->
+    <% if current_user %>
+        <div class="modal fade" id="newGameModal" tabindex="-1" role="dialog" aria-labelledby="newGameModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newGameModalLabel">Create a New Game</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%= simple_form_for Game.new do |f| %>
+                <div class="modal-body">
+                    <%= f.input :name, label: 'Name Your Game' %>
+                    <%= f.hidden_field :white_player_id, value: current_user.id %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <%= f.submit 'Create Game', class: 'btn btn-primary' %>
+                </div>
+                <% end %>
                 </div>
             </div>
-        <% end %>
-    </div>
+        </div>
+    <% end %>
 </div>
-<!-- <div class="row">
-    <div class="columns container col-sm-12 col-lg-6 col-lg-offset-3">
-        <h1 class="text-center">All Games</h1>
-        <% @games.each do |game| %>
-            <div class="card">
-                <div class="card-block row align-items-center">
-                    <div class="columns mr-auto">
-                        <strong><%= game.name %></strong> Created at: <%= game.created_at.strftime("%m-%d-%Y") %>
-                    </div>
-                    <div class="columns">
-                        <%= link_to 'Show Game', game_path(game), class: 'btn btn-primary' %>
-                    </div>
-                </div>
-            </div>
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="display-4 text-center">Open Games</h2>
             <br />
-        <% end %>
+        </div>
     </div>
-</div> -->
-<div class="row">
-    <div class="columns container col-sm-12 col-lg-6 col-lg-offset-3">
-        <h1 class="text-center">Available Games</h1>
+    <div class="row">
         <% @games.available.each do |game| %>
-            <div class="card">
-                <div class="card-block row align-items-center">
-                    <div class="columns mr-auto">
-                        <strong><%= game.name %></strong> Created at: <%= game.created_at.strftime("%m-%d-%Y") %>
-                    </div>
-                    <div class="columns">
+            <div class="col-12 col-md-4">
+                <div class="available-games card text-center">
+                    <div class="card-block">
+                        <h4><%= game.name %></h4>
+                        <p>Created at: <%= game.created_at.strftime("%m-%d-%Y") %></p>
                         <% if current_user %>
                             <%= button_to 'Join Game', game_path(game), params: { :black_player_id => current_user.id }, method: :patch, :action => "update", class: 'btn btn-primary' %>
                         <% else %>
@@ -80,7 +71,89 @@
                     </div>
                 </div>
             </div>
-            <br />
         <% end %>
     </div>
 </div>
+<br />
+<div id="tools">
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="display-4 text-center">Tools</h2>
+                <br />
+            </div>
+        </div>
+        <div class="row align-items-end">
+            <div class="col text-center">
+                <%= link_to "https://github.com/TheCorrespondingSquares/chess-app" do %>
+                    <%= image_tag "github.svg" %>
+                <% end %>
+                <p><small>Version Control</small></p>
+            </div>
+            <div class="col text-center">
+                <%= link_to "https://travis-ci.org/TheCorrespondingSquares/" do %>
+                    <%= image_tag "travis-ci.svg" %>
+                <% end %>
+                <p><small>Continuous Integration</small></p>
+            </div>
+            <div class="col text-center">
+                <%= link_to "https://trello.com/b/CWMwNSYB/ilya-may-tp" do %>
+                    <%= image_tag "trello.svg" %>
+                <% end %>
+                <p><small>Agile Project Management</small></p>
+            </div>
+            <div class="col text-center">
+                <%= link_to "https://slack.com/" do %>
+                    <%= image_tag "slack.svg" %>
+                <% end %>
+                <p><small>Team Communication</small></p>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+<br /><br />
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="display-4 text-center">Team</h2>
+            <br />
+        </div>
+    </div>
+    <div class="row align-items-end">
+        <div class="col text-center">
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/fisto@adorable.png", class: 'team-img' %>
+                <p>Fisto Satianto</p>
+            <% end %>
+        </div>
+        <div class="col text-center">
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/kirby@adorable.png", class: 'team-img' %>
+                <p>Kirby James</p>
+            <% end %>
+        </div>
+        <div class="col text-center">
+            <%= link_to "http://justinmunn.co/" do %>
+                <%= image_tag "justin.jpg", class: 'team-img' %>
+                <p>Justin Munn</p>
+            <% end %>
+        </div>
+    </div>
+    <div class="row align-items-end">
+        <div class="col-6 col-lg-4 offset-md-2 text-center">
+            <%= link_to "https://github.com/MiguelBee" do %>
+                <%= image_tag "miguel.jpg", class: 'team-img' %>
+                <p>Miguel Bustamante</p>
+            <% end %>
+        </div>
+        <div class="col-6 col-lg-4 text-center">
+            <%= link_to "#link" do %>
+                <%= image_tag "https://api.adorable.io/avatars/285/nikhil@adorable.png", class: 'team-img' %>
+                <p>Nikhil Nadkarny</p>
+            <% end %>
+        </div>
+    </div>
+</div>
+<br />

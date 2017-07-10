@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <div class="text-center container-fluid">
 
@@ -62,4 +63,81 @@
       </div>
     </div>
   </div>
+=======
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="display-4 text-center">My Games</h2>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <!--<%= @my_games.inspect %>-->
+        <% @my_games.each do |my_game| %>
+            <div class="col-12 col-md-4">
+                <div class="available-games card text-center">
+                    <div class="card-block">
+                        <h4><%= my_game.name %></h4>
+                        <p>Created at: <%= my_game.created_at.strftime("%m-%d-%Y") %></p>
+                        <%= link_to 'View Game', game_path(my_game), class: 'btn btn-primary' %>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col">
+            <h2 class="display-4 text-center">Available Games</h2>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+      <div class="text-center container-fluid">
+        <!-- Available Games modal -->
+        <p class="lead">
+          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+          Show Available Games
+        </button>
+        </p>
+
+        <!-- Available Games Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Available Games</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div id="available-games-modal-body" class="modal-body">
+                <div class="container-fluid">
+                  <div class="row">
+                    <% @games.available.each do |game| %>
+                      <div class="col-12 col-md-6">
+                        <div class="available-games card text-center">
+                            <div class="card-block">
+                                <h4><%= game.name %></h4>
+                                <p>Created at: <%= game.created_at.strftime("%m-%d-%Y") %></p>
+                                <% if current_user %>
+                                    <%= button_to 'Join Game', game_path(game), params: { :black_player_id => current_user.id }, method: :patch, :action => "update", class: 'btn btn-primary' %>
+                                <% else %>
+                                    <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+>>>>>>> c4e8379fa23c67baed3d173f2f1a977ba399adb1
 </div>
