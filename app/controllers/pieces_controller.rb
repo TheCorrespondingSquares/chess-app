@@ -41,8 +41,10 @@ class PiecesController < ApplicationController
         if your_king_is_in_check?
           rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
         else
+          promote_pawn_if_possible
           update_game_turn
         end
+
         Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
@@ -76,13 +78,29 @@ class PiecesController < ApplicationController
       flash[:notice] = "Your king is in check."
       piece.move_to!(@starting_x, @starting_y)
       redirect_to game_path(piece.game)
-    # else
-    #   update_game_turn
     end
   end
 
   def your_king_is_in_check?
     @game.check?(current_piece.color)
+  end
+
+  def is_pawn?
+    current_piece.name == "Pawn"
+  end
+
+  def pawn_and_promotable?
+    if is_pawn?
+      current_piece.can_promote?
+    else
+      false
+    end
+  end
+
+  def promote_pawn_if_possible
+    if pawn_and_promotable
+      # trigger a modal or form, allow user to choose new piece, replace pawn with new piece
+    end
   end
 
   def piece_params
