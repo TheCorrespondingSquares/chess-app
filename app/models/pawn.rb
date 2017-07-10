@@ -23,7 +23,7 @@ class Pawn < Piece
   end
 
   def opposite_is_on_square?(color, to_x, to_y)
-    opposite_piece = game.pieces.where(x_pos: to_x, y_pos: to_y, color: !color)
+    game.pieces.where(x_pos: to_x, y_pos: to_y, color: !color)
   end
 
   def pawn_capture?(color, to_x, to_y)

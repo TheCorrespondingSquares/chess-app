@@ -7,31 +7,35 @@ class PiecesController < ApplicationController
 
   def update
     piece = current_piece
-    new_x_pos = params[:x_pos].to_i
-    new_y_pos = params[:y_pos].to_i
-    starting_x = current_piece.x_pos
-    starting_y = current_piece.y_pos
-
+    @new_x_pos = params[:x_pos].to_i
+    @new_y_pos = params[:y_pos].to_i
+    @starting_x = current_piece.x_pos
+    @starting_y = current_piece.y_pos
     @game = piece.game
     @turn = @game.turn
 
     return render_not_found if piece.blank?
 
-    logger.info "is_obstructed? result: #{piece.is_obstructed?(new_x_pos, new_y_pos)}"
-    logger.info "valid_move? results: #{piece.valid_move?(new_x_pos, new_y_pos)}"
+    logger.info "is_obstructed? result: #{piece.is_obstructed?(@new_x_pos, @new_y_pos)}"
+    logger.info "valid_move? results: #{piece.valid_move?(@new_x_pos, @new_y_pos)}"
     
     logger.info "game_full? result: #{@game.game_full?}"
+    before_move_conditions
+  end
 
+  private
+
+  def before_move_conditions
+    piece = current_piece
     if !@game.game_full?
-      
-    redirect_to game_path(piece.game)
-    elsif piece.valid_move?(new_x_pos, new_y_pos)
+      redirect_to game_path(piece.game)
+    elsif piece.valid_move?(@new_x_pos, @new_y_pos)
       if your_turn_your_piece?
         if your_king_is_in_check?
-          piece.move_to!(new_x_pos, new_y_pos)
-          prohibit_move_unless_check_is_clear(piece, starting_x, starting_y)
+          piece.move_to!(@new_x_pos, @new_y_pos)
+          prohibit_move_unless_check_is_clear(piece, @starting_x, @starting_y)
         else
-          piece.move_to!(new_x_pos, new_y_pos)
+          piece.move_to!(@new_x_pos, @new_y_pos)
           update_game_turn
         end
         Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
@@ -48,19 +52,13 @@ class PiecesController < ApplicationController
     end
   end
 
-  private
-
   def is_check?
-    king_color
-    @game.check?(king_color)
-  end
-
-  def king_color
     if white_piece?
       king_color = "Black"
     else
       king_color = "White"
     end
+    @game.check?(king_color)
   end
 
   def update_game_turn
@@ -71,7 +69,7 @@ class PiecesController < ApplicationController
   def prohibit_move_unless_check_is_clear(piece, starting_x, starting_y)
     if your_king_is_in_check?
       flash[:notice] = "Your king is still in check."
-      piece.move_to!(starting_x, starting_y)
+      piece.move_to!(@starting_x, @starting_y)
       redirect_to game_path(piece.game)
     else
       update_game_turn
