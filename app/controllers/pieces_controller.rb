@@ -12,33 +12,38 @@ class PiecesController < ApplicationController
 
   def update
     piece = current_piece
-    new_x_pos = params[:x_pos].to_i
-    new_y_pos = params[:y_pos].to_i
-
-    logger.info "Params:
-    Orig x_pos: #{piece.x_pos.inspect}, Orig y_pos: #{piece.y_pos.inspect},
-    Dest x_pos: #{new_x_pos.inspect}, Dest y_pos: #{params[:y_pos].to_i.inspect}"
-
+    @new_x_pos = params[:x_pos].to_i
+    @new_y_pos = params[:y_pos].to_i
+    @starting_x = current_piece.x_pos
+    @starting_y = current_piece.y_pos
     @game = piece.game
     @turn = @game.turn
-    
+
     return render_not_found if piece.blank?
 
-    logger.info "is_obstructed? result: #{piece.is_obstructed?(new_x_pos, new_y_pos)}"
-    logger.info "valid_move? results: #{piece.valid_move?(new_x_pos, new_y_pos)}"
+    logger.info "is_obstructed? result: #{piece.is_obstructed?(@new_x_pos, @new_y_pos)}"
+    logger.info "valid_move? results: #{piece.valid_move?(@new_x_pos, @new_y_pos)}"
     
     logger.info "game_full? result: #{@game.game_full?}"
-    
+
+    move_if_possible
+  end
+
+  private
+
+  def move_if_possible
+    piece = current_piece
     if !@game.game_full?
-      
       redirect_to game_path(piece.game)
-    elsif piece.valid_move?(new_x_pos, new_y_pos)
+    elsif piece.valid_move?(@new_x_pos, @new_y_pos)
       if your_turn_your_piece?
-        piece.move_to!(new_x_pos, new_y_pos)
-        @game.update(turn: @turn + 1)
-        #if piece.can_promote?
-        #  piece.update_attributes(pass in the name from the Modal)
-        #end
+        piece.move_to!(@new_x_pos, @new_y_pos)
+        if your_king_is_in_check?
+          rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
+        else
+          update_game_turn
+        end
+        Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
@@ -52,7 +57,33 @@ class PiecesController < ApplicationController
     end
   end
 
-  private
+  def is_check?
+    if white_piece?
+      king_color = "Black"
+    else
+      king_color = "White"
+    end
+    @game.check?(king_color)
+  end
+
+  def update_game_turn
+    @game.update(turn: @turn + 1)
+    flash[:notice] = "Check!" if is_check?
+  end
+
+  def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
+    if your_king_is_in_check?
+      flash[:notice] = "Your king is in check."
+      piece.move_to!(@starting_x, @starting_y)
+      redirect_to game_path(piece.game)
+    # else
+    #   update_game_turn
+    end
+  end
+
+  def your_king_is_in_check?
+    @game.check?(current_piece.color)
+  end
 
   def piece_params
     params.permit(:name, :x_pos, :y_pos, :color, :captured, :game_id, :id)

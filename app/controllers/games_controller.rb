@@ -20,7 +20,7 @@ class GamesController < ApplicationController
     @game = current_game
     @white_player = User.find(@game.white_player_id)
     if @game.black_player_id == nil
-      flash[:notice] = "Waiting for another player to join..."
+      flash[:waiting] = "Waiting for another player to join..."
     else
        @black_player = User.find(@game.black_player_id)
     end
@@ -33,10 +33,16 @@ class GamesController < ApplicationController
   end
 
   def update
-    
     @game = current_game
+    @white_player = User.find(@game.white_player_id)
     @game.update_attributes(join_params)
+    @black_player = User.find(@game.black_player_id)
 
+    Pusher.trigger('channel', 'updateOnJoin', {
+      message: 'Joined Game',
+      email: @black_player.email
+    })
+    
     redirect_to game_path(@game)
   end
 
@@ -52,5 +58,9 @@ class GamesController < ApplicationController
   
   def current_game
     Game.find(params[:id])
+  end
+
+  def black_player?
+    current_user == @game.black_player
   end
 end
