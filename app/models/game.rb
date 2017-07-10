@@ -48,7 +48,6 @@ class Game < ApplicationRecord
       
   def check?(color)
     generate_king_and_opposite_pieces(color)
-
     @opposite_pieces.each do |piece|
       if piece.valid_move?(@king.x_pos, @king.y_pos)
         @piece_making_check = piece
