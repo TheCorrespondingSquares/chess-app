@@ -8,6 +8,7 @@ class GamesController < ApplicationController
 
   def new
     @game = Game.new
+    @piece = Piece.new
   end
 
   def create
@@ -24,6 +25,7 @@ class GamesController < ApplicationController
        @black_player = User.find(@game.black_player_id)
     end
     @pieces = @game.pieces
+   
   end
 
   def edit
@@ -31,6 +33,7 @@ class GamesController < ApplicationController
   end
 
   def update
+    
     @game = current_game
     @game.update_attributes(join_params)
 
@@ -38,7 +41,7 @@ class GamesController < ApplicationController
   end
 
   private
-
+  
   def game_params
     params.require(:game).permit(:name, :user_id, :white_player_id, :black_player_id, :turn)
   end

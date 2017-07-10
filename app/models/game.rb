@@ -55,7 +55,7 @@ class Game < ApplicationRecord
     end
 
     pawns_can_promote.include?(true)
-  end    
+  end
       
   def check?(color)
     king = pieces.find_by(name: 'King', color: color)
