@@ -32,6 +32,10 @@ module Movements
     horizontal_move?(to_x) && to_x == starting_point_x + right_or_left(to_x)
   end
 
+  def horizontal_move_one_square_only?(to_x, to_y)
+    horizontal_move_one_square?(to_x) && !vertical_move?(to_y)
+  end
+
   def vertical_move?(to_y)
     up_or_down(to_y) != 0
   end
@@ -42,6 +46,10 @@ module Movements
 
   def vertical_move_one_square?(to_y)
     vertical_move?(to_y) && to_y == starting_point_y + up_or_down(to_y)
+  end
+
+  def vertical_move_one_square_only?(to_x, to_y)
+    vertical_move_one_square?(to_y) && !horizontal_move?(to_x)
   end
 
   def diagonal_move?(to_x, to_y)
