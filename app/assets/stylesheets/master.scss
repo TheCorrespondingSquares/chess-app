@@ -1,12 +1,24 @@
 @import "bootstrap";
+html, body {
+    height: 100%;
+}
 
 body {
     background: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
 }
 
 .navbar-bg {
     background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.alert {
+    margin-bottom: 0;
 }
 
 /* ------------------
@@ -159,6 +171,17 @@ td { width:42px; height:42px; }
     margin-bottom: 1rem;
 }
 
+.team-img {
+    max-width: 200px;
+    border: 2px solid #28C76F;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+#tools {
+    background: #fff;
+}
+
 /* ------------------------
     Footer Styles
 ------------------------- */
@@ -177,4 +200,8 @@ footer a {
     &:hover {
         color: #28C76F;
     }
+}
+
+#available-games-modal-body {
+    background: #f1f1f1;
 }
