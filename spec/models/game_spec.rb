@@ -44,31 +44,36 @@ RSpec.describe Game, type: :model do
   end
 
   describe "#check?" do
-    subject(:check?) { game.check?(king.color) }
-    let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }
+    let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+    let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 7, y_pos: 7, game_id: game.id) }
     before(:each) { game.pieces.destroy_all }
 
-    
     context 'when a Rook puts King in check' do
-      let!(:piece_making_check) { FactoryGirl.create(:rook, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
+      let!(:piece_making_check) { FactoryGirl.create(:rook, color: "Black", captured: false, x_pos: 7, y_pos: 0, game_id: game.id) }
 
-      it { is_expected.to eq(true) }
+      it ' should raise an alert' do
+        expect(game.check?(king.color)).to eq(true)
+      end
     end
 
     context 'when a Bishop puts King in check' do
-      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 2, y_pos: 2, game_id: game.id) }
+      let!(:piece_making_check) { FactoryGirl.create(:bishop, color: "Black", captured: false, x_pos: 0, y_pos: 0, game_id: game.id) }
 
-      it { is_expected.to eq(true) } 
+      it ' should raise an alert' do
+        expect(game.check?(king.color)).to eq(true)
+      end
     end
 
     context 'when a piece does not put King in check' do
-      let!(:piece_doesnt_check) { FactoryGirl.create(:queen, color: "Black", captured: false, x_pos: 2, y_pos: 3, game_id: game.id) }
+      let!(:piece_making_check) { FactoryGirl.create(:queen, color: "Black", captured: false, x_pos: 2, y_pos: 3, game_id: game.id) }
 
-      it { is_expected.to eq(false) } 
-    end       
+      it ' should not raise any alert' do
+        expect(game.check?(king.color)).to eq(false)
+      end
+    end
   end
 
-  describe "#checkmate!" do
+  describe "#checkmate?" do
     let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
     let(:king) { FactoryGirl.create(:king, color: "White", x_pos: 7, y_pos: 7, game_id: game.id) }
     before(:each) { game.pieces.destroy_all }  

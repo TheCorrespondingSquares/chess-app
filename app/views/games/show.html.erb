@@ -40,7 +40,7 @@
             <div class="card-block" style="background: #333; color: #fff;">
               <h6 class="text-muted">Black Player</h6>
               <% if @game.black_player_id == nil %>
-                <h5 class="card-title">Waiting on Opponent</h5>
+                <h5 id="black-player" class="card-title">Waiting on Opponent</h5>
               <% else %>
                 <h5 class="card-title"><%= @black_player.email %></h5>
               <% end %>
