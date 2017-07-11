@@ -1,9 +1,0 @@
-<%= simple_form_for @piece, url: game_piece_path do |f| %>
-  <div class="modal-body">
-  	<%= f.button :submit, 'Rook', name: 'name', value: 'Rook' %>
-    <%= f.button :submit, 'Bishop', name: 'name', value: 'Bishop' %>
-    <%= f.button :submit, 'Knight', name: 'name', value: 'Knight' %>
-    <%= f.button :submit, 'Queen', name: 'name', value: 'Queen' %>
-    <%= f.button :submit, 'Pawn', name: 'name', value: 'Pawn' %>
-  </ div>
-<% end %>

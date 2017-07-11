@@ -8,7 +8,6 @@ class GamesController < ApplicationController
 
   def new
     @game = Game.new
-    @piece = Piece.new
   end
 
   def create
