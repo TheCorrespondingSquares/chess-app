@@ -51,20 +51,17 @@
                   <%= captured_piece.icon.html_safe %>
                 <% end %>
               </p>
-              <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
             </div>
           </div>
         </div>
 
       </div>
     </div>
+    
     <div class="col">
-      <!--<h1 id="gameId" data-game-id="<%= @game.id %>"><%= @game.name %></h1>-->
       <br />
       <table id="board" class="center text-center">
-        
-
-
+    
         <% (0..7).each do |row| %>
           <tr>
           <% 8.times do |col| %>
@@ -90,6 +87,7 @@
           </tr>
         <% end %>
       </table>
+      <br />
     </div>
   </div>
 </div>

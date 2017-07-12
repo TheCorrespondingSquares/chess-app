@@ -22,6 +22,7 @@ gem 'reek', '~> 4.6', '>= 4.6.2' # modules and methods and reports any code smel
 gem 'figaro' # app configuration using ENV variables and a single YAML file
 gem 'bootstrap', '~> 4.0.0.alpha6' # Use Bootstrap 4 for front-end framework
 gem 'pusher'
+gem 'omniauth-facebook'
 gem 'faker', '~>1.7.3'
 
 source 'https://rails-assets.org' do

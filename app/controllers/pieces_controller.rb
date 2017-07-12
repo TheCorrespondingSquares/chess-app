@@ -1,5 +1,5 @@
 class PiecesController < ApplicationController
-  before_action :require_game_player, only: [:update]
+  before_action :require_game_player, only: [:update, :create, :destroy]
 
   def show
     render json: current_piece
@@ -35,12 +35,11 @@ class PiecesController < ApplicationController
         piece.move_to!(@new_x_pos, @new_y_pos)
         if your_king_is_in_check?
           rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
-          # flash[:notice] = "Your king is in check."
-          # redirect_to game_path(piece.game)  
         else
-          # piece.move_to!(@new_x_pos, @new_y_pos)
+          promote_pawn_if_possible
           update_game_turn
         end
+
         Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
@@ -71,17 +70,38 @@ class PiecesController < ApplicationController
 
   def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
     if your_king_is_in_check?
-      flash[:notice] = "Your king is in check."
+      flash[:notice] = "Your King is in check."
       piece.move_to!(@starting_x, @starting_y)
       redirect_to game_path(piece.game)
-    # else
-    #   update_game_turn
     end
   end
 
   def your_king_is_in_check?
     @game.check?(current_piece.color)
   end
+
+  def is_pawn?
+    current_piece.name == "Pawn"
+  end
+
+  def pawn_can_promote?
+    if is_pawn?
+      current_piece.can_promote?(@new_y_pos)
+    else
+      false
+    end
+  end
+
+  def promote_pawn(pawn)
+    pawn.update_attributes(name: "Queen", icon: '&#9819;')
+  end  
+
+  def promote_pawn_if_possible
+    if pawn_can_promote?
+      promote_pawn(current_piece)
+      flash[:notice] = "Your Pawn has been promoted to Queen. Long may she reign."
+    end
+  end  
 
   def piece_params
     params.permit(:name, :x_pos, :y_pos, :color, :captured, :game_id, :id)
@@ -149,5 +169,5 @@ class PiecesController < ApplicationController
       redirect_to game_path(current_piece.game)
     end
   end
-
+  
 end
