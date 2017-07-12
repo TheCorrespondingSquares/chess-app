@@ -1,17 +1,8 @@
 class PiecesController < ApplicationController
-  before_action :require_game_player, only: [:update]
+  before_action :require_game_player, only: [:update, :create, :destroy]
 
   def show
     render json: current_piece
-  end
-  
-  def new
-    @piece = Piece.new
-  end
-  
-  def create
-    @piece = Piece.create(promote_params)
-    redirect_to game_path(@game)
   end
 
   def update
@@ -42,10 +33,6 @@ class PiecesController < ApplicationController
     elsif piece.valid_move?(@new_x_pos, @new_y_pos)
       if your_turn_your_piece?
         piece.move_to!(@new_x_pos, @new_y_pos)
-        if piece.can_promote?
-          render :template => 'pieces/form'
-          promote_pawn(new_name)
-        end
         if your_king_is_in_check?
           rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
         else
@@ -91,20 +78,7 @@ class PiecesController < ApplicationController
   def your_king_is_in_check?
     @game.check?(current_piece.color)
   end
-
-  def promote_pawn(new_name)
-    Pawn.destroy
-    Piece.create(
-      x_pos: x_pos, 
-      y_pos: y_pos, 
-      turn: turn,
-      name: new_name, 
-      color: color,
-      captured: false, 
-      game_id: game.id
-      )
-  end
-
+  
   def piece_params
     params.permit(:name, :x_pos, :y_pos, :color, :captured, :game_id, :id)
   end
@@ -172,7 +146,4 @@ class PiecesController < ApplicationController
     end
   end
   
-  def promote_params
-    params.require(:game).permit(name: new_name, x_pos: x_pos, y_pos: y_pos, captured: false, color: color, turn: turn)
-  end
 end

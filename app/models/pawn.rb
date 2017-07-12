@@ -12,11 +12,19 @@ class Pawn < Piece
     end
   end
   
+  def move_to!(to_x, to_y)
+    if can_promote?(to_y) && valid_move?(to_x,to_y)
+      promote_pawn(to_x, to_y)
+    else
+      super(to_x, to_y)
+    end
+  end
+  
+  private
+  
   def can_promote?(y_pos)
     reached_opposite_border?(y_pos)
   end
-
-  private
 
   def pawn_move_vertical?(to_x, to_y)
     pawn_move_forward?(to_y) && !is_on_square?(to_x, to_y) && pawn_first_move?(to_y)
@@ -62,4 +70,21 @@ class Pawn < Piece
     y_pos == 0 && is_black?
   end
   
+  def promote_pawn(to_x, to_y)
+    @game = self.game
+    y = to_y
+    x = to_x
+    game = self.game_id
+    color = self.color
+    
+    @game.pieces.create(
+      x_pos: x, 
+      y_pos: y, 
+      name: "Queen",
+      color: color, 
+      game_id: game,
+      icon: '&#9819;'
+      )
+    self.destroy
+  end
 end
