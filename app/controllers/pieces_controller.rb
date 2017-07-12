@@ -36,6 +36,7 @@ class PiecesController < ApplicationController
         if your_king_is_in_check?
           rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
         else
+          promote_pawn_if_possible
           update_game_turn
         end
 
@@ -69,7 +70,7 @@ class PiecesController < ApplicationController
 
   def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
     if your_king_is_in_check?
-      flash[:notice] = "Your king is in check."
+      flash[:notice] = "Your King is in check."
       piece.move_to!(@starting_x, @starting_y)
       redirect_to game_path(piece.game)
     end
@@ -78,7 +79,30 @@ class PiecesController < ApplicationController
   def your_king_is_in_check?
     @game.check?(current_piece.color)
   end
-  
+
+  def is_pawn?
+    current_piece.name == "Pawn"
+  end
+
+  def pawn_can_promote?
+    if is_pawn?
+      current_piece.can_promote?(@new_y_pos)
+    else
+      false
+    end
+  end
+
+  def promote_pawn(pawn)
+    pawn.update_attributes(name: "Queen", icon: '&#9819;')
+  end  
+
+  def promote_pawn_if_possible
+    if pawn_can_promote?
+      promote_pawn(current_piece)
+      flash[:notice] = "Your Pawn has been promoted to Queen. Long may she reign."
+    end
+  end  
+
   def piece_params
     params.permit(:name, :x_pos, :y_pos, :color, :captured, :game_id, :id)
   end
