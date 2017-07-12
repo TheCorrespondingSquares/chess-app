@@ -23,6 +23,7 @@ gem 'figaro' # app configuration using ENV variables and a single YAML file
 gem 'bootstrap', '~> 4.0.0.alpha6' # Use Bootstrap 4 for front-end framework
 gem 'pusher'
 gem 'omniauth-facebook'
+gem 'faker', '~>1.7.3'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
