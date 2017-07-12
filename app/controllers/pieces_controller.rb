@@ -56,12 +56,12 @@ class PiecesController < ApplicationController
   end
 
   def is_check?
-    if white_piece?
-      king_color = "Black"
-    else
-      king_color = "White"
-    end
-    @game.check?(king_color)
+    # if white_piece?
+    #   king_color = "Black"
+    # else
+    #   king_color = "White"
+    # end
+    @game.check?("Black") || @game.check?("White")
   end
 
   def update_game_turn

@@ -23,6 +23,13 @@ class GamesController < ApplicationController
     else
        @black_player = User.find(@game.black_player_id)
     end
+
+    if @game.check?("White")
+      flash[:alert] = "White is now in check!"
+    elsif @game.check?("Black")
+      flash[:alert] = "Black is now in check!"
+    end
+    
     @pieces = @game.pieces
   end
 

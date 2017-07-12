@@ -87,5 +87,17 @@ RSpec.describe Piece, type: :model do
       it { is_expected.to eq(valid_moves) }
     end
   end
+
+  # describe "#your_king_in_check?" do
+  #   let(:white_king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }
+  #   let(:white_rook) { FactoryGirl.create(:rook, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
+  #   let(:black_rook) { FactoryGirl.create(:rook, color: "Black", x_pos: 4, y_pos: 6, game_id: game.id) }
+
+  #   context "for a move that leaves your King in check" do
+  #     it "should return true and leave game unchanged" do
+        
+  #     end
+  #   end
+  # end
   
 end
