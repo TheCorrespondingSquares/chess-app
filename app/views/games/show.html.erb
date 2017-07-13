@@ -59,8 +59,12 @@
     </div>
     
     <div class="col">
-      <br />            
-      <% if @game.check?("White") %>
+      <br />
+      <% if @game.result == "Stalemate" %>
+        <div class="stalemate alert-info text-center" role="alert">
+          <strong>Stalemate! Game over :/</strong>
+        </div>         
+      <% elsif @game.check?("White") %>
         <div class="check-white alert-warning text-center" role="alert">
           <strong>White is now in check</strong>
         </div>        

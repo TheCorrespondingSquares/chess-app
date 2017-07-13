@@ -18,6 +18,7 @@ class GamesController < ApplicationController
   def show
     @game = current_game
     @white_player = User.find(@game.white_player_id)
+
     if @game.black_player_id == nil
       flash[:waiting] = "Waiting for another player to join..."
     else
@@ -25,9 +26,9 @@ class GamesController < ApplicationController
     end
 
     if game_in_stalemate?
-      flash[:warning] = "Stalemate! Game ends in draw :/"
-      game_ends_in_draw
+      @game.update_attributes(result: "Stalemate")
     end
+
     @pieces = @game.pieces
   end
 
@@ -53,10 +54,6 @@ class GamesController < ApplicationController
 
   def game_in_stalemate?
     @game.stalemate?("White") || @game.stalemate?("Black")
-  end
-
-  def game_ends_in_draw
-    @game.update_attributes(result: "Draw")
   end
   
   def game_params
