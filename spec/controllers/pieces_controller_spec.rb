@@ -56,7 +56,7 @@ RSpec.describe PiecesController, type: :controller do
         black_bishop.reload
         game.reload
 
-        expect(flash[:notice]).to match("Your king is in check.")
+        expect(flash[:notice]).to match("Your King is in check.")
         expect(black_bishop.x_pos).to eq 6
         expect(black_bishop.y_pos).to eq 4     
         expect(game.black_piece_turn?).to eq(true)

@@ -67,4 +67,11 @@ class Piece < ApplicationRecord
     return valid_moves
   end
   
+  def is_white?
+    self.color == "White"
+  end
+  
+  def is_black?
+    self.color == "Black"
+  end
 end
