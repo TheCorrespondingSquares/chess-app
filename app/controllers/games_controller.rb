@@ -24,7 +24,6 @@ class GamesController < ApplicationController
        @black_player = User.find(@game.black_player_id)
     end
     @pieces = @game.pieces
-   
   end
 
   def edit

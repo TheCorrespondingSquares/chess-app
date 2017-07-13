@@ -59,7 +59,17 @@
     </div>
     
     <div class="col">
-      <br />
+      <br />    
+      <% if @game.check?("White") %>
+        <div class="check-white alert-warning text-center" role="alert">
+          <strong>White is now in check</strong>
+        </div>        
+      <% elsif @game.check?("Black") %>
+        <div class="check-white alert-warning text-center" role="alert">
+          <strong>Black is now in check</strong>
+        </div>      
+      <% end %>
+<!--       <br /> -->
       <table id="board" class="center text-center">
     
         <% (0..7).each do |row| %>
