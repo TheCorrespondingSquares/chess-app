@@ -25,7 +25,7 @@ RSpec.describe PiecesController, type: :controller do
       before(:each) { sign_out white_player }
       before(:each) { sign_out black_player }
 
-      it ' should raise an alert' do
+      it ' should return true if your move puts opposing player in check' do
         sign_in white_player
         game.reload
         patch :update, params: { game_id: game.id, id: white_bishop.id, x_pos: 4, y_pos: 4 }
@@ -34,9 +34,9 @@ RSpec.describe PiecesController, type: :controller do
 
         expect(white_bishop.x_pos).to eq 4
         expect(white_bishop.y_pos).to eq 4
-        expect(flash[:notice]).to match("Check!")
+        expect(game.check?("Black")).to eq(true)
       end
-    end
+    end   
 
     context 'When there is a check condition' do
       before(:each) { game.pieces.destroy_all } 
@@ -56,7 +56,7 @@ RSpec.describe PiecesController, type: :controller do
         black_bishop.reload
         game.reload
 
-        expect(flash[:notice]).to match("Your king is in check.")
+        expect(flash[:alert]).to match("Sorry, that move would leave your King in check.")
         expect(black_bishop.x_pos).to eq 6
         expect(black_bishop.y_pos).to eq 4     
         expect(game.black_piece_turn?).to eq(true)

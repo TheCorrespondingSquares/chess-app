@@ -47,7 +47,19 @@ class Game < ApplicationRecord
 
   def black_piece_turn?
     !white_piece_turn?
-  end
+  end 
+  
+  #for later use to attach pawn-promotion to UI
+  #def pawns_can_promote?
+  #  all_pawns = pieces.where(name: "Pawn").where(captured: false)
+  #  pawns_can_promote = []
+
+  #  all_pawns.each do |pawn|
+  #    pawns_can_promote << pawn.can_promote?(pawn.y_pos)
+  #  end
+
+  #  pawns_can_promote.include?(true)
+  #end
       
   def check?(color)
     generate_king_and_opposite_pieces(color)

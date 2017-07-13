@@ -116,5 +116,4 @@ RSpec.describe Pawn, type: :model do
       end
     end
   end
-
 end

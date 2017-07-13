@@ -12,8 +12,12 @@ class Pawn < Piece
     end
   end
 
-
+  def can_promote?(y_pos)
+    reached_opposite_border?(y_pos)
+  end  
+  
   private
+
 
   def pawn_move_vertical?(to_x, to_y)
     pawn_move_forward?(to_y) && !is_on_square?(to_x, to_y) && pawn_first_move?(to_y)
@@ -32,7 +36,7 @@ class Pawn < Piece
   end
 
   def pawn_move_forward?(to_y)
-    if self.color == "White"
+    if is_white?
       to_y > starting_point_y
     else
       to_y < starting_point_y
@@ -40,10 +44,27 @@ class Pawn < Piece
   end
 
   def pawn_first_move?(to_y)
-    if self.color == 'White'
+    if is_white?
       self.y_pos == 1 ? to_y < 4 : vertical_move_one_square?(to_y)
     else
       self.y_pos == 6 ? to_y > 3 : vertical_move_one_square?(to_y)
     end
   end
+<<<<<<< HEAD
 end
+=======
+  
+  def reached_opposite_border?(y_pos)
+    white_reached_border?(y_pos) || black_reached_border?(y_pos)
+  end
+  
+  def white_reached_border?(y_pos)
+    y_pos == 7 && is_white?
+  end
+  
+  def black_reached_border?(y_pos)
+    y_pos == 0 && is_black?
+  end
+
+end
+>>>>>>> 73bc12ed948ead8b16e3068775324a9184b53452

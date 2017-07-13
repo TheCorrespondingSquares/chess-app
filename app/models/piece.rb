@@ -39,6 +39,20 @@ class Piece < ApplicationRecord
     end
   end
 
+  def move_leaves_king_in_check?(to_x, to_y)
+    result = false
+
+    self.transaction do
+      self.move_to!(to_x, to_y)
+      if game.check?(self.color)
+        result = true
+      end
+      raise ActiveRecord::Rollback
+    end
+
+    return result
+  end
+
   def capture_piece!(x, y, piece_to_capture)
     piece_to_capture.update_attributes(x_pos: nil, y_pos: nil, captured: true)
     self.update_attributes(x_pos: x, y_pos: y)
@@ -67,4 +81,11 @@ class Piece < ApplicationRecord
     return valid_moves
   end
   
+  def is_white?
+    self.color == "White"
+  end
+  
+  def is_black?
+    self.color == "Black"
+  end
 end
