@@ -88,21 +88,39 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe "#your_king_in_check?" do
-    let(:white_king) { FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id) }
-    let(:white_rook) { FactoryGirl.create(:rook, color: "White", x_pos: 3, y_pos: 1, game_id: game.id) }
-    let(:black_rook) { FactoryGirl.create(:rook, color: "Black", x_pos: 4, y_pos: 6, game_id: game.id) }
-    let(:black_pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id) }
+  describe "#move_leaves_king_in_check?" do
 
     context "for a move that leaves your King in check" do
       it "should return true and leave game unchanged" do
-        your_king_in_check = white_rook.your_king_in_check?(3, 3)
+        white_rook = FactoryGirl.create(:rook, color: "White", x_pos: 3, y_pos: 1, game_id: game.id)
+        black_pawn = FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id)
+        FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id)
+        FactoryGirl.create(:rook, color: "Black", x_pos: 4, y_pos: 6, game_id: game.id)
+
+        move_leaves_king_in_check = white_rook.move_leaves_king_in_check?(3, 3)
+
+        game.reload
         white_rook.reload
         black_pawn.reload
 
-        expect(your_king_in_check).to eq(true)
-        expect(white_rook.y_pos).to eq(3)
+        expect(move_leaves_king_in_check).to eq(true)
+        expect(white_rook.y_pos).to eq(1)
         expect(black_pawn.captured).to eq(false)
+      end
+    end
+    
+    context "for a move that takes your King out of check" do
+      it "should return false and leave game unchanged" do
+        white_rook = FactoryGirl.create(:rook, color: "White", x_pos: 3, y_pos: 1, game_id: game.id)
+        FactoryGirl.create(:king, color: "White", x_pos: 4, y_pos: 0, game_id: game.id)
+        FactoryGirl.create(:rook, color: "Black", x_pos: 4, y_pos: 6, game_id: game.id)
+
+        move_leaves_king_in_check = white_rook.move_leaves_king_in_check?(4, 1)
+        game.reload
+        white_rook.reload
+
+        expect(move_leaves_king_in_check).to eq(false)
+        expect(white_rook.x_pos).to eq(3)
       end
     end
   end

@@ -39,18 +39,18 @@ class Piece < ApplicationRecord
     end
   end
 
-  def your_king_in_check?(to_x, to_y)
-    # result = false
+  def move_leaves_king_in_check?(to_x, to_y)
+    result = false
 
     self.transaction do
       self.move_to!(to_x, to_y)
       if game.check?(self.color)
-        return true
-        raise ActiveRecord::Rollback
+        result = true
       end
+      raise ActiveRecord::Rollback
     end
 
-    return false
+    return result
   end
 
   def capture_piece!(x, y, piece_to_capture)
