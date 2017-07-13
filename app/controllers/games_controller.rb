@@ -23,6 +23,11 @@ class GamesController < ApplicationController
     else
        @black_player = User.find(@game.black_player_id)
     end
+
+    if game_in_stalemate?
+      flash[:warning] = "Stalemate! Game ends in draw :/"
+      game_ends_in_draw
+    end
     @pieces = @game.pieces
   end
 
@@ -45,6 +50,14 @@ class GamesController < ApplicationController
   end
 
   private
+
+  def game_in_stalemate?
+    @game.stalemate?("White") || @game.stalemate?("Black")
+  end
+
+  def game_ends_in_draw
+    @game.update_attributes(result: "Draw")
+  end
   
   def game_params
     params.require(:game).permit(:name, :user_id, :white_player_id, :black_player_id, :turn)
