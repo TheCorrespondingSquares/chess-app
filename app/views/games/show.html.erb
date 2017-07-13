@@ -61,11 +61,11 @@
     <div class="col">
       <br />    
       <% if @game.check?("White") %>
-        <div class="alert alert-warning text-center" role="alert">
+        <div class="check-white alert-warning text-center" role="alert">
           <strong>White is now in check</strong>
         </div>        
       <% elsif @game.check?("Black") %>
-        <div class="alert alert-warning text-center" role="alert">
+        <div class="check-white alert-warning text-center" role="alert">
           <strong>Black is now in check</strong>
         </div>      
       <% end %>

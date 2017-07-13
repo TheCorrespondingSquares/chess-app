@@ -60,14 +60,6 @@ class PiecesController < ApplicationController
     @game.update(turn: @turn + 1)
   end
 
-  # def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
-  #   if your_king_is_in_check?
-  #     flash[:notice] = "Your King is in check."
-  #     piece.move_to!(@starting_x, @starting_y)
-  #     redirect_to game_path(piece.game)
-  #   end
-  # end
-
   def move_would_leave_your_king_in_check?
     current_piece.move_leaves_king_in_check?(@new_x_pos, @new_y_pos)
   end
