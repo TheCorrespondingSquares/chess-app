@@ -32,15 +32,17 @@ class PiecesController < ApplicationController
       redirect_to game_path(piece.game)
     elsif piece.valid_move?(@new_x_pos, @new_y_pos)
       if your_turn_your_piece?
-        piece.move_to!(@new_x_pos, @new_y_pos)
-        if your_king_is_in_check?
-          rollback_move_if_king_in_check(piece, @starting_x, @starting_y)
+        if move_would_leave_your_king_in_check?
+          flash[:alert] = "Sorry, that move would leave your King in check."
+          redirect_to game_path(piece.game)
         else
+          piece.move_to!(@new_x_pos, @new_y_pos)
           promote_pawn_if_possible
           update_game_turn
+          Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })    
         end
 
-        Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })
+        
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
@@ -54,26 +56,20 @@ class PiecesController < ApplicationController
     end
   end
 
-  def is_check?
-    # if white_piece?
-    #   king_color = "Black"
-    # else
-    #   king_color = "White"
-    # end
-    @game.check?("Black") || @game.check?("White")
-  end
-
   def update_game_turn
     @game.update(turn: @turn + 1)
-    flash[:notice] = "Check!" if is_check?
   end
 
-  def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
-    if your_king_is_in_check?
-      flash[:notice] = "Your King is in check."
-      piece.move_to!(@starting_x, @starting_y)
-      redirect_to game_path(piece.game)
-    end
+  # def rollback_move_if_king_in_check(piece, _starting_x, _starting_y)
+  #   if your_king_is_in_check?
+  #     flash[:notice] = "Your King is in check."
+  #     piece.move_to!(@starting_x, @starting_y)
+  #     redirect_to game_path(piece.game)
+  #   end
+  # end
+
+  def move_would_leave_your_king_in_check?
+    current_piece.move_leaves_king_in_check?(@new_x_pos, @new_y_pos)
   end
 
   def your_king_is_in_check?
