@@ -32,7 +32,7 @@ class PiecesController < ApplicationController
       redirect_to game_path(piece.game)
     elsif piece.valid_move?(@new_x_pos, @new_y_pos)
       if your_turn_your_piece?
-        if move_would_leave_your_king_in_check?
+        if move_would_leave_your_king_in_check?        
           flash[:alert] = "Sorry, that move would leave your King in check."
           redirect_to game_path(piece.game)
         else
@@ -41,8 +41,6 @@ class PiecesController < ApplicationController
           update_game_turn
           Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })    
         end
-
-        
       elsif your_turn_not_your_piece?
         flash[:alert] = "Sorry, that's not your piece."
         redirect_to game_path(piece.game)        
@@ -51,7 +49,7 @@ class PiecesController < ApplicationController
         redirect_to game_path(piece.game)
       end
     else
-      flash[:alert] = "Sorry your #{piece.name} can't move there."
+      flash[:alert] = "Sorry, your #{piece.name} can't move there."
       redirect_to game_path(piece.game)
     end
   end
