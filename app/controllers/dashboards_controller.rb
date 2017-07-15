@@ -1,4 +1,6 @@
 class DashboardsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @games = Game.all
     @available_games = Game.available 
