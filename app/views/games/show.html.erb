@@ -63,11 +63,11 @@
      
       <% if @game.checkmate?("White") %>
         <div class="check-white alert-warning text-center" role="alert">
-          <strong>Checkmate! White won. Game over. </strong>
+          <strong>Checkmate! Black won. Game over. </strong>
         </div>
       <% elsif @game.checkmate?("Black") %>
         <div class="check-white alert-warning text-center" role="alert">
-          <strong>Checkmate! Black won. Game over. </strong>
+          <strong>Checkmate! White won. Game over. </strong>
         </div>
       <% elsif @game.check?("White") %>
         <div class="check-white alert-warning text-center" role="alert">
