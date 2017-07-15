@@ -29,6 +29,12 @@ class GamesController < ApplicationController
       @game.update_attributes(result: "Stalemate")
     end
 
+    if @game.checkmate?("White")
+      @game.update_attributes(result: "Winner: #{@game.white_player_id}")
+    else
+      @game.update_attributes(result: "Winner: #{@game.black_player_id}")
+    end
+
     @pieces = @game.pieces
   end
 
