@@ -35,7 +35,7 @@ RSpec.describe GamesController, type: :controller do
       get :show, params: { id: game.id }
       game.reload
 
-      expect(game.result).to eq ("Winner: #{game.black_player_id}")
+      expect(game.result).to eq("Winner: #{game.black_player_id}")
     end
 
     it 'should update the result the winner is Black and notify the game is over' do
@@ -48,7 +48,7 @@ RSpec.describe GamesController, type: :controller do
       get :show, params: { id: game.id }
       game.reload
 
-      expect(game.result).to eq ("Winner: #{game.white_player_id}")
+      expect(game.result).to eq("Winner: #{game.white_player_id}")
     end
   end	
 end
