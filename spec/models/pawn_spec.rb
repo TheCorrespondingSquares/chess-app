@@ -2,8 +2,29 @@ require 'rails_helper'
 
 RSpec.describe Pawn, type: :model do
   let(:user) { FactoryGirl.create(:user) }
-  let(:game) { FactoryGirl.create(:game, white_player_id: user.id)}
+  let(:game) { FactoryGirl.create(:game, white_player_id: user.id) }
+  let(:game) { FactoryGirl.create(:game, black_player_id: user.id) }
   before(:each) { game.pieces.destroy_all }
+  
+  describe "#can_enpassant?" do
+    let!(:pawn) {FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id)}
+    
+    context "when an opponent pawn is adjacent" do
+      let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id)}
+        
+      it "should be true" do
+        expect(pawn.opponent_pawn_adjacent?).to eq true
+      end
+    end
+    
+    context 'when opponent pawn is not adjacent' do 
+      let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 1, y_pos: 3, game_id: game.id)}
+      
+      it 'should be false' do
+        expect(pawn.opponent_pawn_adjacent?).to eq false
+      end
+    end
+  end
 
   describe "#valid_move?" do
     subject(:valid_move?) { pawn.valid_move?(to_x, to_y) }
@@ -38,7 +59,7 @@ RSpec.describe Pawn, type: :model do
         let(:pawn) { FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 5, game_id: game.id) }
         let(:to_x) { pawn.x_pos }
         let(:to_y) { 4 }
-        
+
         it 'should be true' do
           expect(pawn.valid_move?(to_x, to_y)).to eq(true)
         end
@@ -61,7 +82,7 @@ RSpec.describe Pawn, type: :model do
         let(:to_x) { pawn.x_pos }
         let(:to_y) { 4 }
 
-        it { is_expected.to eq(false) }   
+        it { is_expected.to eq(false) }
       end
 
       context 'diagonal without capture' do
@@ -78,14 +99,14 @@ RSpec.describe Pawn, type: :model do
         let(:to_x) { 3 }
         let(:to_y) { 0 }
 
-        it { is_expected.to eq(false) }   
+        it { is_expected.to eq(false) }
       end
 
       context 'horizontal move' do
         let(:to_x) { 4 }
         let(:to_y) { 1 }
 
-        it { is_expected.to eq(false) }   
+        it { is_expected.to eq(false) }
       end
     end
   end

@@ -5,20 +5,57 @@ class Pawn < Piece
   end
 
   def valid_move?(to_x, to_y)
-    if is_on_square?(to_x, to_y)
+    if is_on_square?(to_x, to_y) #enpassant should go here
       pawn_capture?(color, to_x, to_y)
     else
-      pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)
+      pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) 
     end
   end
 
   def can_promote?(y_pos)
     reached_opposite_border?(y_pos)
-  end  
+  end
+  
+  #logic to perform enpassant
+  def enpassant(to_x, to_y)
+    if can_enpassant? && diagonal_move_one_square?(to_x, to_y)
+      if is_white?
+        to_x == opponent_pawn?.x_pos  && to_y == opponent_pawn?.y_pos + 1
+      else
+        to_x == opponent_pawn?.x_pos && to_y == opponent_pawn?.y_pos - 1
+
+      end
+    end
+  end
+  
+  #boolean for enpassant
+  def can_enpassant?
+    two_square_first_move? && opponent_pawn_adjacent?
+  end
+  
+  
+  
+  #determines if piece has moved two squares to be captured
+  def two_square_first_move?
+    if is_white?
+      y_pos == starting_point_y + 2
+    else
+      y_pos == starting_point_y - 2
+    end
+  end
+      
+  #determines if opponent is in position for enpassant
+  def opponent_pawn_adjacent?
+    (opponent_pawn.x_pos == self.x_pos - 1 || opponent_pawn.x_pos == self.x_pos + 1) && opponent_pawn.y_pos == self.y_pos
+  end
+  
+  #determines opponent pawn
+  def opponent_pawn(other_piece)
+    self.color != other_piece.color && other_piece.name == "Pawn"
+  end
   
   private
-
-
+  
   def pawn_move_vertical?(to_x, to_y)
     pawn_move_forward?(to_y) && !is_on_square?(to_x, to_y) && pawn_first_move?(to_y)
   end
