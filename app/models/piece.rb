@@ -92,4 +92,8 @@ class Piece < ApplicationRecord
   def has_moved?
     Self.turn > 0
   end
+  
+  def current_piece
+    Piece.find(params[:id])
+  end
 end

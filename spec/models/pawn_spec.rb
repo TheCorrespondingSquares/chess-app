@@ -7,21 +7,15 @@ RSpec.describe Pawn, type: :model do
   before(:each) { game.pieces.destroy_all }
   
   describe "#can_enpassant?" do
+    subject(:enpassant) {pawn.can_enpassant?}
+    
     let!(:pawn) {FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id)}
     
-    context "when an opponent pawn is adjacent" do
-      let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id)}
-        
-      it "should be true" do
-        expect(pawn.opponent_pawn_adjacent?).to eq true
-      end
-    end
-    
-    context 'when opponent pawn is not adjacent' do 
-      let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 1, y_pos: 3, game_id: game.id)}
+    context 'when there is an adjacent opponent pawn that has moved once' do
+      let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id, turn: 1)}
       
-      it 'should be false' do
-        expect(pawn.opponent_pawn_adjacent?).to eq false
+      it 'should be true' do
+        expect(pawn.can_enpassant?).to be true
       end
     end
   end
