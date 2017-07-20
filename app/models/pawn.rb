@@ -5,10 +5,10 @@ class Pawn < Piece
   end
 
   def valid_move?(to_x, to_y)
-    if is_on_square?(to_x, to_y)
+    if is_on_square?(to_x, to_y) || can_enpassant?
       pawn_capture?(color, to_x, to_y)
     else
-      pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) && enpassant
+      pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)# || can_enpassant?
     end
   end
 
@@ -17,37 +17,44 @@ class Pawn < Piece
   end
   
   #logic to perform enpassant
-  def enpassant
-    if is_white?
-      self.update_attributes(x_pos: @opponent_pawn.x_pos, y_pos: @opponent_pawn.y_pos + 1)
+  def move_to!(to_x, to_y)
+    if can_enpassant?
+    to_x = @opponent_pawn.x_pos
+      if is_white?
+        diagonal_move_one_square?(to_x, 2)
+        capture_piece!(to_x, 2, @opponent_pawn)
+      else is_black?
+        diagonal_move_one_square?(to_x, 5)
+        capture_piece!(to_x, 5, @opponent_pawn)
+      end
     else
-      self.update_attributes(x_pos: @opponent_pawn.x_pos, y_pos: @opponent_pawn.y_pos - 1)
+      super
     end
   end
   
   #boolean for enpassant
   def can_enpassant?
-    opponent_pawn_adjacent? && moved_two_squares_first_turn?
+    opponent_pawn_adjacent? && @opponent_pawn.moved_two_squares_first_turn?
   end
   
   
   
   #determines if piece has moved two squares to be captured
   def moved_two_squares_first_turn?
-    @opponent_pawn.turn == 1 && (@opponent_pawn.y_pos == @opponent_pawn.starting_point_y + 2 || @opponent_pawn.y_pos == @opponent_pawn.starting_point_y - 2)
+    turn == 1 && (y_pos == 3 || y_pos == 4)
   end
       
   #determines if opponent pawn is in position for enpassant
   def opponent_pawn_adjacent?
-    @opponent_pawn = game.pieces.find_by(name: "Pawn") && !self.color
-    if @opponent_pawn.y_pos == self.y_pos && (@opponent_pawn.x_pos == self.x_pos - 1 || @opponent_pawn.x_pos == self.x_pos + 1)
-      true
-    else
-      false
-    end
+    x = self.x_pos - 1 || self.x_pos + 1
+    y = self.y_pos
+      if piece_exists?(x, y) && piece_exists?(x,y).name == "Pawn" && piece_exists?(x,y).color != self.color
+        @opponent_pawn = piece_exists?(x,y)
+        true
+      else
+        false
+      end
   end
-  
-  private
   
   def pawn_move_vertical?(to_x, to_y)
     pawn_move_forward?(to_y) && !is_on_square?(to_x, to_y) && pawn_first_move?(to_y)
