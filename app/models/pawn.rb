@@ -5,7 +5,7 @@ class Pawn < Piece
   end
 
   def valid_move?(to_x, to_y)
-    if is_on_square?(to_x, to_y) # || can_enpassant?
+    if is_on_square?(to_x, to_y)
       pawn_capture?(color, to_x, to_y)
     else
       (pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)) || can_enpassant?
@@ -31,6 +31,14 @@ class Pawn < Piece
       super
     end
   end
+
+  def enpassant_capture_left!(x, y)
+
+  end
+
+  def enpassant_capture_right!(x, y)
+
+  end
   
   #boolean for enpassant
   def can_enpassant?
@@ -46,7 +54,8 @@ class Pawn < Piece
   def opponent_pawn_exists?(x, y)
     opposite_color = "Black" if self.color == "White"
     opposite_color = "White" if self.color == "Black"
-    game.pieces.find_by(x_pos: x, y_pos: y, name: "Pawn", color: opposite_color)
+
+    @opponent_pawn = game.pieces.find_by(x_pos: x, y_pos: y, name: "Pawn", color: opposite_color)
   end
       
   def opponent_pawn_adjacent_left
