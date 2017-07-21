@@ -160,7 +160,12 @@ RSpec.describe Pawn, type: :model do
       end
 
       context 'invalid enpassant move' do
+        let!(:pawn) { FactoryGirl.create(:pawn, color: "White", x_pos: 3, y_pos: 4, game_id: game.id) }
+        let!(:pawn2) { FactoryGirl.create(:pawn, color: "Black", x_pos: 4, y_pos: 4, game_id: game.id, turn: 2) }
+        let(:to_x) { 4 }
+        let(:to_y) { 5 }
 
+        it { is_expected.to eq(false) }        
       end
     end
   end
