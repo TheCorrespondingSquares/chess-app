@@ -8,13 +8,15 @@ RSpec.describe Pawn, type: :model do
   before(:each) { game.pieces.destroy_all }
   
   describe "#can_enpassant?" do
-    subject(:enpassant) {pawn.can_enpassant?}
+    subject(:enpassant) {pawn.can_enpassant?(to_x, to_y)}
     
     let!(:pawn) {FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id)}
-    
+    let(:to_x) { 2 }
+    let(:to_y) { 2 }
+
     context 'when there is an adjacent opponent pawn that has moved once' do
       let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id, turn: 1)}
-      
+
       it { is_expected.to eq(true) }
       # it 'should be true' do
       #   expect(pawn.can_enpassant?).to be true
@@ -23,7 +25,7 @@ RSpec.describe Pawn, type: :model do
     
     context 'when there is not an adjacent opponent pawn' do
       let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 1, y_pos: 3, game_id: game.id, turn: 1)}
-      
+
       it { is_expected.to eq(false) }
       # it "should be false" do
       #   expect(pawn.can_enpassant?).to be false
@@ -32,7 +34,7 @@ RSpec.describe Pawn, type: :model do
     
     context 'when there is an adjacent opponent pawn but is not first move' do
       let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id, turn: 2)}
-    
+
       it { is_expected.to eq(false) }
       # it 'is expected to be false' do
       #   expect(pawn.can_enpassant?).to be false
@@ -41,7 +43,7 @@ RSpec.describe Pawn, type: :model do
     
     context 'when adjacent pawn is NOT opponent pawn' do
       let!(:pawn2) {FactoryGirl.create(:pawn, color: "Black", x_pos: 2, y_pos: 3, game_id: game.id, turn: 1)}
-      
+
       it { is_expected.to eq(false) }
       # it 'is expected to be false' do
       #   expect(pawn.can_enpassant?).to be false
@@ -51,7 +53,9 @@ RSpec.describe Pawn, type: :model do
     context 'when adjacent opponent pawn and pawn are in the middle of board' do
       let!(:pawn) {FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 4, game_id: game.id)}
       let!(:pawn2) {FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 4, game_id: game.id, turn: 2)}
-      
+      let(:to_x) { 2 }
+      let(:to_y) { 3 }
+
       it { is_expected.to eq(false) }
       # it 'should be false' do
       #   expect(pawn.can_enpassant?).to be false
