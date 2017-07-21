@@ -33,7 +33,7 @@ class Pawn < Piece
   end
 
   def enpassant_capture_left!(x, y)
-
+    
   end
 
   def enpassant_capture_right!(x, y)
