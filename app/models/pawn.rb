@@ -5,10 +5,10 @@ class Pawn < Piece
   end
 
   def valid_move?(to_x, to_y)
-    if is_on_square?(to_x, to_y)# || can_enpassant?
+    if is_on_square?(to_x, to_y)
       pawn_capture?(color, to_x, to_y)
     else
-      pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y) || can_enpassant?
+      (pawn_move_vertical?(to_x, to_y) && vertical_move_only?(to_x, to_y)) || can_enpassant?
     end
   end
 
@@ -20,6 +20,7 @@ class Pawn < Piece
   def move_to!(to_x, to_y)
     if can_enpassant?
       diagonal_enpassant_move(to_x, to_y)
+      capture_piece!(to_x, to_y, @opponent_pawn)
     else
       super
     end
@@ -51,12 +52,13 @@ class Pawn < Piece
   
   #allows for a diagnol enpassant move
   def diagonal_enpassant_move(to_x, to_y)
-    to_x = @opponent_pawn.x_pos
-      if is_white
-        to_y = 2
-      else
-        to_y = 5
-      end
+    x = @opponent_pawn.x_pos
+
+    if is_white?
+      to_x == x && to_y == self.y_pos + 1
+    elsif
+      to_x == x && to_y == self.y_pos - 1
+    end
   end
   
   def pawn_move_vertical?(to_x, to_y)
