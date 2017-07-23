@@ -39,9 +39,6 @@ class PiecesController < ApplicationController
         else
           piece.move_to!(@new_x_pos, @new_y_pos)
           promote_pawn_if_possible
-          #if can_enpassant?
-          #  enpassant
-          #end
           update_game_turn
           update_piece_turn
           Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })    
