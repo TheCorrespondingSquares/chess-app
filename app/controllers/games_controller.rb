@@ -18,11 +18,23 @@ class GamesController < ApplicationController
   def show
     @game = current_game
     @white_player = User.find(@game.white_player_id)
+
     if @game.black_player_id == nil
       flash[:waiting] = "Waiting for another player to join..."
     else
        @black_player = User.find(@game.black_player_id)
     end
+
+    if game_in_stalemate?
+      @game.update_attributes(result: "Stalemate")
+    end
+
+    if @game.checkmate?("White")
+      @game.update_attributes(result: "Winner: #{@game.black_player_id}")
+    else
+      @game.update_attributes(result: "Winner: #{@game.white_player_id}")
+    end
+
     @pieces = @game.pieces
   end
 
@@ -45,6 +57,10 @@ class GamesController < ApplicationController
   end
 
   private
+
+  def game_in_stalemate?
+    @game.stalemate?("White") || @game.stalemate?("Black")
+  end
   
   def game_params
     params.require(:game).permit(:name, :user_id, :white_player_id, :black_player_id, :turn)

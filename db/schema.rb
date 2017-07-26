@@ -38,7 +38,10 @@ ActiveRecord::Schema.define(version: 20170718200142) do
     t.datetime "updated_at",                 null: false
     t.string   "icon"
     t.integer  "turn",       default: 0
+    t.index ["captured"], name: "index_pieces_on_captured", using: :btree
+    t.index ["color"], name: "index_pieces_on_color", using: :btree
     t.index ["game_id"], name: "index_pieces_on_game_id", using: :btree
+    t.index ["x_pos", "y_pos"], name: "index_pieces_on_x_pos_and_y_pos", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
