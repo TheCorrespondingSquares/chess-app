@@ -16,32 +16,19 @@ class Pawn < Piece
     reached_opposite_border?(y_pos)
   end
   
-  #logic to perform enpassant
+  #logic to perform enpassant move
   def move_to!(to_x, to_y)
-    # if can_enpassant?(to_x, to_y)
-    #   to_x = @opponent_pawn.x_pos
-    #   if is_white?
-    #     diagonal_move_one_square?(to_x, 2)
-    #     capture_piece!(to_x, 2, @opponent_pawn)
-    #   else is_black?
-    #     diagonal_move_one_square?(to_x, 5)
-    #     capture_piece!(to_x, 5, @opponent_pawn)
-    #   end
     if can_enpassant_left?(to_x, to_y)
-      enpassant_capture_left!(to_x, to_y)
+      enpassant_capture!(to_x, to_y)
     elsif can_enpassant_right?(to_x, to_y)
-      enpassant_capture_right!(to_x, to_y)
-    else
+      enpassant_capture!(to_x, to_y)
+    elsif valid_move?(to_x, to_y)
       super
     end
   end
 
-  def enpassant_capture_left!(to_x_left, to_y)
-    capture_piece!(to_x_left, to_y, @opponent_pawn)
-  end
-
-  def enpassant_capture_right!(to_x_right, to_y)
-    capture_piece!(to_x_right, to_y, @opponent_pawn)
+  def enpassant_capture!(to_x, to_y)
+    capture_piece!(to_x, to_y, @opponent_pawn)
   end
   
   #boolean for enpassant

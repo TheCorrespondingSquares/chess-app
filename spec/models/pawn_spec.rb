@@ -76,7 +76,6 @@ RSpec.describe Pawn, type: :model do
       end
     end
 
-    # invalid move tests failing: doesn't capture opponent pawn, but does move to destination (shouldn't do either)
     context "for an invalid enpassant move" do
       context "when moving diagonally with no opponent pawn adjacent to destination" do
         it "should leave game unchanged" do
@@ -94,18 +93,18 @@ RSpec.describe Pawn, type: :model do
       end
 
       context "when opponent pawn has moved more than once" do
-       it "should leave game unchanged" do
-         black_pawn = FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id)
-         white_pawn = FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id, turn: 2)
+        it "should leave game unchanged" do
+          black_pawn = FactoryGirl.create(:pawn, color: "Black", x_pos: 3, y_pos: 3, game_id: game.id)
+          white_pawn = FactoryGirl.create(:pawn, color: "White", x_pos: 2, y_pos: 3, game_id: game.id, turn: 2)
 
-         black_pawn.move_to!(2, 2)
-         black_pawn.reload
-         white_pawn.reload
+          black_pawn.move_to!(2, 2)
+          black_pawn.reload
+          white_pawn.reload
 
-         expect(black_pawn.x_pos).to eq(3)
-         expect(black_pawn.y_pos).to eq(3)
-         expect(white_pawn.captured).to eq(false)
-       end   
+          expect(black_pawn.x_pos).to eq(3)
+          expect(black_pawn.y_pos).to eq(3)
+          expect(white_pawn.captured).to eq(false)
+        end   
       end
     end
   end
