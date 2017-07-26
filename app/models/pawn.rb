@@ -16,7 +16,7 @@ class Pawn < Piece
     reached_opposite_border?(y_pos)
   end
   
-  #logic to perform enpassant move
+  # logic to perform either an enpassant move or a normal pawn move
   def move_to!(to_x, to_y)
     if can_enpassant_left?(to_x, to_y)
       enpassant_capture!(to_x, to_y)
@@ -31,13 +31,12 @@ class Pawn < Piece
     capture_piece!(to_x, to_y, @opponent_pawn)
   end
   
-  #boolean for enpassant
+  # boolean for enpassant
   def can_enpassant?(to_x, to_y)
     can_enpassant_left?(to_x, to_y) || can_enpassant_right?(to_x, to_y)
-    # opponent_pawn_adjacent? && @opponent_pawn.moved_two_squares_first_turn?
   end
   
-  #determines if piece has moved two squares to be captured
+  # determines if piece has moved two squares to be captured
   def moved_two_squares_first_turn?
     turn == 1 && (y_pos == 3 || y_pos == 4)
   end
@@ -90,20 +89,6 @@ class Pawn < Piece
       false
     end
   end
-
-  #determines if opponent pawn is in position for enpassant
-  # def opponent_pawn_adjacent?
-  #   opponent_pawn_adjacent_left || opponent_pawn_adjacent_right
-    # x = self.x_pos - 1 || self.x_pos + 1
-    # y = self.y_pos
-
-    # if piece_exists?(x, y) && piece_exists?(x,y).name == "Pawn" && piece_exists?(x,y).color != self.color
-    #   @opponent_pawn = piece_exists?(x,y)
-    #   true
-    # else
-    #   false
-    # end
-  # end
   
   def pawn_move_vertical?(to_x, to_y)
     pawn_move_forward?(to_y) && !is_on_square?(to_x, to_y) && pawn_first_move?(to_y)
