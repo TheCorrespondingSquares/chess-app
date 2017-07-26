@@ -13,6 +13,7 @@ class PiecesController < ApplicationController
     @starting_y = current_piece.y_pos
     @game = piece.game
     @turn = @game.turn
+    @piece_turn = piece.turn
 
     return render_not_found if piece.blank?
 
@@ -39,6 +40,7 @@ class PiecesController < ApplicationController
           piece.move_to!(@new_x_pos, @new_y_pos)
           promote_pawn_if_possible
           update_game_turn
+          update_piece_turn
           Pusher.trigger('channel', 'trigger_refresh', { message: 'Piece Moved!' })    
         end
       elsif your_turn_not_your_piece?
@@ -56,6 +58,10 @@ class PiecesController < ApplicationController
 
   def update_game_turn
     @game.update(turn: @turn + 1)
+  end
+  
+  def update_piece_turn
+    current_piece.update(turn: @piece_turn + 1)
   end
 
   def move_would_leave_your_king_in_check?

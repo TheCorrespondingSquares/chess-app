@@ -88,4 +88,12 @@ class Piece < ApplicationRecord
   def is_black?
     self.color == "Black"
   end
+  
+  def has_moved?
+    Self.turn > 0
+  end
+  
+  def current_piece
+    Piece.find(params[:id])
+  end
 end
