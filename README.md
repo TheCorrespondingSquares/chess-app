@@ -75,7 +75,7 @@ Miguel B. _(Engineer/Developer)_ - [https://github.com/Phatkid98](https://github
 
 
 
-Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
 ## License
 
