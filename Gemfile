@@ -20,7 +20,7 @@ gem 'simple_form' # Use Simple Form for forms
 gem "rails_best_practices" # code metric tool to check the quality of Rails code.
 gem 'reek', '~> 4.6', '>= 4.6.2' # modules and methods and reports any code smells it finds.
 gem 'figaro' # app configuration using ENV variables and a single YAML file
-gem 'bootstrap', '~> 4.0.0.alpha6' # Use Bootstrap 4 for front-end framework
+gem 'bootstrap', '~> 4.1.3' # Use Bootstrap 4 for front-end framework
 gem 'pusher'
 gem 'omniauth-facebook'
 gem 'faker', '~>1.7.3'
